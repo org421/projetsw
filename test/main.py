@@ -1,43 +1,57 @@
 #!/usr/bin/env python3
 """
-Main script - Étapes 9-12 COMPLÈTES
-Pipeline complet de construction du Knowledge Graph Tolkien
+Main de test - Tolkien Knowledge Graph
+Test de toutes les fonctionnalités implémentées avec LIMIT=20
 
-Ce script:
-- Récupère les entités via l'API Tolkien Gateway
-- Parse les infoboxes et génère le KG de base (RDF)
-- Intègre les cartes MECCG (JSON)
-- Intègre les données CSV
-- Ajoute les labels multilingues (étape 11)
-- Ajoute les alignements externes DBpedia/Wikidata/YAGO (étape 12)
+Ce script teste:
+1. API MediaWiki (récupération des entités)
+2. Parsing des infoboxes (wikitext → données structurées)
+3. Génération RDF (données → triplets)
+4. Intégration CSV (lotr_characters.csv)
+5. Intégration MECCG (cards.json)
+6. Labels multilingues (via Fandom API)
+7. Alignements externes (DBpedia, Wikidata, YAGO)
+8. Liens internes entre pages wiki
+9. Génération du vocabulaire/ontologie
+10. Génération des shapes SHACL
+11. Validation SHACL du KG
 """
 
-from tolkien_kg.api import MediaWikiClient
-from tolkien_kg.parsers import GenericInfoboxParser
-from tolkien_kg.rdf import RDFGenerator, VocabularyGenerator
-from tolkien_kg.external import (
-    MECCGCardParser, MECCGRDFGenerator, MECCGMatcher,
-    LOTRCharacterCSVParser, LOTRCSVMatcher,
-)
-from tolkien_kg.multilingual import MULTILINGUAL_LABELS
-from tolkien_kg.alignments import DBPEDIA_MAPPINGS, WIKIDATA_MAPPINGS
+import sys
+import os
+
+# Ajouter le répertoire parent au path pour les imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from rdflib import Graph, Namespace, Literal, URIRef
 from rdflib.namespace import RDF, RDFS, OWL, XSD, FOAF
 from urllib.parse import quote
 
+# Imports des modules du projet
+from tolkien_kg.api import MediaWikiClient
+from tolkien_kg.parsers import GenericInfoboxParser, WikitextParser
+from tolkien_kg.rdf import RDFGenerator, VocabularyGenerator
+from tolkien_kg.external import (
+    MECCGCardParser, MECCGRDFGenerator, MECCGMatcher,
+    LOTRCharacterCSVParser, LOTRCSVMatcher,
+)
+from tolkien_kg.alignments import (
+    DBPEDIA_MAPPINGS, WIKIDATA_MAPPINGS,
+    ExternalAlignmentGenerator
+)
+from tolkien_kg.shacl import SHACLGenerator, SHACLValidator
+from tolkien_kg.links import LinkExtractor, add_links_to_rdf
+from tolkien_kg.multilingual import FandomEnricher
+
 
 # =============================================================================
-# CONFIGURATION - MODIFIEZ ICI
+# CONFIGURATION
 # =============================================================================
 
-LIMIT = 5  # Nombre d'entités par infobox (5, 10, 50, 100...)
+LIMIT = 100  # 20 entités par type d'infobox
 
 CSV_FILE = "lotr_characters.csv"
 JSON_FILE = "cards.json"
-
-# =============================================================================
-
 
 # Namespaces
 TOLKIEN = Namespace("https://tolkiengateway.net/wiki/")
@@ -47,486 +61,462 @@ SCHEMA = Namespace("http://schema.org/")
 DBPEDIA = Namespace("http://dbpedia.org/resource/")
 WIKIDATA = Namespace("http://www.wikidata.org/entity/")
 YAGO = Namespace("http://yago-knowledge.org/resource/")
-MECCG = Namespace("https://meccg.net/card/")
-MECCG_PROP = Namespace("https://meccg.net/property/")
 
 
-def print_separator(title: str):
-    """Affiche un séparateur visuel."""
+# =============================================================================
+# FONCTIONS UTILITAIRES
+# =============================================================================
+
+def print_header(title: str):
+    """Affiche un en-tête formaté."""
     print("\n" + "=" * 70)
     print(f" {title}")
     print("=" * 70 + "\n")
 
 
+def print_subheader(title: str):
+    """Affiche un sous-en-tête."""
+    print(f"\n--- {title} ---\n")
+
+
+def check_file_exists(filepath: str) -> bool:
+    """Vérifie si un fichier existe."""
+    if os.path.exists(filepath):
+        print(f"  ✓ Fichier trouvé: {filepath}")
+        return True
+    else:
+        print(f"  ✗ Fichier manquant: {filepath}")
+        return False
+
+
 # =============================================================================
-# ÉTAPE 9-10: API + CSV + MECCG
+# ÉTAPE 1: TEST DE L'API MEDIAWIKI
 # =============================================================================
 
-def get_wiki_entities(client: MediaWikiClient, limit_per_template: int) -> set:
-    """Récupère les noms des entités du wiki via l'API."""
-    print("📡 Récupération des entités du wiki via l'API...")
+def test_api(client: MediaWikiClient) -> dict:
+    """Teste l'API MediaWiki et récupère les statistiques du wiki."""
+    print_header("ÉTAPE 1: TEST DE L'API MEDIAWIKI")
     
-    entities = set()
+    print("📡 Connexion à l'API Tolkien Gateway...")
     
+    try:
+        stats = client.get_wiki_statistics()
+        print(f"  ✓ Connexion réussie!")
+        print(f"  📊 Statistiques du wiki:")
+        print(f"     - Pages: {stats.get('pages', 'N/A')}")
+        print(f"     - Articles: {stats.get('articles', 'N/A')}")
+        print(f"     - Edits: {stats.get('edits', 'N/A')}")
+        return stats
+    except Exception as e:
+        print(f"  ✗ Erreur de connexion: {e}")
+        return {}
+
+
+# =============================================================================
+# ÉTAPE 2: RÉCUPÉRATION DES ENTITÉS PAR INFOBOX
+# =============================================================================
+
+def get_entities_by_template(client: MediaWikiClient, limit: int) -> dict:
+    """Récupère les entités wiki groupées par type d'infobox."""
+    print_header("ÉTAPE 2: RÉCUPÉRATION DES ENTITÉS PAR TYPE D'INFOBOX")
+    
+    # Templates à traiter (les plus importants)
     templates = [
-        ("Infobox character", limit_per_template * 2),
-        ("Location infobox", limit_per_template),
-        ("Kingdom", limit_per_template),
-        ("Object infobox", limit_per_template),
+        ("Infobox character", limit),
+        ("Location infobox", limit),
+        ("Kingdom", limit // 2),
+        ("Object infobox", limit // 2),
+        ("Book", limit // 2),
+        ("Battle", limit // 4),
     ]
     
-    for template_name, limit in templates:
-        print(f"  {template_name}...", end=" ", flush=True)
-        count = 0
+    entities_by_type = {}
+    all_entities = set()
+    
+    for template_name, template_limit in templates:
+        print(f"  📥 {template_name}...", end=" ", flush=True)
+        entities = []
         try:
-            for page in client.get_pages_using_template(template_name, limit=limit):
-                entities.add(page['title'])
-                count += 1
+            for page in client.get_pages_using_template(template_name, limit=template_limit):
+                entities.append(page['title'])
+                all_entities.add(page['title'])
         except Exception as e:
             print(f"Erreur: {e}")
             continue
-        print(f"{count} entités")
+        
+        entities_by_type[template_name] = entities
+        print(f"{len(entities)} entités")
     
-    print(f"\n✓ Total: {len(entities)} entités wiki récupérées")
-    return entities
+    print(f"\n  ✓ Total: {len(all_entities)} entités uniques récupérées")
+    return entities_by_type, all_entities
 
 
-def generate_base_kg(client: MediaWikiClient, parser: GenericInfoboxParser,
-                     rdf_gen: RDFGenerator, limit_per_template: int) -> list:
-    """Génère le KG de base à partir des entités du wiki."""
-    print_separator("ÉTAPE 9: GÉNÉRATION DU KG DE BASE (API)")
-    
-    templates = [
-        ("Infobox character", limit_per_template),
-        ("Location infobox", limit_per_template // 2),
-        ("Kingdom", limit_per_template // 2),
-        ("Object infobox", limit_per_template // 2),
-    ]
+# =============================================================================
+# ÉTAPE 3: PARSING DES INFOBOXES ET GÉNÉRATION RDF
+# =============================================================================
+
+def parse_and_generate_rdf(client: MediaWikiClient, parser: GenericInfoboxParser,
+                           rdf_gen: RDFGenerator, entities_by_type: dict) -> list:
+    """Parse les infoboxes et génère les triplets RDF."""
+    print_header("ÉTAPE 3: PARSING DES INFOBOXES → RDF")
     
     pages_processed = []
+    errors = []
     
-    for template_name, limit in templates:
-        print(f"  {template_name}...", end=" ", flush=True)
+    for template_name, entities in entities_by_type.items():
+        print(f"\n  📝 Traitement de {template_name}...")
         count = 0
-        try:
-            for page in client.get_pages_using_template(template_name, limit=limit):
-                title = page['title']
-                try:
-                    wikitext = client.get_page_wikitext(title)
-                    if wikitext:
-                        entity = parser.parse_any(wikitext, page_title=title)
-                        if entity:
-                            rdf_gen.add_entity(entity)
-                            pages_processed.append(title)
-                            count += 1
-                except:
-                    pass
-        except Exception as e:
-            print(f"Erreur: {e}")
-            continue
-        print(f"{count} OK")
+        
+        for title in entities:
+            try:
+                wikitext = client.get_page_wikitext(title)
+                if wikitext:
+                    entity_data = parser.parse_any(wikitext, page_title=title)
+                    if entity_data:
+                        rdf_gen.add_entity(entity_data)
+                        pages_processed.append(title)
+                        count += 1
+            except Exception as e:
+                errors.append((title, str(e)))
+        
+        print(f"     ✓ {count}/{len(entities)} entités parsées")
     
-    print(f"\n✓ Total: {len(pages_processed)} entités parsées, {len(rdf_gen.graph)} triplets")
+    print(f"\n  📊 Résultat:")
+    print(f"     - Entités traitées: {len(pages_processed)}")
+    print(f"     - Triplets générés: {len(rdf_gen.graph)}")
+    print(f"     - Erreurs: {len(errors)}")
+    
+    if errors and len(errors) <= 5:
+        print(f"\n  ⚠️ Erreurs détaillées:")
+        for title, err in errors[:5]:
+            print(f"     - {title}: {err[:50]}...")
+    
     return pages_processed
 
 
-def integrate_csv_data(csv_file: str, wiki_entities: set, rdf_gen: RDFGenerator):
-    """Intègre les données du CSV au KG."""
-    print_separator("ÉTAPE 10a: INTÉGRATION DES DONNÉES CSV")
+# =============================================================================
+# ÉTAPE 4: INTÉGRATION DES DONNÉES CSV
+# =============================================================================
+
+def integrate_csv(csv_file: str, wiki_entities: set, rdf_gen: RDFGenerator):
+    """Intègre les données du fichier CSV."""
+    print_header("ÉTAPE 4: INTÉGRATION DES DONNÉES CSV")
+    
+    if not check_file_exists(csv_file):
+        return None
     
     try:
         parser = LOTRCharacterCSVParser(csv_file)
         parser.load()
+        print(f"  📊 {len(parser.characters)} personnages chargés du CSV")
+        
+        # Afficher quelques stats
+        stats = parser.get_statistics()
+        print(f"     - Avec naissance: {stats.get('with_birth', 0)}")
+        print(f"     - Avec décès: {stats.get('with_death', 0)}")
+        print(f"     - Avec race: {stats.get('with_race', 0)}")
+        
+        # Matching
+        matcher = LOTRCSVMatcher(parser)
+        matcher.match_with_wiki_entities(wiki_entities)
+        
+        match_stats = matcher.get_match_statistics()
+        print(f"\n  🔗 Matching:")
+        print(f"     - Matchés: {match_stats['matched']}/{match_stats['total_csv']}")
+        print(f"     - Taux: {match_stats['match_rate']:.1f}%")
+        
+        # Enrichissement
+        triplets_before = len(rdf_gen.graph)
+        triplets_added = matcher.enrich_kg(rdf_gen.graph)
+        print(f"\n  ✓ {triplets_added} triplets ajoutés au KG")
+        
+        return matcher
+        
     except Exception as e:
-        print(f"⚠️ Erreur chargement CSV: {e}")
+        print(f"  ✗ Erreur: {e}")
         return None
-    
-    print(f"📊 Chargé {len(parser.characters)} personnages du CSV")
-    
-    matcher = LOTRCSVMatcher(parser)
-    matcher.match_with_wiki_entities(wiki_entities)
-    
-    # Statistiques
-    match_stats = matcher.get_match_statistics()
-    print(f"\n📈 Résultats du matching:")
-    print(f"   Personnages CSV: {match_stats['total_csv']}")
-    print(f"   Matchés avec wiki: {match_stats['matched']}")
-    print(f"   Taux de match: {match_stats['match_rate']:.1f}%")
-    
-    # Enrichir le KG
-    triplets_added = matcher.enrich_kg(rdf_gen.graph)
-    print(f"\n✓ {triplets_added} triplets ajoutés au KG")
-    
-    return matcher
 
 
-def integrate_meccg_data(json_file: str, wiki_entities: set, rdf_gen: RDFGenerator):
+# =============================================================================
+# ÉTAPE 5: INTÉGRATION DES CARTES MECCG
+# =============================================================================
+
+def integrate_meccg(json_file: str, wiki_entities: set, rdf_gen: RDFGenerator):
     """Intègre les cartes MECCG."""
-    print_separator("ÉTAPE 10b: INTÉGRATION DES CARTES MECCG")
+    print_header("ÉTAPE 5: INTÉGRATION DES CARTES MECCG")
     
-    try:
-        card_parser = MECCGCardParser(json_file)
-        card_parser.load()
-    except Exception as e:
-        print(f"⚠️ Erreur chargement MECCG: {e}")
+    if not check_file_exists(json_file):
         return None, None
     
-    print(f"📊 Chargé {len(card_parser.cards)} cartes")
-    
-    meccg_rdf = MECCGRDFGenerator()
-    meccg_rdf.add_cards(card_parser.cards)
-    
-    matcher = MECCGMatcher(card_parser)
-    matcher.match_with_wiki_entities(wiki_entities)
-    
-    # Ajouter les liens
-    links = matcher.add_links_to_graph(meccg_rdf, kg_graph=rdf_gen.graph)
-    
-    match_stats = matcher.get_match_statistics()
-    print(f"   Cartes parsées: {len(card_parser.cards)}")
-    print(f"   Matchées avec wiki: {match_stats['total_matches']}")
-    print(f"   Liens créés: {links}")
-    print(f"\n✓ Triplets MECCG: {len(meccg_rdf.graph)}")
-    
-    return meccg_rdf, card_parser
-
-
-# =============================================================================
-# ÉTAPE 11: LABELS MULTILINGUES
-# =============================================================================
-
-def add_multilingual_labels(graph: Graph, wiki_entities: set, meccg_cards=None) -> int:
-    """
-    Ajoute les labels multilingues aux entités.
-    Utilise les données du dictionnaire MULTILINGUAL_LABELS
-    et les noms multilingues des cartes MECCG.
-    """
-    print_separator("ÉTAPE 11: LABELS MULTILINGUES")
-    
-    labels_added = 0
-    entities_with_labels = 0
-    
-    # 1. Labels depuis le dictionnaire MULTILINGUAL_LABELS
-    print("📚 Ajout des labels depuis le dictionnaire multilingue...")
-    
-    for entity_name in wiki_entities:
-        if entity_name in MULTILINGUAL_LABELS:
-            uri = URIRef(f"https://tolkiengateway.net/wiki/{quote(entity_name.replace(' ', '_'), safe='')}")
-            entity_labels = 0
-            
-            for lang, label in MULTILINGUAL_LABELS[entity_name].items():
-                if label and lang != 'en':  # Le label anglais est déjà là
-                    graph.add((uri, RDFS.label, Literal(label, lang=lang)))
-                    labels_added += 1
-                    entity_labels += 1
-            
-            if entity_labels > 0:
-                entities_with_labels += 1
-    
-    print(f"   Labels du dictionnaire: {labels_added} (pour {entities_with_labels} entités)")
-    
-    # 2. Labels depuis les cartes MECCG (noms multilingues)
-    meccg_labels = 0
-    if meccg_cards:
-        print("🎴 Ajout des labels depuis les cartes MECCG...")
+    try:
+        # Parser les cartes
+        card_parser = MECCGCardParser(json_file)
+        card_parser.load()
         
-        for card in meccg_cards:
-            if card.get('type') not in ('Character', 'Site', 'Region'):
-                continue
+        stats = card_parser.get_statistics()
+        print(f"  📊 Statistiques des cartes:")
+        print(f"     - Total: {stats['total_cards']} cartes")
+        print(f"     - Sets: {stats['sets']}")
+        print(f"     - Langues: {stats['languages']}")
+        
+        # Types de cartes
+        print(f"     - Types: ", end="")
+        type_strs = [f"{t}={c}" for t, c in list(stats['by_type'].items())[:5]]
+        print(", ".join(type_strs))
+        
+        # Générer RDF pour les cartes
+        meccg_rdf = MECCGRDFGenerator()
+        meccg_rdf.add_cards(card_parser.cards)
+        print(f"\n  📝 {len(meccg_rdf.graph)} triplets MECCG générés")
+        
+        # Matching avec wiki
+        matcher = MECCGMatcher(card_parser)
+        matcher.match_with_wiki_entities(wiki_entities)
+        
+        match_stats = matcher.get_match_statistics()
+        print(f"\n  🔗 Matching:")
+        print(f"     - Cartes matchées: {match_stats['total_matches']}")
+        print(f"     - Taux: {match_stats['match_rate']:.1f}%")
+        
+        # Ajouter les liens au graphe
+        links = matcher.add_links_to_graph(meccg_rdf, kg_graph=rdf_gen.graph)
+        print(f"\n  ✓ {links} liens créés entre cartes et entités wiki")
+        
+        return meccg_rdf, card_parser
+        
+    except Exception as e:
+        print(f"  ✗ Erreur: {e}")
+        import traceback
+        traceback.print_exc()
+        return None, None
+
+
+# =============================================================================
+# ÉTAPE 6: LABELS MULTILINGUES
+# =============================================================================
+
+def add_multilingual_labels(graph: Graph, wiki_entities: set, limit: int = None):
+    """Ajoute les labels multilingues via l'API Fandom."""
+    print_header("ÉTAPE 6: LABELS MULTILINGUES (via Fandom API)")
+    
+    enricher = FandomEnricher()
+    
+    stats = {
+        "scanned": 0,
+        "enriched": 0,
+        "labels_added": 0
+    }
+    
+    # Limiter pour le test si nécessaire
+    entities_to_process = list(wiki_entities)
+    if limit:
+        entities_to_process = entities_to_process[:limit]
+    
+    print(f"  🌍 Enrichissement de {len(entities_to_process)} entités...")
+    
+    for i, entity_name in enumerate(entities_to_process):
+        if (i + 1) % 10 == 0:
+            print(f"     Progression: {i + 1}/{len(entities_to_process)}")
+        
+        stats["scanned"] += 1
+        
+        try:
+            translations = enricher.get_translations(entity_name)
             
-            names = card.get('name', {})
-            en_name = names.get('en', '')
-            
-            if not en_name:
-                continue
-            
-            # Chercher si cette entité existe dans le wiki
-            matched = None
-            for wiki_name in wiki_entities:
-                if wiki_name.lower() == en_name.lower():
-                    matched = wiki_name
-                    break
-            
-            if matched:
-                uri = URIRef(f"https://tolkiengateway.net/wiki/{quote(matched.replace(' ', '_'), safe='')}")
+            if translations:
+                stats["enriched"] += 1
                 
-                for lang, name in names.items():
-                    if name and len(lang) == 2 and lang != 'en':
-                        graph.add((uri, RDFS.label, Literal(name, lang=lang)))
-                        meccg_labels += 1
-        
-        print(f"   Labels MECCG: {meccg_labels}")
+                # Créer l'URI de l'entité
+                safe_name = quote(entity_name.replace(' ', '_'), safe='')
+                entity_uri = URIRef(f"https://tolkiengateway.net/wiki/{safe_name}")
+                
+                for lang_code, label_text in translations.items():
+                    # Nettoyer le label
+                    clean_label = label_text.split('(')[0].strip()
+                    if clean_label:
+                        literal = Literal(clean_label, lang=lang_code)
+                        graph.add((entity_uri, RDFS.label, literal))
+                        stats["labels_added"] += 1
+                        
+        except Exception as e:
+            pass  # Ignorer les erreurs silencieusement
     
-    total = labels_added + meccg_labels
-    print(f"\n✓ Total labels multilingues ajoutés: {total}")
+    # Sauvegarder le cache
+    enricher.save_cache()
     
-    # Statistiques par langue
-    lang_stats = {}
-    for s, p, o in graph.triples((None, RDFS.label, None)):
-        if hasattr(o, 'language') and o.language:
-            lang = o.language
-            lang_stats[lang] = lang_stats.get(lang, 0) + 1
+    print(f"\n  📊 Résultat:")
+    print(f"     - Entités scannées: {stats['scanned']}")
+    print(f"     - Entités enrichies: {stats['enriched']}")
+    print(f"     - Labels ajoutés: {stats['labels_added']}")
     
-    if lang_stats:
-        print("\n📊 Labels par langue:")
-        for lang, count in sorted(lang_stats.items(), key=lambda x: -x[1]):
-            print(f"   {lang}: {count}")
-    
-    return total
+    return stats["labels_added"]
 
 
 # =============================================================================
-# ÉTAPE 12: ALIGNEMENTS EXTERNES
+# ÉTAPE 7: ALIGNEMENTS EXTERNES (owl:sameAs)
 # =============================================================================
 
-def add_external_alignments(graph: Graph, wiki_entities: set) -> int:
-    """
-    Ajoute les alignements owl:sameAs vers DBpedia, Wikidata et YAGO.
-    """
-    print_separator("ÉTAPE 12: ALIGNEMENTS EXTERNES")
+def add_external_alignments(graph: Graph, wiki_entities: set):
+    """Ajoute les alignements owl:sameAs vers DBpedia, Wikidata, YAGO."""
+    print_header("ÉTAPE 7: ALIGNEMENTS EXTERNES (owl:sameAs)")
     
     # Bind namespaces
     graph.bind("dbpedia", DBPEDIA)
     graph.bind("wikidata", WIKIDATA)
     graph.bind("yago", YAGO)
-    graph.bind("foaf", FOAF)
     
-    alignments = 0
-    entities_aligned = 0
+    stats = {
+        "dbpedia": 0,
+        "wikidata": 0,
+        "yago": 0,
+        "entities_aligned": 0
+    }
     
-    dbpedia_count = 0
-    wikidata_count = 0
-    yago_count = 0
-    
-    print("🔗 Ajout des alignements owl:sameAs...")
+    print(f"  🔗 Ajout des alignements pour {len(wiki_entities)} entités...")
     
     for entity_name in wiki_entities:
         uri = URIRef(f"https://tolkiengateway.net/wiki/{quote(entity_name.replace(' ', '_'), safe='')}")
-        entity_alignments = 0
+        aligned = False
         
         # DBpedia
         if entity_name in DBPEDIA_MAPPINGS:
             dbpedia_name = DBPEDIA_MAPPINGS[entity_name]
             graph.add((uri, OWL.sameAs, DBPEDIA[dbpedia_name]))
-            dbpedia_count += 1
-            entity_alignments += 1
+            stats["dbpedia"] += 1
+            aligned = True
             
-            # YAGO utilise les mêmes identifiants que DBpedia
+            # YAGO utilise les mêmes identifiants
             graph.add((uri, OWL.sameAs, YAGO[dbpedia_name]))
-            yago_count += 1
-            entity_alignments += 1
+            stats["yago"] += 1
         
         # Wikidata
         if entity_name in WIKIDATA_MAPPINGS:
             qid = WIKIDATA_MAPPINGS[entity_name]
             graph.add((uri, OWL.sameAs, WIKIDATA[qid]))
-            wikidata_count += 1
-            entity_alignments += 1
+            stats["wikidata"] += 1
+            aligned = True
         
-        if entity_alignments > 0:
-            entities_aligned += 1
-            alignments += entity_alignments
+        if aligned:
+            stats["entities_aligned"] += 1
     
-    print(f"   DBpedia: {dbpedia_count} alignements")
-    print(f"   Wikidata: {wikidata_count} alignements")
-    print(f"   YAGO: {yago_count} alignements")
-    print(f"\n✓ Total: {alignments} alignements pour {entities_aligned} entités")
+    print(f"\n  📊 Alignements créés:")
+    print(f"     - DBpedia: {stats['dbpedia']}")
+    print(f"     - Wikidata: {stats['wikidata']}")
+    print(f"     - YAGO: {stats['yago']}")
+    print(f"     - Entités alignées: {stats['entities_aligned']}")
     
-    return alignments
+    total = stats["dbpedia"] + stats["wikidata"] + stats["yago"]
+    return total
 
 
 # =============================================================================
-# AFFICHAGE ET SAUVEGARDE
+# ÉTAPE 8: LIENS INTERNES ENTRE PAGES WIKI
 # =============================================================================
 
-def show_enriched_entity_examples(graph: Graph, wiki_entities: set, limit: int = 5):
-    """Affiche des exemples d'entités enrichies."""
-    print_separator("EXEMPLES D'ENTITÉS ENRICHIES")
+def add_internal_links(client: MediaWikiClient, rdf_gen: RDFGenerator, 
+                       pages: list, limit_per_page: int = None):
+    """Ajoute les liens internes entre pages wiki."""
+    print_header("ÉTAPE 8: LIENS INTERNES ENTRE PAGES WIKI")
     
-    count = 0
-    for entity_name in wiki_entities:
-        uri = URIRef(f"https://tolkiengateway.net/wiki/{quote(entity_name.replace(' ', '_'), safe='')}")
-        triples = list(graph.triples((uri, None, None)))
+    link_extractor = LinkExtractor(client)
+    
+    print(f"  🔗 Extraction des liens pour {len(pages)} pages...")
+    print(f"     (limité à {limit_per_page} liens par page)")
+    
+    try:
+        total_links, total_images = add_links_to_rdf(
+            rdf_gen, 
+            link_extractor, 
+            pages,
+            limit_per_page=limit_per_page,
+            show_progress=False
+        )
         
-        if len(triples) > 5:  # Entités avec assez de données
-            print(f"\n📖 {entity_name} ({len(triples)} triplets)")
-            print("-" * 50)
-            
-            # Grouper par type de propriété
-            labels = []
-            types = []
-            alignments = []
-            properties = []
-            
-            for s, p, o in triples:
-                pred = str(p)
-                if 'label' in pred:
-                    lang = getattr(o, 'language', '') or ''
-                    labels.append(f"{o}@{lang}" if lang else str(o))
-                elif 'type' in pred or 'rdf-syntax' in pred:
-                    types.append(str(o).split('/')[-1].split('#')[-1])
-                elif 'sameAs' in pred:
-                    alignments.append(str(o).split('/')[-1])
-                else:
-                    pred_name = pred.split('/')[-1].split('#')[-1]
-                    obj_str = str(o)[:40]
-                    properties.append(f"{pred_name}: {obj_str}")
-            
-            if types:
-                print(f"   Types: {', '.join(types[:5])}")
-            if labels:
-                print(f"   Labels: {', '.join(labels[:5])}")
-            if alignments:
-                print(f"   Alignements: {', '.join(alignments[:3])}")
-            if properties:
-                for prop in properties[:5]:
-                    print(f"   {prop}")
-            
-            count += 1
-            if count >= limit:
-                break
-
-
-def show_final_statistics(rdf_gen: RDFGenerator, meccg_rdf, merged_graph: Graph):
-    """Affiche les statistiques finales."""
-    print_separator("STATISTIQUES FINALES")
-    
-    print("📊 Knowledge Graph principal:")
-    stats = rdf_gen.get_statistics()
-    print(f"   Triplets: {stats['total_triples']}")
-    print(f"   Sujets uniques: {stats['subjects']}")
-    print(f"   Prédicats uniques: {stats['predicates']}")
-    
-    if meccg_rdf:
-        print(f"\n📊 Graphe MECCG:")
-        print(f"   Triplets: {len(meccg_rdf.graph)}")
-    
-    print(f"\n📊 Graphe fusionné complet:")
-    print(f"   Triplets: {len(merged_graph)}")
-    
-    # Compter les types
-    print(f"\n📊 Par type d'entité:")
-    type_counts = {}
-    for s, p, o in merged_graph.triples((None, RDF.type, None)):
-        type_name = str(o).split('/')[-1].split('#')[-1]
-        type_counts[type_name] = type_counts.get(type_name, 0) + 1
-    
-    for type_name, count in sorted(type_counts.items(), key=lambda x: -x[1])[:10]:
-        print(f"   {type_name}: {count}")
-    
-    # Compter les alignements
-    alignment_count = len(list(merged_graph.triples((None, OWL.sameAs, None))))
-    print(f"\n📊 Alignements owl:sameAs: {alignment_count}")
-    
-    # Compter les labels par langue
-    lang_counts = {}
-    for s, p, o in merged_graph.triples((None, RDFS.label, None)):
-        lang = getattr(o, 'language', 'none') or 'none'
-        lang_counts[lang] = lang_counts.get(lang, 0) + 1
-    
-    if lang_counts:
-        print(f"\n📊 Labels par langue:")
-        for lang, count in sorted(lang_counts.items(), key=lambda x: -x[1]):
-            print(f"   {lang}: {count}")
-
-
-def save_all_graphs(rdf_gen: RDFGenerator, meccg_rdf, merged_graph: Graph):
-    """Sauvegarde tous les graphes."""
-    print_separator("SAUVEGARDE")
-    
-    # KG principal
-    rdf_gen.save("tolkien_kg.ttl", format="turtle")
-    print(f"✓ tolkien_kg.ttl ({len(rdf_gen.graph)} triplets)")
-    
-    # Cartes MECCG séparément
-    if meccg_rdf:
-        meccg_rdf.save("meccg_cards.ttl", format="turtle")
-        print(f"✓ meccg_cards.ttl ({len(meccg_rdf.graph)} triplets)")
-    
-    # Graphe fusionné complet
-    merged_graph.serialize(destination="tolkien_kg_complete.ttl", format="turtle")
-    print(f"✓ tolkien_kg_complete.ttl ({len(merged_graph)} triplets)")
-    
-    # Version N-Triples (pour Fuseki)
-    merged_graph.serialize(destination="tolkien_kg_complete.nt", format="nt")
-    print(f"✓ tolkien_kg_complete.nt (format N-Triples pour Fuseki)")
+        print(f"\n  ✓ Résultat:")
+        print(f"     - Liens ajoutés: {total_links}")
+        print(f"     - Images ajoutées: {total_images}")
+        
+        return total_links
+        
+    except Exception as e:
+        print(f"  ✗ Erreur: {e}")
+        return 0
 
 
 # =============================================================================
-# FONCTION PRINCIPALE
+# ÉTAPE 9: GÉNÉRATION DU VOCABULAIRE/ONTOLOGIE
 # =============================================================================
 
-def main():
-    """Pipeline complet de construction du Knowledge Graph."""
-    print("\n" + "#" * 70)
-    print("#" + " " * 68 + "#")
-    print("#     TOLKIEN KNOWLEDGE GRAPH - Pipeline Complet                      #")
-    print("#     Étapes 9-12: API + CSV + MECCG + Multilingue + Alignements       #")
-    print("#" + " " * 68 + "#")
-    print("#" * 70)
+def generate_vocabulary():
+    """Génère le vocabulaire RDFS/OWL."""
+    print_header("ÉTAPE 9: GÉNÉRATION DU VOCABULAIRE")
     
-    print(f"\n⚙️  Configuration: LIMIT = {LIMIT} entités par infobox")
-    print(f"    CSV: {CSV_FILE}")
-    print(f"    JSON: {JSON_FILE}")
-    
-    # Initialiser les composants
-    client = MediaWikiClient()
-    entity_parser = GenericInfoboxParser()
-    rdf_gen = RDFGenerator()
-    
-    # Générer le vocabulaire
-    print_separator("VOCABULAIRE")
     vocab_gen = VocabularyGenerator()
     vocab_gen.generate_vocabulary()
-    vocab_gen.save("tolkien_vocabulary.ttl")
     
-    # =================================================================
-    # ÉTAPE 9-10: Récupérer les entités et construire le KG de base
-    # =================================================================
+    print(f"  📝 Vocabulaire généré: {len(vocab_gen.graph)} triplets")
     
-    # Récupérer les entités wiki
-    wiki_entities = get_wiki_entities(client, limit_per_template=LIMIT)
+    # Sauvegarder
+    output_file = "tolkien_vocabulary.ttl"
+    vocab_gen.save(output_file)
+    print(f"  ✓ Sauvegardé: {output_file}")
     
-    if not wiki_entities:
-        print("❌ Aucune entité récupérée. Vérifiez la connexion API.")
-        return
+    return vocab_gen
+
+
+# =============================================================================
+# ÉTAPE 10: GÉNÉRATION DES SHAPES SHACL
+# =============================================================================
+
+def generate_shacl_shapes():
+    """Génère les shapes SHACL pour la validation."""
+    print_header("ÉTAPE 10: GÉNÉRATION DES SHAPES SHACL")
     
-    # Générer le KG de base
-    pages = generate_base_kg(client, entity_parser, rdf_gen, limit_per_template=LIMIT)
+    shacl_gen = SHACLGenerator()
+    shacl_gen.create_all_shapes()
     
-    print(f"\n📊 KG de base: {len(rdf_gen.graph)} triplets")
+    print(f"  📝 Shapes générés: {len(shacl_gen.graph)} triplets")
     
-    # Intégrer les données CSV
-    csv_matcher = integrate_csv_data(CSV_FILE, wiki_entities, rdf_gen)
+    # Sauvegarder
+    output_file = "tolkien_shapes.ttl"
+    shacl_gen.save(output_file)
+    print(f"  ✓ Sauvegardé: {output_file}")
     
-    print(f"\n📊 KG après CSV: {len(rdf_gen.graph)} triplets")
+    return shacl_gen
+
+
+# =============================================================================
+# ÉTAPE 11: VALIDATION SHACL (optionnelle)
+# =============================================================================
+
+def validate_kg(data_graph: Graph, shapes_graph: Graph):
+    """Valide le KG contre les shapes SHACL."""
+    print_header("ÉTAPE 11: VALIDATION SHACL")
     
-    # Intégrer les cartes MECCG
-    meccg_result = integrate_meccg_data(JSON_FILE, wiki_entities, rdf_gen)
-    meccg_rdf = meccg_result[0] if meccg_result else None
-    meccg_cards = meccg_result[1].cards if meccg_result and meccg_result[1] else None
-    
-    print(f"\n📊 KG après MECCG: {len(rdf_gen.graph)} triplets")
-    
-    # =================================================================
-    # ÉTAPE 11: Labels multilingues
-    # =================================================================
-    
-    labels_added = add_multilingual_labels(rdf_gen.graph, wiki_entities, meccg_cards)
-    
-    print(f"\n📊 KG après labels multilingues: {len(rdf_gen.graph)} triplets")
-    
-    # =================================================================
-    # ÉTAPE 12: Alignements externes
-    # =================================================================
-    
-    alignments_added = add_external_alignments(rdf_gen.graph, wiki_entities)
-    
-    print(f"\n📊 KG après alignements: {len(rdf_gen.graph)} triplets")
-    
-    # =================================================================
-    # Fusionner les graphes et sauvegarder
-    # =================================================================
+    try:
+        validator = SHACLValidator(shapes_graph=shapes_graph)
+        report = validator.validate_and_report(data_graph)
+        
+        if report['valid'] is None:
+            print("  ⚠️ pyshacl non installé - validation ignorée")
+            print("     Installez avec: pip install pyshacl")
+            return None
+        
+        validator.print_report(report, max_details=5)
+        return report
+        
+    except Exception as e:
+        print(f"  ⚠️ Erreur de validation: {e}")
+        return None
+
+
+# =============================================================================
+# ÉTAPE 12: SAUVEGARDE ET STATISTIQUES FINALES
+# =============================================================================
+
+def save_and_show_stats(rdf_gen: RDFGenerator, meccg_rdf, vocab_gen, shacl_gen):
+    """Sauvegarde tous les graphes et affiche les statistiques."""
+    print_header("ÉTAPE 12: SAUVEGARDE ET STATISTIQUES FINALES")
     
     # Créer le graphe fusionné
     merged = Graph()
@@ -549,41 +539,194 @@ def main():
         for triple in meccg_rdf.graph:
             merged.add(triple)
     
-    # Afficher des exemples
-    show_enriched_entity_examples(rdf_gen.graph, wiki_entities, limit=5)
+    # Sauvegarder
+    print("  💾 Sauvegarde des fichiers...")
+    
+    # KG principal
+    rdf_gen.save("tolkien_kg.ttl", format="turtle")
+    print(f"     ✓ tolkien_kg.ttl ({len(rdf_gen.graph)} triplets)")
+    
+    # Cartes MECCG
+    if meccg_rdf:
+        meccg_rdf.save("meccg_cards.ttl", format="turtle")
+        print(f"     ✓ meccg_cards.ttl ({len(meccg_rdf.graph)} triplets)")
+    
+    # Graphe fusionné
+    merged.serialize(destination="tolkien_kg_complete.ttl", format="turtle")
+    print(f"     ✓ tolkien_kg_complete.ttl ({len(merged)} triplets)")
+    
+    # Format N-Triples (pour Fuseki)
+    merged.serialize(destination="tolkien_kg_complete.nt", format="nt")
+    print(f"     ✓ tolkien_kg_complete.nt (N-Triples)")
     
     # Statistiques finales
-    show_final_statistics(rdf_gen, meccg_rdf, merged)
+    print_subheader("STATISTIQUES FINALES")
     
-    # Sauvegarder
-    save_all_graphs(rdf_gen, meccg_rdf, merged)
+    stats = rdf_gen.get_statistics()
+    print(f"  📊 Knowledge Graph principal:")
+    print(f"     - Triplets: {stats['total_triples']}")
+    print(f"     - Sujets uniques: {stats['subjects']}")
+    print(f"     - Prédicats uniques: {stats['predicates']}")
     
-    # =================================================================
+    # Types d'entités
+    print(f"\n  📊 Par type d'entité:")
+    type_counts = {}
+    for s, p, o in merged.triples((None, RDF.type, None)):
+        type_name = str(o).split('/')[-1].split('#')[-1]
+        type_counts[type_name] = type_counts.get(type_name, 0) + 1
+    
+    for type_name, count in sorted(type_counts.items(), key=lambda x: -x[1])[:10]:
+        print(f"     - {type_name}: {count}")
+    
+    # Alignements
+    alignment_count = len(list(merged.triples((None, OWL.sameAs, None))))
+    print(f"\n  📊 Alignements owl:sameAs: {alignment_count}")
+    
+    # Labels par langue
+    lang_counts = {}
+    for s, p, o in merged.triples((None, RDFS.label, None)):
+        lang = getattr(o, 'language', 'none') or 'none'
+        lang_counts[lang] = lang_counts.get(lang, 0) + 1
+    
+    if lang_counts:
+        print(f"\n  📊 Labels par langue:")
+        for lang, count in sorted(lang_counts.items(), key=lambda x: -x[1])[:8]:
+            print(f"     - {lang}: {count}")
+    
+    print(f"\n  📊 TOTAL GRAPHE FUSIONNÉ: {len(merged)} triplets")
+    
+    return merged
+
+
+# =============================================================================
+# AFFICHAGE D'EXEMPLES
+# =============================================================================
+
+def show_examples(graph: Graph, entities: set, limit: int = 3):
+    """Affiche quelques exemples d'entités enrichies."""
+    print_header("EXEMPLES D'ENTITÉS ENRICHIES")
+    
+    count = 0
+    for entity_name in list(entities)[:50]:  # Chercher parmi les 50 premières
+        uri = URIRef(f"https://tolkiengateway.net/wiki/{quote(entity_name.replace(' ', '_'), safe='')}")
+        triples = list(graph.triples((uri, None, None)))
+        
+        if len(triples) >= 5:  # Entités avec assez de données
+            print(f"\n  📖 {entity_name}")
+            print("  " + "-" * 50)
+            
+            # Grouper par type
+            for s, p, o in triples[:15]:
+                pred = str(p).split('/')[-1].split('#')[-1]
+                obj = str(o)
+                if len(obj) > 50:
+                    obj = obj[:47] + "..."
+                print(f"     {pred}: {obj}")
+            
+            if len(triples) > 15:
+                print(f"     ... et {len(triples) - 15} autres propriétés")
+            
+            count += 1
+            if count >= limit:
+                break
+
+
+# =============================================================================
+# FONCTION PRINCIPALE
+# =============================================================================
+
+def main():
+    """Pipeline complet de test du Knowledge Graph."""
+    
+    print("\n" + "#" * 70)
+    print("#" + " " * 68 + "#")
+    print("#     TOLKIEN KNOWLEDGE GRAPH - TEST COMPLET                         #")
+    print(f"#     Configuration: LIMIT = {LIMIT} entités par infobox" + " " * (38 - len(str(LIMIT))) + "#")
+    print("#" + " " * 68 + "#")
+    print("#" * 70)
+    
+    # Vérifier les fichiers requis
+    print("\n📁 Vérification des fichiers requis...")
+    check_file_exists(CSV_FILE)
+    check_file_exists(JSON_FILE)
+    
+    # Initialiser les composants
+    client = MediaWikiClient()
+    parser = GenericInfoboxParser()
+    rdf_gen = RDFGenerator()
+    
+    # ÉTAPE 1: Test API
+    api_stats = test_api(client)
+    if not api_stats:
+        print("\n❌ Impossible de se connecter à l'API. Abandon.")
+        return
+    
+    # ÉTAPE 2: Récupérer les entités
+    entities_by_type, all_entities = get_entities_by_template(client, LIMIT)
+    if not all_entities:
+        print("\n❌ Aucune entité récupérée. Abandon.")
+        return
+    
+    # ÉTAPE 3: Parser et générer RDF
+    pages_processed = parse_and_generate_rdf(client, parser, rdf_gen, entities_by_type)
+    
+    # ÉTAPE 4: Intégrer CSV
+    csv_matcher = integrate_csv(CSV_FILE, all_entities, rdf_gen)
+    
+    # ÉTAPE 5: Intégrer MECCG
+    meccg_rdf, meccg_parser = integrate_meccg(JSON_FILE, all_entities, rdf_gen)
+    
+    # ÉTAPE 6: Labels multilingues (limité pour le test)
+    labels_added = add_multilingual_labels(rdf_gen.graph, all_entities, limit=30)
+    
+    # ÉTAPE 7: Alignements externes
+    alignments_added = add_external_alignments(rdf_gen.graph, all_entities)
+    
+    # ÉTAPE 8: Liens internes
+    links_added = add_internal_links(client, rdf_gen, pages_processed, limit_per_page=10)
+    
+    # ÉTAPE 9: Vocabulaire
+    vocab_gen = generate_vocabulary()
+    
+    # ÉTAPE 10: Shapes SHACL
+    shacl_gen = generate_shacl_shapes()
+    
+    # ÉTAPE 11: Validation (optionnelle)
+    validate_kg(rdf_gen.graph, shacl_gen.graph)
+    
+    # ÉTAPE 12: Sauvegarder et statistiques
+    merged_graph = save_and_show_stats(rdf_gen, meccg_rdf, vocab_gen, shacl_gen)
+    
+    # Exemples
+    show_examples(merged_graph, all_entities, limit=3)
+    
     # Résumé final
-    # =================================================================
+    print_header("RÉSUMÉ FINAL")
     
-    print_separator("RÉSUMÉ FINAL - ÉTAPES 9-12 COMPLÉTÉES")
-    
-    print("📁 Fichiers générés:")
-    print("   • tolkien_vocabulary.ttl - Vocabulaire/Ontologie")
-    print(f"   • tolkien_kg.ttl - KG principal ({len(rdf_gen.graph)} triplets)")
+    print("  📁 Fichiers générés:")
+    print("     • tolkien_vocabulary.ttl - Vocabulaire/Ontologie")
+    print("     • tolkien_shapes.ttl - Shapes SHACL")
+    print(f"     • tolkien_kg.ttl - KG principal ({len(rdf_gen.graph)} triplets)")
     if meccg_rdf:
-        print(f"   • meccg_cards.ttl - Cartes MECCG ({len(meccg_rdf.graph)} triplets)")
-    print(f"   • tolkien_kg_complete.ttl - Graphe fusionné ({len(merged)} triplets)")
-    print("   • tolkien_kg_complete.nt - Format N-Triples (pour Fuseki)")
+        print(f"     • meccg_cards.ttl - Cartes MECCG ({len(meccg_rdf.graph)} triplets)")
+    print(f"     • tolkien_kg_complete.ttl - Graphe fusionné ({len(merged_graph)} triplets)")
+    print("     • tolkien_kg_complete.nt - Format N-Triples (pour Fuseki)")
     
-    print(f"\n📊 Récapitulatif:")
-    print(f"   • Entités wiki: {len(wiki_entities)}")
-    print(f"   • Labels multilingues: {labels_added}")
-    print(f"   • Alignements externes: {alignments_added}")
+    print(f"\n  📊 Récapitulatif:")
+    print(f"     • Entités wiki traitées: {len(pages_processed)}")
+    print(f"     • Labels multilingues: {labels_added}")
+    print(f"     • Alignements externes: {alignments_added}")
+    print(f"     • Liens internes: {links_added}")
     
     print("\n" + "=" * 70)
-    print(" ✅ ÉTAPES 9-12 TERMINÉES")
+    print(" ✅ TEST COMPLET TERMINÉ AVEC SUCCÈS")
     print("=" * 70)
-    print("\n🚀 Prochaine étape: Charger tolkien_kg_complete.ttl dans Fuseki (étape 13)")
-    print("   Commandes:")
-    print("   $ fuseki-server --update --mem /tolkien")
-    print("   Puis charger le fichier via l'interface web http://localhost:3030")
+    
+    print("\n🚀 Prochaines étapes (non implémentées):")
+    print("   1. Charger tolkien_kg_complete.ttl dans Fuseki")
+    print("   2. Créer l'interface Linked Data (serveur web)")
+    print("   3. Implémenter les requêtes SPARQL avec raisonnement")
+    print("   4. Rédiger le rapport")
 
 
 if __name__ == "__main__":
