@@ -1179,6 +1179,7 @@ meccg:AS-144 a schema1:Place,
         "Eagles' Eyrie"@nl ;
     dc:creator "Stephen Graham Walsh" ;
     dc:identifier "AS-144" ;
+    schema1:about tolkien:Eagles ;
     schema1:creator "Stephen Graham Walsh" ;
     schema1:name "Eagles’ Eyrie" ;
     meccg_prop:alignment "Minion" ;
@@ -1191,7 +1192,8 @@ meccg:AS-144 a schema1:Place,
     meccg_prop:quote "“The eagles had brought up dry boughs for fuel, … rabbits, hares, and a small sheep.” —Hob"@en,
         "“Las águilas habían traído unos arbustos secos para el fuego, y conejos, liebres, y una pequeña oveja.”—Hob"@es,
         "Les aigles avaient apporté pour combustible des branches sèches, et aussi des lapins, des lièvres et un agneau. —Hob"@fr ;
-    meccg_prop:rarity "U2" .
+    meccg_prop:rarity "U2" ;
+    tolkien_prop:depicts tolkien:Eagles .
 
 meccg:AS-145 a schema1:Place,
         meccg_class:Card,
@@ -1203,6 +1205,7 @@ meccg:AS-145 a schema1:Place,
         "Edhellond"@nl ;
     dc:creator "John Howe" ;
     dc:identifier "AS-145" ;
+    schema1:about tolkien:Edhellond ;
     schema1:creator "John Howe" ;
     schema1:name "Edhellond" ;
     meccg_prop:alignment "Minion" ;
@@ -1212,7 +1215,8 @@ meccg:AS-145 a schema1:Place,
     meccg_prop:cardText "Nearest Darkhaven: Geann a-LischPlayable: Information, Items (minor, major, greater)Automatic-attacks (2):(1st) Elves — 4 strikes with 7 prowess(2nd) Dúnedain — 3 strikes with 10 prowessSpecial: Any company moving to this site has its hazard limit increased by 2. A minion company may not attack another company at this site. A Ringwraith may not move to this site."@en,
         "Refugio Oscuro más cercano: Geann a-LischJugable: Información, Objetos (menores, mayores, grandes)Ataques Automáticos (2):(1º) Elfos — 4 golpes de poder 7(2º) Dúnedain — 3 golpes de poder 10Especial: El límite de adversidades de cualquier compañía que se mueva hasta este lugar aumenta en 2. Una compañía de servidores no puede atacar a otra compañía en este lugar. Un Espectro del Anillo no puede moverse hasta este lugar."@es,
         "Havre Noir le plus proche : Geann a-LischJouable :  Information, objet (mineur, majeur, supérieur)Attaques automatiques (2) :• 1re : Elfes — 4 coups avec 7 en prouesse• 2e : Dúnedain — 3 coups avec 10 en prouesse"@fr ;
-    meccg_prop:rarity "R2" .
+    meccg_prop:rarity "R2" ;
+    tolkien_prop:depicts tolkien:Edhellond .
 
 meccg:AS-146 a schema1:Place,
         meccg_class:Card,
@@ -1293,6 +1297,7 @@ meccg:AS-149 a schema1:Place,
         "Grey Havens"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "AS-149" ;
+    schema1:about tolkien:Grey_Havens ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Grey Havens" ;
     meccg_prop:alignment "Minion" ;
@@ -1302,7 +1307,8 @@ meccg:AS-149 a schema1:Place,
     meccg_prop:cardText "Nearest Darkhaven: Carn DûmPlayable: Information, Items (minor, major, greater)Automatic-attacks (2):(1st) Elves — 3 strikes with 8 prowess(2nd) Elves — 2 strikes with 10 prowessSpecial: Any company moving to this site has its hazard limit increased by 2. A minion company may not attack another company at this site. A Ringwraith may not move to this site."@en,
         "Refugio Oscuro más cercano: Carn DûmJugable: Información, Objetos (menores, mayores, grandes)Ataques Automáticos (2):(1º) Elfos — 3 golpes de poder 8(2º) Elfos — 2 golpes de poder 10Especial: El límite de adversidades de cualquier compañía que se mueva hasta este lugar aumenta en 2. Una compañía de servidores no puede atacar a otra compañía en este lugar. Un Espectro del Anillo no puede moverse hasta este lugar."@es,
         "Havre Noir le plus proche : Carn DûmJouable :  Information, objet (mineur, majeur, supérieur)Attaques automatiques (2) :• 1re : Elfes — 3 coups avec 8 en prouesse• 2e : Elfes — 2 coups avec 10 en prouesse"@fr ;
-    meccg_prop:rarity "R2" .
+    meccg_prop:rarity "R2" ;
+    tolkien_prop:depicts tolkien:Grey_Havens .
 
 meccg:AS-15 a meccg_class:Card,
         meccg_class:Hazard ;
@@ -1338,6 +1344,7 @@ meccg:AS-150 a schema1:Place,
         "Himring"@nl ;
     dc:creator "David Monette" ;
     dc:identifier "AS-150" ;
+    schema1:about tolkien:Himring ;
     schema1:creator "David Monette" ;
     schema1:name "Himring" ;
     meccg_prop:alignment "Minion" ;
@@ -1347,7 +1354,8 @@ meccg:AS-150 a schema1:Place,
     meccg_prop:cardText "Nearest Darkhaven: Geann a-LischPlayable: Items (minor, major)Automatic-attacks:Undead — 1 strike with 8 prowess; each character wounded must make a corruption check modified by -2Special: An overt company must tap an untapped character (if available) if this site is revealed as its new site."@en,
         "Refugio Oscuro más cercano: Geann a-LischJugable: Objetos (menores, mayores)Ataques Automáticos:Muertos Vivientes — 1 golpe de poder 8; cada personaje herido debe hacer un chequeo de corrupción modificado con un -2Especial: Una compañía descubierta debe girar un personaje enderezado (si hay alguno) si este lugar es revelado como su nueva carta de lugar."@es,
         "Havre Noir le plus proche : Geann a-LischJouable : Objet (mineur, majeur)Attaques automatiques :Non-mort — 1 coup avec 8 en prouesse ; chaque personnage blessé doit faire un test de corruption modifié de -2."@fr ;
-    meccg_prop:rarity "U2" .
+    meccg_prop:rarity "U2" ;
+    tolkien_prop:depicts tolkien:Himring .
 
 meccg:AS-151 a schema1:Place,
         meccg_class:Card,
@@ -1449,7 +1457,7 @@ meccg:AS-155 a schema1:Place,
         "Lórien"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "AS-155" ;
-    schema1:about tolkien:L%C3%B3rien_%28Valinor%29 ;
+    schema1:about tolkien:Lothl%C3%B3rien ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Lórien" ;
     meccg_prop:alignment "Minion" ;
@@ -1460,7 +1468,7 @@ meccg:AS-155 a schema1:Place,
         "Refugio Oscuro más cercano: Dol GuldurJugable: Información, Objetos (menores, mayores, grandes, anillos de oro)Ataques Automáticos (3):(1º) Elfos — 4 golpes de poder 8(2º) Elfos — 3 golpes de poder 9(3º) Elfos — 2 golpes de poder 10Especial: El límite de adversidades de cualquier compañía que se mueva hasta este lugar aumenta en 2. Una compañía de servidores no puede atacar a otra compañía en este lugar. Un Espectro del Anillo no puede moverse hasta este lugar."@es,
         "Havre Noir le plus proche : Dol GuldurJouable :  Information, objet (mineur, majeur, supérieur, anneau d'or)Attaques automatiques (3) :• 1re : Elfes — 4 coups avec 8 en prouesse• 2e : Elfes — 3 coups avec 9 en prouesse• 3e : Elfes — 2 coups avec 10 en prouesse"@fr ;
     meccg_prop:rarity "R2" ;
-    tolkien_prop:depicts tolkien:L%C3%B3rien_%28Valinor%29 .
+    tolkien_prop:depicts tolkien:Lothl%C3%B3rien .
 
 meccg:AS-156 a schema1:Place,
         meccg_class:Card,
@@ -1472,6 +1480,7 @@ meccg:AS-156 a schema1:Place,
         "Old Forest"@nl ;
     dc:creator "Christina Wald" ;
     dc:identifier "AS-156" ;
+    schema1:about tolkien:Old_Forest ;
     schema1:creator "Christina Wald" ;
     schema1:name "Old Forest" ;
     meccg_prop:alignment "Minion" ;
@@ -1484,7 +1493,8 @@ meccg:AS-156 a schema1:Place,
     meccg_prop:quote "“‘Very few people live in these parts, unless they have come here since I was last down this way, which is some years ago. But there is somebody that I know of, who lives not far away.’” —Hob"@en,
         "“ʻMuy poca gente vive en estos parajes, a menos que hayan venido desde la última vez que estuve aquí abajo, hace ya varios años. Pero conozco a alguien que vive no muy lejos.ʼ” —Hob"@es,
         "“Il y a très peu d’habitants dans cette région, à moins qu’il n’en soit venu depuis mon dernier passage par ici, c’est-à dire depuis quelques années. Mais je sais quelqu’un qui ne demeure pas loin.” —Hob"@fr ;
-    meccg_prop:rarity "U2" .
+    meccg_prop:rarity "U2" ;
+    tolkien_prop:depicts tolkien:Old_Forest .
 
 meccg:AS-157 a schema1:Place,
         meccg_class:Card,
@@ -1633,6 +1643,7 @@ meccg:AS-162 a schema1:Place,
         "Tolfalas"@nl ;
     dc:creator "Larry Elmore" ;
     dc:identifier "AS-162" ;
+    schema1:about tolkien:Falas ;
     schema1:creator "Larry Elmore" ;
     schema1:name "Tolfalas" ;
     meccg_prop:alignment "Minion" ;
@@ -1642,7 +1653,8 @@ meccg:AS-162 a schema1:Place,
     meccg_prop:cardText "Nearest Darkhaven: Minas MorgulPlayable: Items (minor, major, greater*)*—Scroll of Isildur onlyAutomatic-attacks:Undead — 3 strikes with 7 prowess;each character wounded must make a corruption check modified by -2Special: An overt company must tap an untapped character (if available) if this site is revealed as its new site."@en,
         "Refugio Oscuro más cercano: Minas MorgulJugable: Objetos (menores, mayores, grandes*) *—solo el Pergamino de IsildurAtaques Automáticos:Muertos Vivientes — 3 golpes de poder 7; cada personaje herido debe hacer un chequeo de corrupción modificado con un -2Especial: Una compañía descubierta debe girar un personaje enderezado (si hay alguno) si este lugar es revelado como su nueva carta de lugar."@es,
         "Havre Noir le plus proche : Minas MorgulJouable :  Objet (mineur, majeur, supérieur*)* — Parchemin d'Isildur uniquementAttaques automatiques :Non-morts — 3 coups avec 7 en prouesse, chaque personnage blessé doit faire un test de corruption modifié de -2."@fr ;
-    meccg_prop:rarity "U2" .
+    meccg_prop:rarity "U2" ;
+    tolkien_prop:depicts tolkien:Falas .
 
 meccg:AS-163 a schema1:Place,
         meccg_class:Card,
@@ -4814,10 +4826,10 @@ meccg:BA-4 a schema1:Person,
         "Bolg"@nl ;
     dc:creator "David L. Sexton" ;
     dc:identifier "BA-4" ;
-    schema1:about tolkien:Ruby_Bolger ;
+    schema1:about tolkien:Fredegar_Bolger ;
     schema1:creator "David L. Sexton" ;
     schema1:name "Bolg" ;
-    owl:sameAs tolkien:Ruby_Bolger ;
+    owl:sameAs tolkien:Fredegar_Bolger ;
     meccg_prop:alignment "Minion" ;
     meccg_prop:body "9" ;
     meccg_prop:cardImage "Bolg.jpg" ;
@@ -4837,7 +4849,7 @@ meccg:BA-4 a schema1:Person,
     meccg_prop:race "Orc" ;
     meccg_prop:rarity "C1" ;
     meccg_prop:skills "Warrior/Ranger" ;
-    tolkien_prop:depicts tolkien:Ruby_Bolger .
+    tolkien_prop:depicts tolkien:Fredegar_Bolger .
 
 meccg:BA-40 a meccg_class:Card,
         meccg_class:Resource ;
@@ -5573,8 +5585,10 @@ meccg:BA-7 a schema1:Person,
         "Hill-troll"@nl ;
     dc:creator "R. Ward Shipman" ;
     dc:identifier "BA-7" ;
+    schema1:about tolkien:Hill-trolls ;
     schema1:creator "R. Ward Shipman" ;
     schema1:name "Hill-troll" ;
+    owl:sameAs tolkien:Hill-trolls ;
     meccg_prop:alignment "Minion" ;
     meccg_prop:body "7" ;
     meccg_prop:cardImage "Hilltroll.jpg" ;
@@ -5593,7 +5607,8 @@ meccg:BA-7 a schema1:Person,
         "[...] vêtus que d’un réseau très ajusté d’écailles cornées, ou peut-être était-ce leur hideux cuir, mais ils portaient d’énormes boucliers ronds et noirs, et ils brandissaient de lourds marteaux dans leurs mains noueuses. —SdAV"@fr ;
     meccg_prop:race "Troll" ;
     meccg_prop:rarity "C2" ;
-    meccg_prop:skills "Warrior" .
+    meccg_prop:skills "Warrior" ;
+    tolkien_prop:depicts tolkien:Hill-trolls .
 
 meccg:BA-70 a meccg_class:Card,
         meccg_class:Resource ;
@@ -6034,6 +6049,7 @@ meccg:BA-88 a schema1:Place,
         "Dol Guldur"@nl ;
     dc:creator "Stephen Graham Walsh" ;
     dc:identifier "BA-88" ;
+    schema1:about tolkien:Dol_Guldur ;
     schema1:creator "Stephen Graham Walsh" ;
     schema1:name "Dol Guldur" ;
     meccg_prop:alignment "Balrog" ;
@@ -6043,7 +6059,8 @@ meccg:BA-88 a schema1:Place,
     meccg_prop:cardText "Playable: Information, Items (minor, major)Automatic-attacks (3):(1st) Orcs — 3 strikes with 7 prowess (2nd) Trolls — 2 strikes with 8 prowess (3rd) Nazgûl (cannot be canceled) — 1 strike with 15 prowessSpecial: Creatures keyed to this site attack normally, not as detainment."@en,
         "Jugable: Información, Objetos (menores, mayores)Ataques Automáticos (3):(1º) Orcos — 3 golpes de poder 7(2º) Trolls — 2 golpes de poder 8 (3º) Nazgûl (no puede ser cancelado) — 1 golpe de poder 15Especial: Las criaturas situadas en este lugar atacan normalmente, no como retención."@es,
         "Jouable : Information, objet (mineur, majeur)Attaques automatiques (3) :• 1re : Orques — 3 coups avec 7 en prouesse• 2e : Trolls — 2 coups avec 8 en prouesse• 3e : Nazgûl (ne peut être annulée) — 1 coup avec 15 en prouesse"@fr ;
-    meccg_prop:rarity "C1" .
+    meccg_prop:rarity "C1" ;
+    tolkien_prop:depicts tolkien:Dol_Guldur .
 
 meccg:BA-89 a schema1:Place,
         meccg_class:Card,
@@ -6149,6 +6166,7 @@ meccg:BA-92 a schema1:Place,
         "Minas Morgul"@nl ;
     dc:creator "Doug Kovacs" ;
     dc:identifier "BA-92" ;
+    schema1:about tolkien:Minas_Morgul ;
     schema1:creator "Doug Kovacs" ;
     schema1:name "Minas Morgul" ;
     meccg_prop:alignment "Balrog" ;
@@ -6161,7 +6179,8 @@ meccg:BA-92 a schema1:Place,
     meccg_prop:quote "“… and its cavernous gate, shaped like an open mouth with gleaming teeth, was gaping wide.” —LotRIV"@en,
         "“… y la puerta cavernosa, como una boca flanqueada de dientes relucientes, estaba abierta.” —SdlA II"@es,
         "[...] et sa porte caverneuse, en forme de bouche ouverte sur des dents luisantes, était béante. —SdAIV"@fr ;
-    meccg_prop:rarity "C1" .
+    meccg_prop:rarity "C1" ;
+    tolkien_prop:depicts tolkien:Minas_Morgul .
 
 meccg:BA-93 a schema1:Place,
         meccg_class:Card,
@@ -8649,8 +8668,10 @@ meccg:DM-183 a schema1:Person,
         "Wolf"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "DM-183" ;
+    schema1:about tolkien:Hunting_of_the_Wolf ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Wolf" ;
+    owl:sameAs tolkien:Hunting_of_the_Wolf ;
     meccg_prop:alignment "Minion" ;
     meccg_prop:body "7" ;
     meccg_prop:cardImage "Wolf.jpg" ;
@@ -8669,7 +8690,8 @@ meccg:DM-183 a schema1:Person,
         "“Il en est pourtant de nombreuses qui crient en langue du Pays de Dun, dit Gamelin. [...] Écoutez ! Ils nous haïssent et ils sont contents [...]” —SdAIII"@fr ;
     meccg_prop:race "Man" ;
     meccg_prop:rarity "P" ;
-    meccg_prop:skills "Warrior/Diplomat" .
+    meccg_prop:skills "Warrior/Diplomat" ;
+    tolkien_prop:depicts tolkien:Hunting_of_the_Wolf .
 
 meccg:DM-19 a schema1:Person,
         meccg_class:Card,
@@ -9409,6 +9431,7 @@ meccg:DM-42 a schema1:Place,
         "Urlurtsu Nurn"@nl ;
     dc:creator "Brian Snoddy" ;
     dc:identifier "DM-42" ;
+    schema1:about tolkien:Nurn ;
     schema1:creator "Brian Snoddy" ;
     schema1:name "Urlurtsu Nurn" ;
     meccg_prop:alignment "Hero" ;
@@ -9421,7 +9444,8 @@ meccg:DM-42 a schema1:Place,
     meccg_prop:quote " “Neither he nor Frodo knew anything of the great slave-worked fields away south in this wide realm, beyond the fumes of the Mountain by the sad waters of Lake Núrnen…”—LotRVI"@en,
         " “Ni él ni Frodo sabían nada de los extensos campos cultivados por esclavos en el extremo Sur del reino, más allá de las emanaciones de la Montaña y en las cercanías de las aguas sombrías y tristes del Lago Núrnen…” —SdlA III"@es,
         "Ni lui ni Frodon ne savaient rien des grands champs travaillés par des esclaves dans l’extrême sud de ce vaste royaume, au-delà des fumées de la Montagne, près des tristes eaux sombres du Lac Núrnen [...]. —SdAVI"@fr ;
-    meccg_prop:rarity "U2" .
+    meccg_prop:rarity "U2" ;
+    tolkien_prop:depicts tolkien:Nurn .
 
 meccg:DM-43 a meccg_class:Card,
         meccg_class:Hazard ;
@@ -13706,8 +13730,10 @@ meccg:LE-21 a schema1:Person,
         "Lieutenant of Dol Guldur"@nl ;
     dc:creator "Angelo Montanini" ;
     dc:identifier "LE-21" ;
+    schema1:about tolkien:Dol_Guldur ;
     schema1:creator "Angelo Montanini" ;
     schema1:name "Lieutenant of Dol Guldur" ;
+    owl:sameAs tolkien:Dol_Guldur ;
     meccg_prop:alignment "Minion" ;
     meccg_prop:body "9" ;
     meccg_prop:cardImage "LieutenantofDolGuldur.jpg" ;
@@ -13723,7 +13749,8 @@ meccg:LE-21 a schema1:Person,
     meccg_prop:prowess "7" ;
     meccg_prop:race "Troll" ;
     meccg_prop:rarity "R" ;
-    meccg_prop:skills "Warrior/Sage" .
+    meccg_prop:skills "Warrior/Sage" ;
+    tolkien_prop:depicts tolkien:Dol_Guldur .
 
 meccg:LE-210 a meccg_class:Card,
         meccg_class:Resource ;
@@ -17755,6 +17782,7 @@ meccg:LE-364 a schema1:Place,
         "Dead Marshes"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "LE-364" ;
+    schema1:about tolkien:Dead_Marshes ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Dead Marshes" ;
     meccg_prop:alignment "Minion" ;
@@ -17767,7 +17795,8 @@ meccg:LE-364 a schema1:Place,
     meccg_prop:quote "“‘… the Marshes have grown… swallowed up the graves… always creeping, creeping.’” —LotRIV"@en,
         "“ʻPero las ciénagas crecieron desde entonces, engulleron las tumbas; reptando, reptando siempre.ʼ” —SdlA II"@es,
         "“[...] les Marais se sont étendus [...] ils ont avalé les tombes ; ils rampent toujours davantage.” —SdAI"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Dead_Marshes .
 
 meccg:LE-365 a schema1:Place,
         meccg_class:Card,
@@ -17805,7 +17834,7 @@ meccg:LE-366 a schema1:Place,
         "Dol Amroth"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "LE-366" ;
-    schema1:about tolkien:Amroth ;
+    schema1:about tolkien:Dol_Amroth ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Dol Amroth" ;
     meccg_prop:alignment "Minion" ;
@@ -17816,7 +17845,7 @@ meccg:LE-366 a schema1:Place,
         "Refugio Oscuro más cercano: Minas MorgulJugable: Información, Objetos (menores, mayores, anillos de oro)Ataques Automáticos (2):(1º) Hombres — cada personaje se enfrenta a 1 golpe de poder 8 (de retención contra compañías encubiertas)(2º) Dúnedain — 3 golpes de poder 10 (solo contra compañías descubiertas)"@es,
         "Havre Noir le plus proche : Minas MorgulJouable : Information, objet (mineur, majeur, anneau d'or)Attaques automatiques (2) :• 1re : Humain — chaque personnage affronte 1 coup avec 8 en prouesse (dilatoire contre une compagnie voilée).• 2e : Dúnedain — 3 coups avec 10 en prouesse (contre une compagnie dévoilée seulement)."@fr ;
     meccg_prop:rarity "R" ;
-    tolkien_prop:depicts tolkien:Amroth .
+    tolkien_prop:depicts tolkien:Dol_Amroth .
 
 meccg:LE-367 a schema1:Place,
         meccg_class:Card,
@@ -17828,6 +17857,7 @@ meccg:LE-367 a schema1:Place,
         "Dol Guldur"@nl ;
     dc:creator "Rob Alexander" ;
     dc:identifier "LE-367" ;
+    schema1:about tolkien:Dol_Guldur ;
     schema1:creator "Rob Alexander" ;
     schema1:name "Dol Guldur" ;
     meccg_prop:alignment "Minion" ;
@@ -17837,7 +17867,8 @@ meccg:LE-367 a schema1:Place,
     meccg_prop:cardText "Site Path From Minas Morgul: {s}{d}{d}{s}{d}Site Path From Carn Dûm:{s}{d}{b}{d}Special: Any gold ring stored at this site is automatically tested (modify the roll by -2). Any attack against a minion company at this site is canceled."@en,
         "Itinerario desde Minas Morgul:{s}{d}{d}{s}{d}Itinerario desde Carn Dûm:{s}{d}{b}{d}Especial: Cualquier anillo de oro almacenado en este lugar es examinado automáticamente (modificando la tirada con un -2). Cualquier ataque contra una compañía de servidores que se encuentre en este lugar es cancelado."@es,
         "Itinéraire depuis Minas Morgul:{s}{d}{d}{s}{d}Itinéraire depuis Carn Dûm:{s}{d} [}{b}{d}"@fr ;
-    meccg_prop:rarity "CB+F5" .
+    meccg_prop:rarity "CB+F5" ;
+    tolkien_prop:depicts tolkien:Dol_Guldur .
 
 meccg:LE-368 a schema1:Place,
         meccg_class:Card,
@@ -17849,6 +17880,7 @@ meccg:LE-368 a schema1:Place,
         "Drúadan Forest"@nl ;
     dc:creator "Gail McIntosh" ;
     dc:identifier "LE-368" ;
+    schema1:about tolkien:Dr%C3%BAadan_Forest ;
     schema1:creator "Gail McIntosh" ;
     schema1:name "Drúadan Forest" ;
     meccg_prop:alignment "Minion" ;
@@ -17861,7 +17893,8 @@ meccg:LE-368 a schema1:Place,
     meccg_prop:quote "“… the forgotten wain-road long ago had run down… but now for many lives of men trees had had their way with it, and it had vanished, broken and buried under the leaves of uncounted years.” —LotRV"@en,
         "“… el camino de carros olvidado se había abandonado hacía tiempo… pero durante muchas vidas de los hombres, los árboles se habían apoderado de él, y había desaparecido, quebrantado y enterrado bajo las hojas de incontables años.” —SdlA III"@es,
         "[...] la route charretière oubliée descendait jadis [...] mais à présent, depuis bien des générations d’hommes, les arbres en avaient disposé à leur façon, et elle avait disparu, défoncée et enterrée sous les feuilles d’années sans nombre. —SdAV"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Dr%C3%BAadan_Forest .
 
 meccg:LE-369 a schema1:Place,
         meccg_class:Card,
@@ -17977,6 +18010,7 @@ meccg:LE-372 a schema1:Place,
         "Edoras"@nl ;
     dc:creator "Alan Lee" ;
     dc:identifier "LE-372" ;
+    schema1:about tolkien:Edoras ;
     schema1:creator "Alan Lee" ;
     schema1:name "Edoras" ;
     meccg_prop:alignment "Minion" ;
@@ -17989,7 +18023,8 @@ meccg:LE-372 a schema1:Place,
     meccg_prop:quote "“‘I see a white stream that comes down from the snows… Where it issues from the shadow of the vale a green hill rises upon the east. A dike and mighty wall and thorny fence encircle it.’” —LotRIII"@en,
         "“ʻVeo una corriente blanca que desciende de las nieves… En el sitio en que sale de la sombra del valle, una colina verde se alza al este. Un foso, una muralla maciza y una cerca espinosa rodean la colina.ʼ” —SdlA II"@es,
         "“Je vois une rivière blanche qui descend des neiges, dit-il. À l’endroit où elle sort de l’ombre du vallon, s’élève à l’est une colline verte. Un fossé, un puissant mur et une clôture épineuse l’entourent.” —SdAIII"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Edoras .
 
 meccg:LE-373 a schema1:Place,
         meccg_class:Card,
@@ -18001,6 +18036,7 @@ meccg:LE-373 a schema1:Place,
         "Ettenmoors"@nl ;
     dc:creator "Gail McIntosh" ;
     dc:identifier "LE-373" ;
+    schema1:about tolkien:Ettenmoors ;
     schema1:creator "Gail McIntosh" ;
     schema1:name "Ettenmoors" ;
     meccg_prop:alignment "Minion" ;
@@ -18013,7 +18049,8 @@ meccg:LE-373 a schema1:Place,
     meccg_prop:quote "“… a ridge of high land; its dark edge against the sky was broken in many bare points like teeth of a blunted saw.” —LotRII"@en,
         "“… una cadena de tierras altas… el borde oscuro se recortaba contra el cielo como los dientes mellados de una sierra.” —SdlA I"@es,
         "[...] une crête de haute terre ; son bord sombre contre le ciel était brisé en de nombreuses pointes nues comme les dents d’une scie émoussée. —SdAII"@fr ;
-    meccg_prop:rarity "F5" .
+    meccg_prop:rarity "F5" ;
+    tolkien_prop:depicts tolkien:Ettenmoors .
 
 meccg:LE-374 a schema1:Place,
         meccg_class:Card,
@@ -18046,6 +18083,7 @@ meccg:LE-375 a schema1:Place,
         "Gladden Fields"@nl ;
     dc:creator "Stephen Graham Walsh" ;
     dc:identifier "LE-375" ;
+    schema1:about tolkien:Gladden_Fields ;
     schema1:creator "Stephen Graham Walsh" ;
     schema1:name "Gladden Fields" ;
     meccg_prop:alignment "Minion" ;
@@ -18058,7 +18096,8 @@ meccg:LE-375 a schema1:Place,
     meccg_prop:quote "“‘And there in the dark pools amidst the Gladden Fields… the Ring passed out of knowledge and legend…’” —LotRI"@en,
         "“ʻY allí, en los oscuros estanques de los Campos Gladios… el Anillo desapareció de los registros y las leyendas…ʼ” —SdlA I"@es,
         "“Et là, dans les sombres étangs, parmi les Champs aux Iris [...] l’Anneau disparut de toute connaissance et de toute légende [...]” —SdAI"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Gladden_Fields .
 
 meccg:LE-376 a schema1:Place,
         meccg_class:Card,
@@ -18070,6 +18109,7 @@ meccg:LE-376 a schema1:Place,
         "Glittering Caves"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "LE-376" ;
+    schema1:about tolkien:Glittering_Caves ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Glittering Caves" ;
     meccg_prop:alignment "Minion" ;
@@ -18082,7 +18122,8 @@ meccg:LE-376 a schema1:Place,
     meccg_prop:quote "“‘… immeasurable halls, filled with an everlasting music of water that tinkles into pools…” —LotRIII"@en,
         "“ʻ… inmensas estancias, llenas de una interminable melodía de agua que tintinea en los manantiales…ʼ”—SdlA II"@es,
         "“[...] des salles incommensurables, emplies de la musique éternelle de l’eau tintant dans des fontaines [...]” —SdAIII"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Glittering_Caves .
 
 meccg:LE-377 a schema1:Place,
         meccg_class:Card,
@@ -18222,6 +18263,7 @@ meccg:LE-381 a schema1:Place,
         "Henneth Annûn"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "LE-381" ;
+    schema1:about tolkien:Henneth_Ann%C3%BBn ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Henneth Annûn" ;
     meccg_prop:alignment "Minion" ;
@@ -18234,7 +18276,8 @@ meccg:LE-381 a schema1:Place,
     meccg_prop:quote "“It faced westward. The level shafts of the setting sun beat upon it, and the red light was broken into many flickering beams of ever-changing colour.” —LotRIV"@en,
         "“Miraba al oeste. Del otro lado del velo se refractaban los rayos horizontales del sol poniente, y la luz purpúrea se quebraba en llamaradas de colores siempre cambiantes” —SdlA II"@es,
         "Il faisait face à l’ouest. De l’autre côté du rideau, les rayons horizontaux du soleil couchant donnaient dessus et la lumière rouge se brisait en mille traits clignotants aux couleurs toujours changeantes. —SdAIV"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Henneth_Ann%C3%BBn .
 
 meccg:LE-382 a schema1:Place,
         meccg_class:Card,
@@ -18291,6 +18334,7 @@ meccg:LE-384 a schema1:Place,
         "Isengard"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "LE-384" ;
+    schema1:about tolkien:Isengard ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Isengard" ;
     meccg_prop:alignment "Minion" ;
@@ -18303,7 +18347,8 @@ meccg:LE-384 a schema1:Place,
     meccg_prop:quote "“… yet it seemed a thing not made by the craft of Men, but riven from the bones of the earth in the ancient torment of the hills.” —LotRIII"@en,
         "“… y sin embargo no parecía obra de los hombres, sino nacida de la osamenta misma de la tierra, tiempo atrás, durante el tormento de las montañas.”—SdlA II"@es,
         "[...] pourtant elle ne paraissait pas être due à l’art des Humains, mais avoir surgi de l’ossature même de la terre dans l’antique tourment des collines. —SdAIII"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Isengard .
 
 meccg:LE-385 a schema1:Place,
         meccg_class:Card,
@@ -18315,6 +18360,7 @@ meccg:LE-385 a schema1:Place,
         "Lake-town"@nl ;
     dc:creator "Angus McBride" ;
     dc:identifier "LE-385" ;
+    schema1:about tolkien:Lake-town ;
     schema1:creator "Angus McBride" ;
     schema1:name "Lake-town" ;
     meccg_prop:alignment "Minion" ;
@@ -18327,7 +18373,8 @@ meccg:LE-385 a schema1:Place,
     meccg_prop:quote "“… tall piles on which were built the greater houses, and… long wooden quays with many steps and ladders going down to the surface of the lake.” —Hob"@en,
         "“… elevadas pilas sobre las que estaban construidas las casas más grandes y… largos embarcaderos de madera con muchos peldaños y escalas que ajaban hasta la superficie del lago.” —Hob"@es,
         "[...] de hauts pilotis sur lesquels étaient construites les plus grandes maisons et [...] de longs quais de bois avec de nombreuses marches et des échelles qui descendaient à la surface du lac. —Hob"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Lake-town .
 
 meccg:LE-386 a schema1:Place,
         meccg_class:Card,
@@ -18363,6 +18410,7 @@ meccg:LE-387 a schema1:Place,
         "The Lonely Mountain"@nl ;
     dc:creator "Larry Elmore" ;
     dc:identifier "LE-387" ;
+    schema1:about tolkien:Lonely_Mountain ;
     schema1:creator "Larry Elmore" ;
     schema1:name "The Lonely Mountain" ;
     meccg_prop:alignment "Minion" ;
@@ -18375,7 +18423,8 @@ meccg:LE-387 a schema1:Place,
     meccg_prop:quote "“… they could look out and see the dark cavernous opening in a great cliff-wall between the arms of the Mountain. Out of it the waters of the Running River sprang…” —Hob"@en,
         "“… podían mirar afuera y ver la oscura abertura cavernosa en una gran ladera montañosa entre los brazos de la Montaña. Desde su interior se precipitaban las aguas del Río Rápido…” —Hob"@es,
         "[...] ils pouvaient apercevoir la sombre ouverture caverneuse dans une grande muraille entre les bras de la Montagne. En jaillissaient les eaux de la Rivière Vive [...] —Hob"@fr ;
-    meccg_prop:rarity "F2" .
+    meccg_prop:rarity "F2" ;
+    tolkien_prop:depicts tolkien:Lonely_Mountain .
 
 meccg:LE-388 a schema1:Place,
         meccg_class:Card,
@@ -18467,6 +18516,7 @@ meccg:LE-390 a schema1:Place,
         "Minas Morgul"@nl ;
     dc:creator "Rob Alexander" ;
     dc:identifier "LE-390" ;
+    schema1:about tolkien:Minas_Morgul ;
     schema1:creator "Rob Alexander" ;
     schema1:name "Minas Morgul" ;
     meccg_prop:alignment "Minion" ;
@@ -18479,7 +18529,8 @@ meccg:LE-390 a schema1:Place,
     meccg_prop:quote "“… the topmost course of the tower revolved slowly, first one way and then another, a huge ghostly head leering into the night.” —LotRIV"@en,
         "“… pero la garita superior de la torre giraba lentamente, primero en un sentido, luego en otro: una inmensa cabeza espectral que espiaba la noche.”—SdlA II"@es,
         "[...] l’assise supérieure de la tour pivotait lentement, d’abord d’un côté, puis de l’autre, énorme tête spectrale lorgnant dans la nuit. —SdAIV "@fr ;
-    meccg_prop:rarity "CB+F5" .
+    meccg_prop:rarity "CB+F5" ;
+    tolkien_prop:depicts tolkien:Minas_Morgul .
 
 meccg:LE-391 a schema1:Place,
         meccg_class:Card,
@@ -18491,6 +18542,7 @@ meccg:LE-391 a schema1:Place,
         "Minas Tirith"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "LE-391" ;
+    schema1:about tolkien:Minas_Tirith ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Minas Tirith" ;
     meccg_prop:alignment "Minion" ;
@@ -18500,7 +18552,8 @@ meccg:LE-391 a schema1:Place,
     meccg_prop:cardText "Nearest Darkhaven: Minas MorgulPlayable: Information, Items (minor, major, gold ring)Automatic-attacks (2):(1st) Men — each character faces 1 strike with 9 prowess (detainment against covert company)(2nd) Dúnedain — 4 strikes with 10 prowess (against overt company only)"@en,
         "Refugio Oscuro más cercano: Minas MorgulJugable: Información, Objetos (menores, mayores, anillos de oro)Ataques Automáticos (2):(1º) Hombres — cada personaje se enfrenta a 1 golpe de poder 9 (de retención contracompañías encubiertas)(2º) Dúnedain — 4 golpes de poder 10 (solo contra compañías descubiertas)"@es,
         "Havre Noir le plus proche : Minas MorgulJouable : Information, objet (mineur, majeur, anneau d'or)Attaques automatiques (2) :• 1re : Humains — chaque personnage affronte 1 coup avec 9 en prouesse (dilatoire contre une compagnie voilée).• 2e : Dúnedain — 4 coups avec 10 en prouesse (contre une compagnie dévoilée seulement)."@fr ;
-    meccg_prop:rarity "F3" .
+    meccg_prop:rarity "F3" ;
+    tolkien_prop:depicts tolkien:Minas_Tirith .
 
 meccg:LE-392 a schema1:Place,
         meccg_class:Card,
@@ -18536,6 +18589,7 @@ meccg:LE-393 a schema1:Place,
         "Mount Doom"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "LE-393" ;
+    schema1:about tolkien:Mount_Doom ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Mount Doom" ;
     meccg_prop:alignment "Minion" ;
@@ -18548,7 +18602,8 @@ meccg:LE-393 a schema1:Place,
     meccg_prop:quote "“Ever and anon the furnaces far below its ashen cone would grow hot and … pour forth rivers of molten rock from chasms in its sides.” —LotRVI"@en,
         "“Una y otra vez los hornos encendidos en el fondo abismal del cono de ceniza se calentaban al rojo… derramaba por las grietas de los flancos ríos de roca derretida.” —SdlA III"@es,
         "De temps à autres, les fournaises qui brûlaient bien au-dessous de son cône de cendres s’embrasaient et, dans un grand soulèvement ronflant, déversaient par les fissures de ses flancs des rivières de roc fondu. —SdAVI"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Mount_Doom .
 
 meccg:LE-394 a schema1:Place,
         meccg_class:Card,
@@ -18560,6 +18615,7 @@ meccg:LE-394 a schema1:Place,
         "Mount Gram"@nl ;
     dc:creator "Rob Alexander" ;
     dc:identifier "LE-394" ;
+    schema1:about tolkien:Mount_Gram ;
     schema1:creator "Rob Alexander" ;
     schema1:name "Mount Gram" ;
     meccg_prop:alignment "Minion" ;
@@ -18572,7 +18628,8 @@ meccg:LE-394 a schema1:Place,
     meccg_prop:quote "“… the Orcs, who had, as later appeared, long been secretly occupying strongholds in the Misty Mountains… suddenly revealed themselves.” —LotR"@en,
         "“… los orcos, que, como más tarde se averiguó, habían estado ocupando en secreto durante largo tiempo las Montañas Nubladas… se revelaron de repente.” —SdlA Apéndices"@es,
         "[...] les Orques, qui avaient, comme cela apparut plus tard, depuis longtemps occupé en secret des forteresses dans les Montagnes Brumeuses [...] se révélèrent soudain. —SdA"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Mount_Gram .
 
 meccg:LE-395 a schema1:Place,
         meccg_class:Card,
@@ -18584,6 +18641,7 @@ meccg:LE-395 a schema1:Place,
         "Mount Gundabad"@nl ;
     dc:creator "Larry Elmore" ;
     dc:identifier "LE-395" ;
+    schema1:about tolkien:Sacking_of_Mount_Gundabad ;
     schema1:creator "Larry Elmore" ;
     schema1:name "Mount Gundabad" ;
     meccg_prop:alignment "Minion" ;
@@ -18596,7 +18654,8 @@ meccg:LE-395 a schema1:Place,
     meccg_prop:quote "“Messengers had passed to and fro between all their cities and strongholds… they gathered in secret ways, and in all the mountains their was a forging and an arming.” —Hob"@en,
         "“Habían mandado mensajeros de acá para allá entre las ciudades, colonias y plazas fuertes… y prepararon y forjaron armas en todos los escondrijos de las montañas.” —Hob"@es,
         "Des messagers s’étaient échangés entre leurs cités et forteresses [...] ils se réunissaient dans des chemins secrets, et dans toutes les montagnes ils forgeaient et s’armaient. —Hob"@fr ;
-    meccg_prop:rarity "F1" .
+    meccg_prop:rarity "F1" ;
+    tolkien_prop:depicts tolkien:Sacking_of_Mount_Gundabad .
 
 meccg:LE-396 a schema1:Place,
         meccg_class:Card,
@@ -18656,6 +18715,7 @@ meccg:LE-398 a schema1:Place,
         "Pelargir"@nl ;
     dc:creator "Ted Nasmith" ;
     dc:identifier "LE-398" ;
+    schema1:about tolkien:Siege_of_Pelargir ;
     schema1:creator "Ted Nasmith" ;
     schema1:name "Pelargir" ;
     meccg_prop:alignment "Minion" ;
@@ -18665,7 +18725,8 @@ meccg:LE-398 a schema1:Place,
     meccg_prop:cardText "Nearest Darkhaven: Minas MorgulPlayable: Items (minor, major, gold ring)Automatic-attacks (2):(1st) Men — each character faces 1 strike with 7prowess (detainment against covert company)(2nd) Dúnedain — 3 strikes with 10 prowess (against overt company only)"@en,
         "Refugio Oscuro más cercano: Minas MorgulJugable: Objetos (menores, mayores, anillos de oro)Ataques Automáticos (2):(1º) Hombres — cada personaje se enfrenta a 1 golpe de poder 7 (de retención contra compañías encubiertas)(2º) Dúnedain — 3 golpes de poder 10 (solo contra compañías descubiertas)"@es,
         "Havre Noir le plus proche : Minas MorgulJouable : Objet (mineur, majeur, anneau d'or)Attaques automatiques (2) : • 1re : Humains — chaque personnage affronte 1 coup avec 7 en prouesse (dilatoire contre une compagnie voilée).• 2e : Dúnedain — 3 coups avec 10 en prouesse (contre une compagnie dévoilée seulement)."@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Siege_of_Pelargir .
 
 meccg:LE-399 a schema1:Place,
         meccg_class:Card,
@@ -18975,6 +19036,7 @@ meccg:LE-409 a schema1:Place,
         "Urlurtsu Nurn"@nl ;
     dc:creator "Stefano Baldo" ;
     dc:identifier "LE-409" ;
+    schema1:about tolkien:Nurn ;
     schema1:creator "Stefano Baldo" ;
     schema1:name "Urlurtsu Nurn" ;
     meccg_prop:alignment "Minion" ;
@@ -18984,7 +19046,8 @@ meccg:LE-409 a schema1:Place,
     meccg_prop:cardText "Nearest Darkhaven: Minas MorgulSpecial: If your Ringwraith is at this site, he may tap during the organization phase to bring one Orc or Troll character from your discard pile into play at this site (as another company). The character must move to a different site from that of your Ringwraith this turn or be discarded at the end of the movement/hazard phase."@en,
         "Refugio Oscuro más cercano: Minas MorgulEspecial: Si tu Espectro del Anillo se encuentra en este lugar, puede ser girado durante la fase de organización para poner en juego en este lugar un personaje Orco o Troll que se encuentre en tu pila de descartes (como otra compañía). El personaje debe moverse a un lugar diferente del de tu Espectro del Anillo este turno o ser descartado al final de la fase de movimiento/adversidades."@es,
         "Havre Noir le plus proche : Minas Morgul"@fr ;
-    meccg_prop:rarity "R" .
+    meccg_prop:rarity "R" ;
+    tolkien_prop:depicts tolkien:Nurn .
 
 meccg:LE-41 a schema1:Person,
         meccg_class:Card,
@@ -19028,6 +19091,7 @@ meccg:LE-410 a schema1:Place,
         "Vale of Erech"@nl ;
     dc:creator "Rob Alexander" ;
     dc:identifier "LE-410" ;
+    schema1:about tolkien:Erech ;
     schema1:creator "Rob Alexander" ;
     schema1:name "Vale of Erech" ;
     meccg_prop:alignment "Minion" ;
@@ -19040,7 +19104,8 @@ meccg:LE-410 a schema1:Place,
     meccg_prop:quote "“‘For at Erech there stands yet a black stone that was brought, it was said, from Númenor by Isildur; and it was set upon a hill…’” —LotRV"@en,
         "“Porque en Erech hay todavía una piedra negra que Isildur llevó allí de Númenor, dicen; y la puso en lo alto de una colina...” —SdlA III"@es,
         "“Car à Erech, se dresse encore une pierre noire qui fut apportée de Númenor par Isildur, a-t-on dit ; et elle fut dressée sur une colline [...]” —SdAV"@fr ;
-    meccg_prop:rarity "F3" .
+    meccg_prop:rarity "F3" ;
+    tolkien_prop:depicts tolkien:Erech .
 
 meccg:LE-411 a schema1:Place,
         meccg_class:Card,
@@ -19124,6 +19189,7 @@ meccg:LE-414 a schema1:Place,
         "Woodmen-town"@nl ;
     dc:creator "Liz Danforth" ;
     dc:identifier "LE-414" ;
+    schema1:about tolkien:Men ;
     schema1:creator "Liz Danforth" ;
     schema1:name "Woodmen-town" ;
     meccg_prop:alignment "Minion" ;
@@ -19136,7 +19202,8 @@ meccg:LE-414 a schema1:Place,
     meccg_prop:quote "“Most of the Men of the northern regions of the Westlands were descended from the Edain of the First Age, or their close kin. … Of this kind were… the Woodmen of Western Mirkwood.” —LotR"@en,
         "“La mayoría de los hombres de las regiones septentrionales de las Tierras del Oeste eran descendientes de los Edain de la Primera Edad, o de algún pariente cercano... De esa raza eran… los hombres del oeste del Bosque Negro.” —SdlA Apéndices"@es,
         "La plupart des Humains du nord des Terres de l’Ouest descendaient des Edain du Premier Àge, ou de leurs parents proches [...] Les Hommes des Bois de la Forêt Noire Occidentale en faisaient partie [...] —SdA"@fr ;
-    meccg_prop:rarity "F1" .
+    meccg_prop:rarity "F1" ;
+    tolkien_prop:depicts tolkien:Men .
 
 meccg:LE-415 a schema1:Place,
         meccg_class:Card,
@@ -26903,8 +26970,10 @@ meccg:TW-137 a schema1:Person,
         "Círdan"@nl ;
     dc:creator "Quinton Hoover" ;
     dc:identifier "TW-137" ;
+    schema1:about tolkien:C%C3%ADrdan ;
     schema1:creator "Quinton Hoover" ;
     schema1:name "Círdan" ;
+    owl:sameAs tolkien:C%C3%ADrdan ;
     meccg_prop:alignment "Hero" ;
     meccg_prop:body "8" ;
     meccg_prop:cardImage "Cirdan.jpg" ;
@@ -26920,7 +26989,8 @@ meccg:TW-137 a schema1:Person,
     meccg_prop:prowess "6" ;
     meccg_prop:race "Elf" ;
     meccg_prop:rarity "R" ;
-    meccg_prop:skills "Warrior/Sage/Diplomat" .
+    meccg_prop:skills "Warrior/Sage/Diplomat" ;
+    tolkien_prop:depicts tolkien:C%C3%ADrdan .
 
 meccg:TW-138 a schema1:Person,
         meccg_class:Card,
@@ -26935,8 +27005,10 @@ meccg:TW-138 a schema1:Person,
         "Dáin II"@nl ;
     dc:creator "Angus McBride" ;
     dc:identifier "TW-138" ;
+    schema1:about tolkien:D%C3%A1in_Ironfoot ;
     schema1:creator "Angus McBride" ;
     schema1:name "Dáin II" ;
+    owl:sameAs tolkien:D%C3%A1in_Ironfoot ;
     meccg_prop:alignment "Hero" ;
     meccg_prop:body "8" ;
     meccg_prop:cardImage "DainII.jpg" ;
@@ -26955,7 +27027,8 @@ meccg:TW-138 a schema1:Person,
         "Il devint Roi sous la Montagne, et beaucoup d’autres nains vinrent auprès de son trône. —Hob"@fr ;
     meccg_prop:race "Dwarf" ;
     meccg_prop:rarity "R" ;
-    meccg_prop:skills "Warrior/Diplomat" .
+    meccg_prop:skills "Warrior/Diplomat" ;
+    tolkien_prop:depicts tolkien:D%C3%A1in_Ironfoot .
 
 meccg:TW-139 a schema1:Person,
         meccg_class:Card,
@@ -27035,8 +27108,10 @@ meccg:TW-140 a schema1:Person,
         "Denethor II"@nl ;
     dc:creator "Angus McBride" ;
     dc:identifier "TW-140" ;
+    schema1:about tolkien:Denethor ;
     schema1:creator "Angus McBride" ;
     schema1:name "Denethor II" ;
+    owl:sameAs tolkien:Denethor ;
     meccg_prop:alignment "Hero" ;
     meccg_prop:body "6" ;
     meccg_prop:cardImage "DenethorII.jpg" ;
@@ -27055,7 +27130,8 @@ meccg:TW-140 a schema1:Person,
         "Pippin vit son visage de statue avec sa fière ossature, sa peau d’ivoire et le long nez busqué entre les yeux sombres et profonds ; [...] Un pâle sourire passa sur le visage du vieillard comme le reflet d’un froid soleil un soir d’hiver [...] —SdAV"@fr ;
     meccg_prop:race "Dúnadan" ;
     meccg_prop:rarity "R" ;
-    meccg_prop:skills "Warrior/Sage" .
+    meccg_prop:skills "Warrior/Sage" ;
+    tolkien_prop:depicts tolkien:Denethor .
 
 meccg:TW-141 a schema1:Person,
         meccg_class:Card,
@@ -27070,10 +27146,10 @@ meccg:TW-141 a schema1:Person,
         "Dori"@nl ;
     dc:creator "Angelo Montanini" ;
     dc:identifier "TW-141" ;
-    schema1:about tolkien:Doriath ;
+    schema1:about tolkien:Dori ;
     schema1:creator "Angelo Montanini" ;
     schema1:name "Dori" ;
-    owl:sameAs tolkien:Doriath ;
+    owl:sameAs tolkien:Dori ;
     meccg_prop:alignment "Hero" ;
     meccg_prop:body "6" ;
     meccg_prop:cardImage "Dori.jpg" ;
@@ -27093,7 +27169,7 @@ meccg:TW-141 a schema1:Person,
     meccg_prop:race "Dwarf" ;
     meccg_prop:rarity "U" ;
     meccg_prop:skills "Warrior" ;
-    tolkien_prop:depicts tolkien:Doriath .
+    tolkien_prop:depicts tolkien:Dori .
 
 meccg:TW-142 a schema1:Person,
         meccg_class:Card,
@@ -27108,8 +27184,10 @@ meccg:TW-142 a schema1:Person,
         "Dwalin"@nl ;
     dc:creator "Angelo Montanini" ;
     dc:identifier "TW-142" ;
+    schema1:about tolkien:Dwalin ;
     schema1:creator "Angelo Montanini" ;
     schema1:name "Dwalin" ;
+    owl:sameAs tolkien:Dwalin ;
     meccg_prop:alignment "Hero" ;
     meccg_prop:body "7" ;
     meccg_prop:cardImage "Dwalin.jpg" ;
@@ -27128,7 +27206,8 @@ meccg:TW-142 a schema1:Person,
         "C’était un nain avec une barbe bleue passée dans sa ceinture dorée et des yeux très brillants sous une capuche vert sombre. —Hob"@fr ;
     meccg_prop:race "Dwarf" ;
     meccg_prop:rarity "CB" ;
-    meccg_prop:skills "Warrior" .
+    meccg_prop:skills "Warrior" ;
+    tolkien_prop:depicts tolkien:Dwalin .
 
 meccg:TW-143 a schema1:Person,
         meccg_class:Card,
@@ -27213,8 +27292,10 @@ meccg:TW-145 a schema1:Person,
         "Elrond"@nl ;
     dc:creator "Kevin Ward" ;
     dc:identifier "TW-145" ;
+    schema1:about tolkien:Elrond ;
     schema1:creator "Kevin Ward" ;
     schema1:name "Elrond" ;
+    owl:sameAs tolkien:Elrond ;
     meccg_prop:alignment "Hero" ;
     meccg_prop:body "9" ;
     meccg_prop:cardImage "Elrond.jpg" ;
@@ -27233,7 +27314,8 @@ meccg:TW-145 a schema1:Person,
         "[...] aussi vénérable qu’un roi couronné de maints hivers, et pourtant aussi vigoureux qu’un guerrier éprouvé dans toute la plénitude de sa force. —SdAII"@fr ;
     meccg_prop:race "Elf" ;
     meccg_prop:rarity "R" ;
-    meccg_prop:skills "Warrior/Sage/Diplomat" .
+    meccg_prop:skills "Warrior/Sage/Diplomat" ;
+    tolkien_prop:depicts tolkien:Elrond .
 
 meccg:TW-146 a schema1:Person,
         meccg_class:Card,
@@ -27356,10 +27438,10 @@ meccg:TW-149 a schema1:Person,
         "Faramir"@nl ;
     dc:creator "Angelo Montanini" ;
     dc:identifier "TW-149" ;
-    schema1:about tolkien:Barahir_%28grandson_of_Faramir%29 ;
+    schema1:about tolkien:Faramir%27s_defence_of_Osgiliath ;
     schema1:creator "Angelo Montanini" ;
     schema1:name "Faramir" ;
-    owl:sameAs tolkien:Barahir_%28grandson_of_Faramir%29 ;
+    owl:sameAs tolkien:Faramir%27s_defence_of_Osgiliath ;
     meccg_prop:alignment "Hero" ;
     meccg_prop:body "8" ;
     meccg_prop:cardImage "Faramir.jpg" ;
@@ -27379,7 +27461,7 @@ meccg:TW-149 a schema1:Person,
     meccg_prop:race "Dúnadan" ;
     meccg_prop:rarity "F1" ;
     meccg_prop:skills "Warrior/Ranger" ;
-    tolkien_prop:depicts tolkien:Barahir_%28grandson_of_Faramir%29 .
+    tolkien_prop:depicts tolkien:Faramir%27s_defence_of_Osgiliath .
 
 meccg:TW-15 a meccg_class:Card,
         meccg_class:Hazard ;
@@ -28295,10 +28377,10 @@ meccg:TW-173 a schema1:Person,
         "Ori"@nl ;
     dc:creator "Angelo Montanini" ;
     dc:identifier "TW-173" ;
-    schema1:about tolkien:Moria ;
+    schema1:about tolkien:Echoriad ;
     schema1:creator "Angelo Montanini" ;
     schema1:name "Ori" ;
-    owl:sameAs tolkien:Moria ;
+    owl:sameAs tolkien:Echoriad ;
     meccg_prop:alignment "Hero" ;
     meccg_prop:body "7" ;
     meccg_prop:cardImage "Ori.jpg" ;
@@ -28318,7 +28400,7 @@ meccg:TW-173 a schema1:Person,
     meccg_prop:race "Dwarf" ;
     meccg_prop:rarity "CB" ;
     meccg_prop:skills "Warrior" ;
-    tolkien_prop:depicts tolkien:Moria .
+    tolkien_prop:depicts tolkien:Echoriad .
 
 meccg:TW-174 a schema1:Person,
         meccg_class:Card,
@@ -34602,6 +34684,7 @@ meccg:TW-384 a schema1:Place,
         "Dead Marshes"@nl ;
     dc:creator "Pat Morrissey" ;
     dc:identifier "TW-384" ;
+    schema1:about tolkien:Dead_Marshes ;
     schema1:creator "Pat Morrissey" ;
     schema1:name "Dead Marshes" ;
     meccg_prop:alignment "Hero" ;
@@ -34614,7 +34697,8 @@ meccg:TW-384 a schema1:Place,
     meccg_prop:quote "“… opening into wide stagnant meres, … difficult to find the firmer places…” —LotRIV"@en,
         "“… abriéndose en bastas lagunas… era difícil encontrar dónde poner el pie sin hundirse en el lodo burbujeante.” —SdlA II"@es,
         "[...] de larges étangs, parmi lesquels il devenait de plus en plus difficile de trouver les endroits les plus fermes [...] —SdAIV"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Dead_Marshes .
 
 meccg:TW-385 a schema1:Place,
         meccg_class:Card,
@@ -34658,7 +34742,7 @@ meccg:TW-386 a schema1:Place,
         "Dol Amroth"@nl ;
     dc:creator "Mark Poole" ;
     dc:identifier "TW-386" ;
-    schema1:about tolkien:Amroth ;
+    schema1:about tolkien:Dol_Amroth ;
     schema1:creator "Mark Poole" ;
     schema1:name "Dol Amroth" ;
     meccg_prop:alignment "Hero" ;
@@ -34672,7 +34756,7 @@ meccg:TW-386 a schema1:Place,
         "“Pero más allá, en el gran feudo de Belfalas, residía el príncipe Imrahil de Dol Amroth a orillas del mar, y era de antiguo linaje, al igual que todos los suyos, hombres altos y arrogantes, de ojos grises como el mar.” —SdlA III"@es,
         "Mais au-delà, dans le grand fief de Belfalas, résidait le Prince Imrahil en son château de Dol Amroth au bord de la mer ; il était de haute lignée, et les siens aussi, hommes fiers et de grande taille, aux yeux gris de mer. —SdAV"@fr ;
     meccg_prop:rarity "CB" ;
-    tolkien_prop:depicts tolkien:Amroth .
+    tolkien_prop:depicts tolkien:Dol_Amroth .
 
 meccg:TW-387 a schema1:Place,
         meccg_class:Card,
@@ -34687,6 +34771,7 @@ meccg:TW-387 a schema1:Place,
         "Dol Guldur"@nl ;
     dc:creator "Christina Wald" ;
     dc:identifier "TW-387" ;
+    schema1:about tolkien:Dol_Guldur ;
     schema1:creator "Christina Wald" ;
     schema1:name "Dol Guldur" ;
     meccg_prop:alignment "Hero" ;
@@ -34699,7 +34784,8 @@ meccg:TW-387 a schema1:Place,
     meccg_prop:quote "“‘… In the midst upon a stony height stands Dol Guldur, where long the Enemy had his dwelling…’” —LotRII"@en,
         "“‘… en medio, sobre una altura rocosa, se alza Dol Guldur, donde en otro tiempo se ocultaba el Enemigo…’” —SdlA I"@es,
         "“Au milieu, sur une excroissance rocheuse, se tient Dol Guldur, où l’Ennemi eût pendant longtemps son repaire [...]” —SdA"@fr ;
-    meccg_prop:rarity "R" .
+    meccg_prop:rarity "R" ;
+    tolkien_prop:depicts tolkien:Dol_Guldur .
 
 meccg:TW-388 a schema1:Place,
         meccg_class:Card,
@@ -34714,6 +34800,7 @@ meccg:TW-388 a schema1:Place,
         "Drúadan Forest"@nl ;
     dc:creator "Edward Beard, Jr." ;
     dc:identifier "TW-388" ;
+    schema1:about tolkien:Dr%C3%BAadan_Forest ;
     schema1:creator "Edward Beard, Jr." ;
     schema1:name "Drúadan Forest" ;
     meccg_prop:alignment "Hero" ;
@@ -34726,7 +34813,8 @@ meccg:TW-388 a schema1:Place,
     meccg_prop:quote "“The host was bivouacked in the pine-woods that clustered about Eilenach Beacon, a tall hill standing up from the long ridges of the Drúadan Forest that lay beside the great road in East Anórien.” —LotRV"@en,
         "“El ejército acampaba esa noche en los frondosos pinares de las laderas de Eilenach, que se erguía por encima de las largas lomas del Bosque Drúadan al borde del gran camino en el Anórien oriental.” —SdlA III"@es,
         "L’armée bivouaquait dans les pinèdes qui entouraient la colline de feu d’alarme d’Eilenach, haute éminence s’élevant des longues croupes de la Forêt du Drúadan, qui longeait la grand-route dans l’Anórien oriental. —SdAV"@fr ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Dr%C3%BAadan_Forest .
 
 meccg:TW-389 a schema1:Place,
         meccg_class:Card,
@@ -34825,6 +34913,7 @@ meccg:TW-391 a schema1:Place,
         "Eagles' Eyrie"@nl ;
     dc:creator "Rob Alexander" ;
     dc:identifier "TW-391" ;
+    schema1:about tolkien:Eagles ;
     schema1:creator "Rob Alexander" ;
     schema1:name "Eagles’ Eyrie" ;
     meccg_prop:alignment "Hero" ;
@@ -34837,7 +34926,8 @@ meccg:TW-391 a schema1:Place,
     meccg_prop:quote "“… a wide shelf of rock on the mountain-side. There was no path down on to it save by flying; and no path down off it except by jumping over a precipice.” —Hob"@en,
         "“… en una amplia repisa en la ladera de la montaña. No había manera de descender hasta allí, sino volando; y no había sendero para bajar excepto saltando a un precipicio.” —Hob"@es,
         "[...] une large plate-forme de rocher à flanc de montagne. Il n’y avait aucun moyen d’y accéder, sauf en volant ; et aucun moyen d’en descendre sauf en sautant par-dessus un précipice. —Hob"@fr ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Eagles .
 
 meccg:TW-392 a schema1:Place,
         meccg_class:Card,
@@ -34879,6 +34969,7 @@ meccg:TW-393 a schema1:Place,
         "Edhellond"@nl ;
     dc:creator "Christina Wald" ;
     dc:identifier "TW-393" ;
+    schema1:about tolkien:Edhellond ;
     schema1:creator "Christina Wald" ;
     schema1:name "Edhellond" ;
     meccg_prop:alignment "Hero" ;
@@ -34891,7 +34982,8 @@ meccg:TW-393 a schema1:Place,
     meccg_prop:quote "“‘It is long since the people of Nimrodel left the woodlands of Lórien, and yet one may see that not all sailed from Amroth’s haven west over water.’” —LotRV"@en,
         "“‘Hace ya mucho tiempo el pueblo de Nimrodel abandonó los bosques de Lórien, pero se puede ver aún que no todos dejaron el puerto de Amroth y navegaron rumbo al Oeste.’” —SdlA III"@es,
         "“Il y a longtemps que les gens de Nimrodel ont quitté les forêts de la Lórien, mais on peut encore voir que tous ne partirent pas du Havre d’Amroth pour faire voile vers l’ouest.” —SdAV "@fr ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Edhellond .
 
 meccg:TW-394 a schema1:Place,
         meccg_class:Card,
@@ -34906,6 +34998,7 @@ meccg:TW-394 a schema1:Place,
         "Edoras"@nl ;
     dc:creator "Margaret Organ-Kean" ;
     dc:identifier "TW-394" ;
+    schema1:about tolkien:Edoras ;
     schema1:creator "Margaret Organ-Kean" ;
     schema1:name "Edoras" ;
     meccg_prop:alignment "Hero" ;
@@ -34918,7 +35011,8 @@ meccg:TW-394 a schema1:Place,
     meccg_prop:quote "“Within there rise the roofs of houses; and in the midst, set upon a green terrace, there stands aloft a great hall of Men… it is thatched with gold. The light of it shines far over the land. Golden too are the posts of its doors. There men in bright mail stand…” —LotRIII"@en,
         "“Dentro asoman los techos de las casas; y en medio, sobre una terraza verde se levanta un castillo de Hombres. … está recubierto de oro. La luz del castillo brilla lejos sobre las tierras de alrededor. Dorados son también los montantes de las puertas. Allí hay unos hombres de pie, con mallas relucientes…” —SdlA II"@es,
         "À l’intérieur, s’élèvent les toits de maisons, et au milieu, édifié sur une terrasse verte, se dresse haut un grand château d’Hommes [...] couvert d’or. Sa lumière brille loin sur les environs. Dorés aussi sont les montants de ses portes. Là se tiennent des hommes en mailles brillantes [...] —SdAIII"@fr ;
-    meccg_prop:rarity "F1" .
+    meccg_prop:rarity "F1" ;
+    tolkien_prop:depicts tolkien:Edoras .
 
 meccg:TW-395 a schema1:Place,
         meccg_class:Card,
@@ -34933,6 +35027,7 @@ meccg:TW-395 a schema1:Place,
         "Ettenmoors"@nl ;
     dc:creator "Rob Alexander" ;
     dc:identifier "TW-395" ;
+    schema1:about tolkien:Ettenmoors ;
     schema1:creator "Rob Alexander" ;
     schema1:name "Ettenmoors" ;
     meccg_prop:alignment "Hero" ;
@@ -34945,7 +35040,8 @@ meccg:TW-395 a schema1:Place,
     meccg_prop:quote "“‘We have now come to the River Hoarwell… It flows down out of the Ettenmoors, the troll-fells north of Rivendell…’” —LotRI"@en,
         "“‘Hemos llegado al Río Fontegrís… desciende de las Landas de Etten, los Páramos de los Trolls al norte de Rivendel…’” —SdlA I"@es,
         "“Nous voici arrivés à la Fontgrise [...] Elle descend des landes d’Etten, les hauteurs des trolls au nord de Fondcombe [...]” —SdAI"@fr ;
-    meccg_prop:rarity "CA" .
+    meccg_prop:rarity "CA" ;
+    tolkien_prop:depicts tolkien:Ettenmoors .
 
 meccg:TW-396 a schema1:Place,
         meccg_class:Card,
@@ -34960,6 +35056,7 @@ meccg:TW-396 a schema1:Place,
         "Gladden Fields"@nl ;
     dc:creator "Quinton Hoover" ;
     dc:identifier "TW-396" ;
+    schema1:about tolkien:Gladden_Fields ;
     schema1:creator "Quinton Hoover" ;
     schema1:name "Gladden Fields" ;
     meccg_prop:alignment "Hero" ;
@@ -34972,7 +35069,8 @@ meccg:TW-396 a schema1:Place,
     meccg_prop:quote "“… where there were great beds of iris and flowering reeds.” —LotRI"@en,
         "“… donde había grandes lechos de iris y juncos florecientes.” —SdlA I"@es,
         "[...] où il y avait de grands lits d’iris et de roseaux en fleurs. —SdAI"@fr ;
-    meccg_prop:rarity "CA" .
+    meccg_prop:rarity "CA" ;
+    tolkien_prop:depicts tolkien:Gladden_Fields .
 
 meccg:TW-397 a schema1:Place,
         meccg_class:Card,
@@ -34987,6 +35085,7 @@ meccg:TW-397 a schema1:Place,
         "Glittering Caves"@nl ;
     dc:creator "David Martin" ;
     dc:identifier "TW-397" ;
+    schema1:about tolkien:Glittering_Caves ;
     schema1:creator "David Martin" ;
     schema1:name "Glittering Caves" ;
     meccg_prop:alignment "Hero" ;
@@ -34999,7 +35098,8 @@ meccg:TW-397 a schema1:Place,
     meccg_prop:quote "“‘… columns of white and saffron and dawn-rose… glistening pendants of the roof: wings, ropes, curtains fine as frozen clouds… pinnacles of suspended palaces!’” —LotRIII"@en,
         "“‘… hay columnas de nieve, de azafrán y rosicler… colgaduras resplandecientes: alas, cordeles, velos sutiles como nubes cristalizadas… ¡pináculos de palacio colgantes!’” —SdlA II"@es,
         "[...] des ailes, des cordes, des rideaux aussi fins que des nuages gelés ; [...] clochetons de palais suspendus ! —SdAIII"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Glittering_Caves .
 
 meccg:TW-398 a schema1:Place,
         meccg_class:Card,
@@ -35041,6 +35141,7 @@ meccg:TW-399 a schema1:Place,
         "Grey Havens"@nl ;
     dc:creator "Mark Poole" ;
     dc:identifier "TW-399" ;
+    schema1:about tolkien:Grey_Havens ;
     schema1:creator "Mark Poole" ;
     schema1:name "Grey Havens" ;
     meccg_prop:alignment "Hero" ;
@@ -35053,7 +35154,8 @@ meccg:TW-399 a schema1:Place,
     meccg_prop:quote "“… so they rode down at last to Mithlond, to the Grey Havens in the long firth of Lune… As they came to the gates Círdan the Shipwright came forth to greet them.” —LotRVI"@en,
         "“… y así descendieron por fin hacia Mithlond, hacia los Puertos Grises en el largo Estuario de Lun… Cuando llegaron a las puertas, Círdan, el Carpintero de Barcos, se adelantó a darles la bienvenida.” —SdlA III"@es,
         "[...] ils descendirent enfin vers le Mithlond, vers les Havres Gris sur le long estuaire de la Lune. À leur arrivée aux portes, Círdan le Charpentier de navires s’avança pour les accueillir. —SdAVI"@fr ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Grey_Havens .
 
 meccg:TW-4 a meccg_class:Card,
         meccg_class:Hazard ;
@@ -35122,6 +35224,7 @@ meccg:TW-400 a schema1:Place,
         "Henneth Annûn"@nl ;
     dc:creator "Rob Alexander" ;
     dc:identifier "TW-400" ;
+    schema1:about tolkien:Henneth_Ann%C3%BBn ;
     schema1:creator "Rob Alexander" ;
     schema1:name "Henneth Annûn" ;
     meccg_prop:alignment "Hero" ;
@@ -35134,7 +35237,8 @@ meccg:TW-400 a schema1:Place,
     meccg_prop:quote "“‘… Window of the Sunset, Henneth Annûn, fairest of all the falls of Ithilien, land of many fountains.’” —LotRIV"@en,
         "“‘… Ventana del Sol Poniente, Henneth Annûn, la más hermosa de todas las cascadas de Ithilien, tierra de muchos manantiales.’” —SdlA II"@es,
         "“[...] la Fenêtre du Soleil Couchant, Henneth Annûn, la plus belle des chutes de l’Ithilien, terre des nombreuses fontaines.” —SdAIV"@fr ;
-    meccg_prop:rarity "F1" .
+    meccg_prop:rarity "F1" ;
+    tolkien_prop:depicts tolkien:Henneth_Ann%C3%BBn .
 
 meccg:TW-401 a schema1:Place,
         meccg_class:Card,
@@ -35149,6 +35253,7 @@ meccg:TW-401 a schema1:Place,
         "Himring"@nl ;
     dc:creator "David Martin" ;
     dc:identifier "TW-401" ;
+    schema1:about tolkien:Himring ;
     schema1:creator "David Martin" ;
     schema1:name "Himring" ;
     meccg_prop:alignment "Hero" ;
@@ -35161,7 +35266,8 @@ meccg:TW-401 a schema1:Place,
     meccg_prop:quote "“… on starless waters far astray… and foundered shores that drowned…” —LotRII"@en,
         "“… en Aguas sin Estrellas muy lejanas… y fondearon en Orillas que se hundieron…” —SdlA I"@es,
         "[...] sur des eaux éloignées sans étoiles [...] et des rivages effondrés dans les flots [...] —SdAII "@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Himring .
 
 meccg:TW-402 a schema1:Place,
         meccg_class:Card,
@@ -35230,6 +35336,7 @@ meccg:TW-404 a schema1:Place,
         "Isengard"@nl ;
     dc:creator "Eric David Anderson" ;
     dc:identifier "TW-404" ;
+    schema1:about tolkien:Isengard ;
     schema1:creator "Eric David Anderson" ;
     schema1:name "Isengard" ;
     meccg_prop:alignment "Hero" ;
@@ -35242,7 +35349,8 @@ meccg:TW-404 a schema1:Place,
     meccg_prop:quote "“… four mighty piers of many-sided stone were welded into one, but near the summit they opened into gaping horns, their pinnacles sharp as the points of spears…” —LotRIII"@en,
         "“… cuatro poderosos pilares de piedra facetada se fundían en uno, que apuntaba al cielo, pero cerca de la cima se abrían y se separaban como cuernos, de pináculos puntiagudos como puntas de lanza… ” —SdlA II"@es,
         "[...] quatre puissants piliers de pierre à plusieurs côtés étaient soudés en un seul, mais près du sommet, ils s’ouvraient en cornes écartées aux pinacles aussi aigus que des fers de lance [...] —SdAIII"@fr ;
-    meccg_prop:rarity "F2" .
+    meccg_prop:rarity "F2" ;
+    tolkien_prop:depicts tolkien:Isengard .
 
 meccg:TW-405 a schema1:Place,
         meccg_class:Card,
@@ -35284,6 +35392,7 @@ meccg:TW-406 a schema1:Place,
         "Lake-town"@nl ;
     dc:creator "Eric David Anderson" ;
     dc:identifier "TW-406" ;
+    schema1:about tolkien:Lake-town ;
     schema1:creator "Eric David Anderson" ;
     schema1:name "Lake-town" ;
     meccg_prop:alignment "Hero" ;
@@ -35296,7 +35405,8 @@ meccg:TW-406 a schema1:Place,
     meccg_prop:quote "“It was not built on the shore… but right out on the surface of the lake, protected from the swirl of the entering river by a promontory of rock which formed a calm bay. A great bridge made of wood ran out to where on huge piles made of forest trees was built a busy wooden town…” —Hob"@en,
         "“No estaba emplazada en la orilla, aunque había allí unas cuantas cabañas y construcciones, sino sobre la superficie misma del lago, en una apacible bahía protegida de los remolinos del río por un promontorio de roca. Un gran puente de madera se extendía hasta unos enormes troncos que sostenían una bulliciosa ciudad también de madera…” —Hob"@es,
         "Elle n’était pas érigée sur le rivage f...] mais juste sur la surface du lac, protégée par les remous de la rivière par un promontoire rocheux qui formait une baie calme. Un grand pont de bois allait jusqu’à l’endroit où une ville de bois affairée était construite sur d’énormes pilotis faits des arbres de la forêt [...] —Hob"@fr ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Lake-town .
 
 meccg:TW-407 a schema1:Place,
         meccg_class:Card,
@@ -35338,7 +35448,7 @@ meccg:TW-408 a schema1:Place,
         "Lórien"@nl ;
     dc:creator "Stefano Baldo" ;
     dc:identifier "TW-408" ;
-    schema1:about tolkien:L%C3%B3rien_%28Valinor%29 ;
+    schema1:about tolkien:Lothl%C3%B3rien ;
     schema1:creator "Stefano Baldo" ;
     schema1:name "Lórien" ;
     meccg_prop:alignment "Hero" ;
@@ -35352,7 +35462,7 @@ meccg:TW-408 a schema1:Place,
         "“‘No hay otros árboles como los árboles de aquella tierra. Pues en otoño sus hojas no caen, sino que se vuelven doradas. No caen hasta que llega la primavera, y entonces las ramas están cargadas de flores doradas…’” —SdlA I"@es,
         "“Nuls arbres ne ressemblent à ceux de cette terre. Car, en automne, leurs feuilles ne tombent point, mais se muent en or. “ —SdAII"@fr ;
     meccg_prop:rarity "CB" ;
-    tolkien_prop:depicts tolkien:L%C3%B3rien_%28Valinor%29 .
+    tolkien_prop:depicts tolkien:Lothl%C3%B3rien .
 
 meccg:TW-409 a schema1:Place,
         meccg_class:Card,
@@ -35441,6 +35551,7 @@ meccg:TW-411 a schema1:Place,
         "Minas Morgul"@nl ;
     dc:creator "Angus McBride" ;
     dc:identifier "TW-411" ;
+    schema1:about tolkien:Minas_Morgul ;
     schema1:creator "Angus McBride" ;
     schema1:name "Minas Morgul" ;
     meccg_prop:alignment "Hero" ;
@@ -35453,7 +35564,8 @@ meccg:TW-411 a schema1:Place,
     meccg_prop:quote "“… its cavernous gate, shaped like an open mouth with gleaming teeth…” —LotRIV"@en,
         "“… la puerta cavernosa, como una boca flanqueada de dientes relucientes…” —SdlA II"@es,
         "[...] sa porte caverneuse, en forme de bouche ouverte sur des dents luisantes [...] —SdAIV"@fr ;
-    meccg_prop:rarity "R" .
+    meccg_prop:rarity "R" ;
+    tolkien_prop:depicts tolkien:Minas_Morgul .
 
 meccg:TW-412 a schema1:Place,
         meccg_class:Card,
@@ -35468,6 +35580,7 @@ meccg:TW-412 a schema1:Place,
         "Minas Tirith"@nl ;
     dc:creator "Eric David Anderson" ;
     dc:identifier "TW-412" ;
+    schema1:about tolkien:Minas_Tirith ;
     schema1:creator "Eric David Anderson" ;
     schema1:name "Minas Tirith" ;
     meccg_prop:alignment "Hero" ;
@@ -35480,7 +35593,8 @@ meccg:TW-412 a schema1:Place,
     meccg_prop:quote "“… the Guarded City, with its seven walls of stone so strong and old that it seemed to have been not builded but carven by giants out of the stones of the earth.” —LotRV"@en,
         "“… la Ciudadela, rodeada por siete muros de piedra, tan antiguos y poderosos que más que obra de hombres parecían tallados por gigantes en la osamenta misma de la montaña.” —SdlA III"@es,
         "[...] la Cité Gardée, avec ses sept murs de pierre si forts et si anciens qu’elle ne semblait pas construite, mais taillée par les géants dans l’ossature même de la terre. —SdAV"@fr ;
-    meccg_prop:rarity "F2" .
+    meccg_prop:rarity "F2" ;
+    tolkien_prop:depicts tolkien:Minas_Tirith .
 
 meccg:TW-413 a schema1:Place,
         meccg_class:Card,
@@ -35524,6 +35638,7 @@ meccg:TW-414 a schema1:Place,
         "Mount Doom"@nl ;
     dc:creator "J. Wallace Jones" ;
     dc:identifier "TW-414" ;
+    schema1:about tolkien:Mount_Doom ;
     schema1:creator "J. Wallace Jones" ;
     schema1:name "Mount Doom" ;
     meccg_prop:alignment "Hero" ;
@@ -35536,7 +35651,8 @@ meccg:TW-414 a schema1:Place,
     meccg_prop:quote "“… a huge mass of ash and slag and burned stone… a sheer-sided cone…” —LotRVI"@en,
         "“… una enorme mole de ceniza y escoria y roca calcinada… un cono de flancos empinados que trepaba hasta las nubes.” —SdlA III"@es,
         "[...] énorme masse de cendre, de scories et de pierre brûlée, [...] un cône aux pentes escarpées. —SdAVI"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Mount_Doom .
 
 meccg:TW-415 a schema1:Place,
         meccg_class:Card,
@@ -35551,6 +35667,7 @@ meccg:TW-415 a schema1:Place,
         "Mount Gram"@nl ;
     dc:creator "Susan Van Camp" ;
     dc:identifier "TW-415" ;
+    schema1:about tolkien:Mount_Gram ;
     schema1:creator "Susan Van Camp" ;
     schema1:name "Mount Gram" ;
     meccg_prop:alignment "Hero" ;
@@ -35563,7 +35680,8 @@ meccg:TW-415 a schema1:Place,
     meccg_prop:quote "“He charged the ranks of the goblins of Mount Gram in the Battle of the Green Fields, and knocked their king Golfimbul’s head clean off with a wooden club.” —Hob"@en,
         "“En la batalla de los Campos Verdes había cargado contra las filas de los trasgos del Monte Gram, y blandiendo una porra de madera le arrancó de cuajo la cabeza al Rey Golfimbul.” —Hob"@es,
         "Il chargea les rangs des gobelins du Mont Gram pendant la Bataille des Champs Verts, et écrasa la tête de leur roi Golfimbul avec un gourdin de bois. —Hob"@fr ;
-    meccg_prop:rarity "F2" .
+    meccg_prop:rarity "F2" ;
+    tolkien_prop:depicts tolkien:Mount_Gram .
 
 meccg:TW-416 a schema1:Place,
         meccg_class:Card,
@@ -35578,6 +35696,7 @@ meccg:TW-416 a schema1:Place,
         "Mount Gundabad"@nl ;
     dc:creator "Angus McBride" ;
     dc:identifier "TW-416" ;
+    schema1:about tolkien:Sacking_of_Mount_Gundabad ;
     schema1:creator "Angus McBride" ;
     schema1:name "Mount Gundabad" ;
     meccg_prop:alignment "Hero" ;
@@ -35590,7 +35709,8 @@ meccg:TW-416 a schema1:Place,
     meccg_prop:quote "“… around and beneath the great mountain Gundabad of the North… a vast host was assembled…” —Hob"@en,
         "“… hasta llegar a las cercanías de la gran montaña de Gundabad en el Norte… juntaron un inmenso ejército…” —Hob"@es,
         "[...] tout autour et sous le grand Mont Gundabad dans le Nord [...] une vaste armée était assemblée [...] —Hob"@fr ;
-    meccg_prop:rarity "U" .
+    meccg_prop:rarity "U" ;
+    tolkien_prop:depicts tolkien:Sacking_of_Mount_Gundabad .
 
 meccg:TW-417 a schema1:Place,
         meccg_class:Card,
@@ -35605,6 +35725,7 @@ meccg:TW-417 a schema1:Place,
         "Old Forest"@nl ;
     dc:creator "Kevin Ward" ;
     dc:identifier "TW-417" ;
+    schema1:about tolkien:Old_Forest ;
     schema1:creator "Kevin Ward" ;
     schema1:name "Old Forest" ;
     meccg_prop:alignment "Hero" ;
@@ -35617,7 +35738,8 @@ meccg:TW-417 a schema1:Place,
     meccg_prop:quote "“‘For you are still afraid, perhaps, of mist and tree-shadows and deep water, and untame things. Fear nothing!’” —LotRI"@en,
         "“‘Quizá todavía tenéis miedo de la niebla, de la sombra de los árboles, del agua profunda, de las criaturas del bosque. ¡No temáis nada!’” —SdlA I"@es,
         "“Car vous avez encore peur peut-être de la brume, de l’ombre des arbres, de l’eau profonde et des choses sauvages. N’ayez aucune crainte !” —SdAI"@fr ;
-    meccg_prop:rarity "CA" .
+    meccg_prop:rarity "CA" ;
+    tolkien_prop:depicts tolkien:Old_Forest .
 
 meccg:TW-418 a schema1:Place,
         meccg_class:Card,
@@ -35659,6 +35781,7 @@ meccg:TW-419 a schema1:Place,
         "Pelargir"@nl ;
     dc:creator "J. Wallace Jones" ;
     dc:identifier "TW-419" ;
+    schema1:about tolkien:Siege_of_Pelargir ;
     schema1:creator "J. Wallace Jones" ;
     schema1:name "Pelargir" ;
     meccg_prop:alignment "Hero" ;
@@ -35671,7 +35794,8 @@ meccg:TW-419 a schema1:Place,
     meccg_prop:quote "“‘The hour is come at last. Now I will go to Pelargir upon Anduin, and ye shall come after me.’” —LotRV"@en,
         "“‘Por fin ha llegado la hora. Marcharé en seguida a Pelargir en la ribera del Anduin, y vosotros vendréis conmigo.’” —SdlA III"@es,
         "“L’heure est enfin venue. Je me rends maintenant à Pelargir sur l’Anduin, et vous allez me suivre.” —SdAV"@fr ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Siege_of_Pelargir .
 
 meccg:TW-42 a meccg_class:Card,
         meccg_class:Hazard ;
@@ -35927,6 +36051,7 @@ meccg:TW-428 a schema1:Place,
         "The Lonely Mountain"@nl ;
     dc:creator "Rob Alexander" ;
     dc:identifier "TW-428" ;
+    schema1:about tolkien:Lonely_Mountain ;
     schema1:creator "Rob Alexander" ;
     schema1:name "The Lonely Mountain" ;
     meccg_prop:alignment "Hero" ;
@@ -35939,7 +36064,8 @@ meccg:TW-428 a schema1:Place,
     meccg_prop:quote "“And far away, its dark head in a torn cloud, there loomed the Mountain! … All alone it rose…” —Hob"@en,
         "“¡Y allá, a lo lejos, mostrando su cima oscura entre retazos de nubes, allá amenazadora, asomaba la Montaña! Sola y adusta…” —Hob"@es,
         "Et au loin se découpait la silhouette du Mont avec sa sombre cime dans un nuage déchiré ! [...] Solitaire, il se dressait [...] —Hob"@fr ;
-    meccg_prop:rarity "F2" .
+    meccg_prop:rarity "F2" ;
+    tolkien_prop:depicts tolkien:Lonely_Mountain .
 
 meccg:TW-429 a schema1:Place,
         meccg_class:Card,
@@ -36092,6 +36218,7 @@ meccg:TW-433 a schema1:Place,
         "Tolfalas"@nl ;
     dc:creator "Douglass Chaffee" ;
     dc:identifier "TW-433" ;
+    schema1:about tolkien:Falas ;
     schema1:creator "Douglass Chaffee" ;
     schema1:name "Tolfalas" ;
     meccg_prop:alignment "Hero" ;
@@ -36104,7 +36231,8 @@ meccg:TW-433 a schema1:Place,
     meccg_prop:quote "“Tolfalas, the great Coastal Island, … guards the heartland of Gondor…” —Kuduk Lore"@en,
         "“Tolfalas, la gran Isla Costera, … custodia el corazón de Gondor…” —Sabiduría Kuduk"@es,
         "Tolfalas, la grande Île Côtière [...] garde le cœur du Gondor [...] —Légende kuduk"@fr ;
-    meccg_prop:rarity "R" .
+    meccg_prop:rarity "R" ;
+    tolkien_prop:depicts tolkien:Falas .
 
 meccg:TW-434 a schema1:Place,
         meccg_class:Card,
@@ -36119,6 +36247,7 @@ meccg:TW-434 a schema1:Place,
         "Vale of Erech"@nl ;
     dc:creator "J. Wallace Jones" ;
     dc:identifier "TW-434" ;
+    schema1:about tolkien:Erech ;
     schema1:creator "J. Wallace Jones" ;
     schema1:name "Vale of Erech" ;
     meccg_prop:alignment "Hero" ;
@@ -36131,7 +36260,8 @@ meccg:TW-434 a schema1:Place,
     meccg_prop:quote "“… made a great bay that beat up against the sheer southern faces of the mountains. Its steep slopes were grass-grown… The vale was rich and many folk dwelt there.” —LotRV"@en,
         "“… era como una bahía amplia recostada contra los escarpados riscos meridionales. Las barrancas empinadas estaban tapizadas de hierba… Era un valle rico y muy poblado.” —SdlA III"@es,
         "[...] une grande anse qui longeait les faces sud des montagnes. Ses pentes escarpées étaient couvertes d’herbe [...] La vallée était riche et très peuplée. —SdAV"@fr ;
-    meccg_prop:rarity "R" .
+    meccg_prop:rarity "R" ;
+    tolkien_prop:depicts tolkien:Erech .
 
 meccg:TW-435 a schema1:Place,
         meccg_class:Card,
@@ -36227,6 +36357,7 @@ meccg:TW-438 a schema1:Place,
         "Woodmen-town"@nl ;
     dc:creator "J. Wallace Jones" ;
     dc:identifier "TW-438" ;
+    schema1:about tolkien:Men ;
     schema1:creator "J. Wallace Jones" ;
     schema1:name "Woodmen-town" ;
     meccg_prop:alignment "Hero" ;
@@ -36239,7 +36370,8 @@ meccg:TW-438 a schema1:Place,
     meccg_prop:quote "“… all the wide forest between was given to the Beornings and the Woodmen.” —LotR"@en,
         "“… todo el amplio Bosque fue entregado a los Beórnidas y a los Hombres del Bosque.” —SdlA Apéndices"@es,
         "[...] toute la vaste forêt dans l’entre-deux fut donnée aux Beornides et aux Hommes des Bois. —SdA"@fr ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Men .
 
 meccg:TW-439 a schema1:Place,
         meccg_class:Card,
@@ -36588,6 +36720,7 @@ meccg:TW-451 a meccg_class:Card,
         "Dagorlad"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-451" ;
+    schema1:about tolkien:Battle_of_Dagorlad ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Dagorlad" ;
     meccg_prop:alignment "Neutral" ;
@@ -36596,7 +36729,8 @@ meccg:TW-451 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Brown Lands, Horse Plains, Ithilien, Southern Mirkwood, Southern Rhovanion"@en,
         "Tierras Pardas, Llanuras de los Caballos, Ithilien, Sur del Bosque Negro, Sur de Rhovanion"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Battle_of_Dagorlad .
 
 meccg:TW-452 a meccg_class:Card,
         meccg_class:Region ;
@@ -36610,6 +36744,7 @@ meccg:TW-452 a meccg_class:Card,
         "Dorwinion"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-452" ;
+    schema1:about tolkien:Dorwinion ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Dorwinion" ;
     meccg_prop:alignment "Neutral" ;
@@ -36618,7 +36753,8 @@ meccg:TW-452 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Northern Rhovanion, Southern Rhovanion"@en,
         "Norte de Rhovanion, Sur de Rhovanion"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Dorwinion .
 
 meccg:TW-453 a meccg_class:Card,
         meccg_class:Region ;
@@ -36632,6 +36768,7 @@ meccg:TW-453 a meccg_class:Card,
         "Dunland"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-453" ;
+    schema1:about tolkien:Dunland ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Dunland" ;
     meccg_prop:alignment "Neutral" ;
@@ -36640,7 +36777,8 @@ meccg:TW-453 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Cardolan, Enedhwaith, Hollin"@en,
         "Cardolan, Enedhwaith, Acebeda"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Dunland .
 
 meccg:TW-454 a meccg_class:Card,
         meccg_class:Region ;
@@ -36698,6 +36836,7 @@ meccg:TW-456 a meccg_class:Card,
         "Eriadoran Coast"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-456" ;
+    schema1:about tolkien:Eriador ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Eriadoran Coast" ;
     meccg_prop:alignment "Neutral" ;
@@ -36706,7 +36845,8 @@ meccg:TW-456 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Andrast, Andrast Coast, Cardolan, Elven Shores, Enedhwaith, Old Pûkel-land"@en,
         "Andrast, Costa de Andrast, Cardolan, Costas Élficas, Enedhwaith, Tierra del Viejo Pûkel"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Eriador .
 
 meccg:TW-457 a meccg_class:Card,
         meccg_class:Region ;
@@ -36720,6 +36860,7 @@ meccg:TW-457 a meccg_class:Card,
         "Fangorn"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-457" ;
+    schema1:about tolkien:Ambush_at_Fangorn_Forest ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Fangorn" ;
     meccg_prop:alignment "Neutral" ;
@@ -36728,7 +36869,8 @@ meccg:TW-457 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Gap of Isen, Rohan, Wold & Foothills"@en,
         "Desfiladero del Isen, Rohan, Páramo y Colinas"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Ambush_at_Fangorn_Forest .
 
 meccg:TW-458 a meccg_class:Card,
         meccg_class:Region ;
@@ -36742,6 +36884,7 @@ meccg:TW-458 a meccg_class:Card,
         "Forochel"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-458" ;
+    schema1:about tolkien:Forochel ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Forochel" ;
     meccg_prop:alignment "Neutral" ;
@@ -36750,7 +36893,8 @@ meccg:TW-458 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Angmar, Arthedain, Númeriador"@en,
         "Angmar, Arthedain, Numeriador"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Forochel .
 
 meccg:TW-459 a meccg_class:Card,
         meccg_class:Region ;
@@ -36813,6 +36957,7 @@ meccg:TW-460 a meccg_class:Card,
         "Gorgoroth"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-460" ;
+    schema1:about tolkien:Plateau_of_Gorgoroth ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Gorgoroth" ;
     meccg_prop:alignment "Neutral" ;
@@ -36821,7 +36966,8 @@ meccg:TW-460 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Imlad Morgul, Nurn, Udûn"@en,
         "Imlad Morgul, Nurn, Udûn"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Plateau_of_Gorgoroth .
 
 meccg:TW-461 a meccg_class:Card,
         meccg_class:Region ;
@@ -36857,6 +37003,7 @@ meccg:TW-462 a meccg_class:Card,
         "Gundabad"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-462" ;
+    schema1:about tolkien:Gundabad ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Gundabad" ;
     meccg_prop:alignment "Neutral" ;
@@ -36865,7 +37012,8 @@ meccg:TW-462 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Anduin Vales, Angmar"@en,
         "Valles del Anduin, Angmar"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Gundabad .
 
 meccg:TW-463 a meccg_class:Card,
         meccg_class:Region ;
@@ -36901,6 +37049,7 @@ meccg:TW-464 a meccg_class:Card,
         "Heart of Mirkwood"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-464" ;
+    schema1:about tolkien:Mirkwood ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Heart of Mirkwood" ;
     meccg_prop:alignment "Neutral" ;
@@ -36909,7 +37058,8 @@ meccg:TW-464 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Northern Rhovanion, Southern Mirkwood, Southern Rhovanion, Western Mirkwood, Woodland Realm"@en,
         "Norte de Rhovanion, Sur del Bosque Negro, Sur de Rhovanion, Oeste del Bosque Negro, Reino del Bosque"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Mirkwood .
 
 meccg:TW-465 a meccg_class:Card,
         meccg_class:Region ;
@@ -36923,6 +37073,7 @@ meccg:TW-465 a meccg_class:Card,
         "High Pass"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-465" ;
+    schema1:about tolkien:High_Pass ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "High Pass" ;
     meccg_prop:alignment "Neutral" ;
@@ -36931,7 +37082,8 @@ meccg:TW-465 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Anduin Vales, Rhudaur"@en,
         "Valles del Anduin, Rhudaur"@es ;
-    meccg_prop:rarity "CB2" .
+    meccg_prop:rarity "CB2" ;
+    tolkien_prop:depicts tolkien:High_Pass .
 
 meccg:TW-466 a meccg_class:Card,
         meccg_class:Region ;
@@ -37062,6 +37214,7 @@ meccg:TW-470 a meccg_class:Card,
         "Ithilien"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-470" ;
+    schema1:about tolkien:Ithilien ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Ithilien" ;
     meccg_prop:alignment "Neutral" ;
@@ -37070,7 +37223,8 @@ meccg:TW-470 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Anórien, Dagorlad, Harondor, Imlad Morgul"@en,
         "Anórien, Dagorlad, Harondor, Imlad Morgul"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Ithilien .
 
 meccg:TW-471 a meccg_class:Card,
         meccg_class:Region ;
@@ -37084,6 +37238,7 @@ meccg:TW-471 a meccg_class:Card,
         "Khand"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-471" ;
+    schema1:about tolkien:Khand ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Khand" ;
     meccg_prop:alignment "Neutral" ;
@@ -37092,7 +37247,8 @@ meccg:TW-471 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Harondor, Nurn"@en,
         "Harondor, Nurn"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Khand .
 
 meccg:TW-472 a meccg_class:Card,
         meccg_class:Region ;
@@ -37106,6 +37262,7 @@ meccg:TW-472 a meccg_class:Card,
         "Lamedon"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-472" ;
+    schema1:about tolkien:Lamedon ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Lamedon" ;
     meccg_prop:alignment "Neutral" ;
@@ -37114,7 +37271,8 @@ meccg:TW-472 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Anfalas, Belfalas, Lebennin"@en,
         "Anfalas, Belfalas, Lebennin"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Lamedon .
 
 meccg:TW-473 a meccg_class:Card,
         meccg_class:Region ;
@@ -37128,6 +37286,7 @@ meccg:TW-473 a meccg_class:Card,
         "Lebennin"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-473" ;
+    schema1:about tolkien:Lebennin ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Lebennin" ;
     meccg_prop:alignment "Neutral" ;
@@ -37136,7 +37295,8 @@ meccg:TW-473 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Mouths of the Anduin, Anórien, Belfalas, Lamedon"@en,
         "Bocas del Anduin, Anórien, Belfalas, Lamedon"@es ;
-    meccg_prop:rarity "CB2" .
+    meccg_prop:rarity "CB2" ;
+    tolkien_prop:depicts tolkien:Lebennin .
 
 meccg:TW-474 a meccg_class:Card,
         meccg_class:Region ;
@@ -37220,6 +37380,7 @@ meccg:TW-477 a meccg_class:Card,
         "Númeriador"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-477" ;
+    schema1:about tolkien:Eriador ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Númeriador" ;
     meccg_prop:alignment "Neutral" ;
@@ -37228,7 +37389,8 @@ meccg:TW-477 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Arthedain, Forochel, Lindon"@en,
         "Arthedain, Forochel, Lindon"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Eriador .
 
 meccg:TW-478 a meccg_class:Card,
         meccg_class:Region ;
@@ -37242,6 +37404,7 @@ meccg:TW-478 a meccg_class:Card,
         "Nurn"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-478" ;
+    schema1:about tolkien:Nurn ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Nurn" ;
     meccg_prop:alignment "Neutral" ;
@@ -37250,7 +37413,8 @@ meccg:TW-478 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Gorgoroth, Horse Plains, Khand"@en,
         "Gorgoroth, Llanuras de los Caballos, Khand"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Nurn .
 
 meccg:TW-479 a meccg_class:Card,
         meccg_class:Region ;
@@ -37408,6 +37572,7 @@ meccg:TW-484 a meccg_class:Card,
         "Southern Mirkwood"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-484" ;
+    schema1:about tolkien:Mirkwood ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Southern Mirkwood" ;
     meccg_prop:alignment "Neutral" ;
@@ -37416,7 +37581,8 @@ meccg:TW-484 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Anduin Vales, Brown Lands, Dagorlad, Heart of Mirkwood, Southern Rhovanion, Western Mirkwood"@en,
         "Valles del Anduin, Tierras Pardas, Dagorlad, Corazón del Bosque Negro, Sur de Rhovanion, Oeste del Bosque Negro"@es ;
-    meccg_prop:rarity "CB2" .
+    meccg_prop:rarity "CB2" ;
+    tolkien_prop:depicts tolkien:Mirkwood .
 
 meccg:TW-485 a meccg_class:Card,
         meccg_class:Region ;
@@ -37452,6 +37618,7 @@ meccg:TW-486 a meccg_class:Card,
         "The Shire"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-486" ;
+    schema1:about tolkien:News_from_the_Shire_and_Beyond_-_Studies_on_Tolkien ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "The Shire" ;
     meccg_prop:alignment "Neutral" ;
@@ -37460,7 +37627,8 @@ meccg:TW-486 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Arthedain, Cardolan"@en,
         "Arthedain, Cardolan"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:News_from_the_Shire_and_Beyond_-_Studies_on_Tolkien .
 
 meccg:TW-487 a meccg_class:Card,
         meccg_class:Region ;
@@ -37496,6 +37664,7 @@ meccg:TW-488 a meccg_class:Card,
         "Western Mirkwood"@nl ;
     dc:creator "Jo Hartwig" ;
     dc:identifier "TW-488" ;
+    schema1:about tolkien:Mirkwood ;
     schema1:creator "Jo Hartwig" ;
     schema1:name "Western Mirkwood" ;
     meccg_prop:alignment "Neutral" ;
@@ -37504,7 +37673,8 @@ meccg:TW-488 a meccg_class:Card,
     meccg_prop:cardSetName "The Wizards" ;
     meccg_prop:cardText "Anduin Vales, Heart of Mirkwood, Southern Mirkwood, Woodland Realm"@en,
         "Valles del Anduin, Corazón del Bosque Negro, Sur del Bosque Negro, Reino del Bosque"@es ;
-    meccg_prop:rarity "CB" .
+    meccg_prop:rarity "CB" ;
+    tolkien_prop:depicts tolkien:Mirkwood .
 
 meccg:TW-489 a meccg_class:Card,
         meccg_class:Region ;
@@ -41022,6 +41192,7 @@ meccg:WH-56 a schema1:Place,
         "Isengard"@nl ;
     dc:creator "Rob Alexander" ;
     dc:identifier "WH-56" ;
+    schema1:about tolkien:Isengard ;
     schema1:creator "Rob Alexander" ;
     schema1:name "Isengard" ;
     meccg_prop:alignment "Fallen-wizard" ;
@@ -41033,7 +41204,8 @@ meccg:WH-56 a schema1:Place,
     meccg_prop:quote "“A strong place and wonderful was Isengard, and long it had been beautiful; and there great lords had dwelt, the wardens of Gondor upon the West, and wise men that watched the stars.” —LotRIII"@en,
         "“Inexpugnable y maravillosa era Isengard, y en otros tiempos también había sido hermosa; y en ella habían morado grandes señores, los guardianes de Gondor en el oeste, y los sabios que observaban las estrellas.” —SdlA II"@es,
         "L’Isengard était une étonnante place forte, et elle avait longtemps été belle, là avaient résidé de grands seigneurs, les gardiens du Gondor à l’Ouest, et des Sages qui observaient les étoiles. —SdAIII"@fr ;
-    meccg_prop:rarity "C3" .
+    meccg_prop:rarity "C3" ;
+    tolkien_prop:depicts tolkien:Isengard .
 
 meccg:WH-57 a schema1:Place,
         meccg_class:Card,
