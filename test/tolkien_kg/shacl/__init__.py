@@ -1,25 +1,34 @@
 """
-SHACL Shapes pour le Knowledge Graph Tolkien
-Définit les contraintes de validation pour chaque type d'entité
+SHACL Shapes pour le Tolkien Knowledge Graph
+Validation simple et adaptée au RDF généré par le projet
 """
 
 from rdflib import Graph, Namespace, Literal, URIRef, BNode
 from rdflib.namespace import RDF, RDFS, XSD, OWL, FOAF
-from typing import Dict, List, Any, Tuple
+from typing import Dict, Any, Tuple
 
 
-# Namespaces
+# =============================================================================
+# NAMESPACES
+# =============================================================================
+
 SH = Namespace("http://www.w3.org/ns/shacl#")
 TOLKIEN = Namespace("https://tolkiengateway.net/wiki/")
 TOLKIEN_PROP = Namespace("https://tolkiengateway.net/wiki/Property:")
 TOLKIEN_CLASS = Namespace("https://tolkiengateway.net/wiki/Class:")
 SCHEMA = Namespace("http://schema.org/")
+MECCG_CLASS = Namespace("https://tolkiengateway.net/wiki/MECCG/Class:")
+MECCG_PROP = Namespace("https://tolkiengateway.net/wiki/MECCG/Property:")
 
+
+# =============================================================================
+# GÉNÉRATEUR SHACL
+# =============================================================================
 
 class SHACLGenerator:
     """
-    Génère les shapes SHACL pour valider le Knowledge Graph.
-    Chaque shape correspond à un type d'infobox du wiki.
+    Génère des shapes SHACL simples pour valider le Tolkien KG.
+    Les contraintes sont minimales pour éviter les faux positifs.
     """
     
     def __init__(self):
@@ -37,755 +46,350 @@ class SHACLGenerator:
         self.graph.bind("rdfs", RDFS)
         self.graph.bind("foaf", FOAF)
         self.graph.bind("owl", OWL)
+        self.graph.bind("meccg_class", MECCG_CLASS)
+        self.graph.bind("meccg_prop", MECCG_PROP)
     
-    def _add_property_shape(self, shape_uri: URIRef, path: URIRef, 
-                            name: str, datatype: URIRef = None,
-                            node_kind: URIRef = None, class_constraint: URIRef = None,
-                            min_count: int = None, max_count: int = None,
-                            pattern: str = None, min_length: int = None,
-                            description: str = None, severity: URIRef = None):
+    def _add_property(self, shape: URIRef, path: URIRef, name: str,
+                      min_count: int = None, max_count: int = None,
+                      datatype: URIRef = None, node_kind: URIRef = None,
+                      severity: URIRef = None, description: str = None):
         """
         Ajoute une contrainte de propriété à un shape.
+        
+        Args:
+            shape: URI du shape parent
+            path: URI de la propriété
+            name: Nom lisible de la propriété
+            min_count: Nombre minimum d'occurrences
+            max_count: Nombre maximum d'occurrences
+            datatype: Type de données XSD
+            node_kind: Type de noeud (IRI, Literal, etc.)
+            severity: Niveau de sévérité (Violation, Warning, Info)
+            description: Description de la contrainte
         """
-        prop_shape = BNode()
-        self.graph.add((shape_uri, SH.property, prop_shape))
-        self.graph.add((prop_shape, SH.path, path))
-        self.graph.add((prop_shape, SH.name, Literal(name)))
+        prop = BNode()
+        self.graph.add((shape, SH.property, prop))
+        self.graph.add((prop, SH.path, path))
+        self.graph.add((prop, SH.name, Literal(name)))
         
         if description:
-            self.graph.add((prop_shape, SH.description, Literal(description, lang="en")))
-        
-        if datatype:
-            self.graph.add((prop_shape, SH.datatype, datatype))
-        
-        if node_kind:
-            self.graph.add((prop_shape, SH.nodeKind, node_kind))
-        
-        if class_constraint:
-            self.graph.add((prop_shape, SH["class"], class_constraint))
-        
+            self.graph.add((prop, SH.description, Literal(description, lang="en")))
         if min_count is not None:
-            self.graph.add((prop_shape, SH.minCount, Literal(min_count, datatype=XSD.integer)))
-        
+            self.graph.add((prop, SH.minCount, Literal(min_count, datatype=XSD.integer)))
         if max_count is not None:
-            self.graph.add((prop_shape, SH.maxCount, Literal(max_count, datatype=XSD.integer)))
-        
-        if pattern:
-            self.graph.add((prop_shape, SH.pattern, Literal(pattern)))
-        
-        if min_length:
-            self.graph.add((prop_shape, SH.minLength, Literal(min_length, datatype=XSD.integer)))
-        
+            self.graph.add((prop, SH.maxCount, Literal(max_count, datatype=XSD.integer)))
+        if datatype:
+            self.graph.add((prop, SH.datatype, datatype))
+        if node_kind:
+            self.graph.add((prop, SH.nodeKind, node_kind))
         if severity:
-            self.graph.add((prop_shape, SH.severity, severity))
+            self.graph.add((prop, SH.severity, severity))
         
-        return prop_shape
+        return prop
 
     # =========================================================================
-    # SHAPE: Character (Infobox character)
+    # SHAPE: Character
     # =========================================================================
     
-    def create_character_shape(self) -> URIRef:
-        """
-        Crée le shape SHACL pour les personnages.
-        Basé sur le template "Infobox character".
-        """
-        shape_uri = TOLKIEN_CLASS.CharacterShape
+    def create_character_shape(self):
+        """Shape pour les personnages (Infobox character)."""
+        shape = TOLKIEN_CLASS.CharacterShape
         
-        # Définition du shape
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Character))
-        self.graph.add((shape_uri, RDFS.label, Literal("Character Shape", lang="en")))
-        self.graph.add((shape_uri, RDFS.comment, 
-                       Literal("Validates characters from Tolkien's legendarium (Infobox character)", lang="en")))
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, TOLKIEN_CLASS.Character))
+        self.graph.add((shape, RDFS.label, Literal("Character Shape", lang="en")))
+        self.graph.add((shape, RDFS.comment, 
+            Literal("Validates characters from Tolkien's legendarium", lang="en")))
         
-        # --- Propriétés REQUISES ---
+        # REQUIS: nom et label
+        self._add_property(shape, SCHEMA.name, "name", 
+                          min_count=1, description="Character name (required)")
+        self._add_property(shape, RDFS.label, "label", 
+                          min_count=1, description="Human-readable label (required)")
         
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1,
-            min_length=1,
-            description="Name of the character (required)"
-        )
+        # RECOMMANDÉ (warnings)
+        self._add_property(shape, FOAF.isPrimaryTopicOf, "wikiPage",
+                          node_kind=SH.IRI, severity=SH.Warning,
+                          description="Link to wiki page")
         
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label",
-            min_count=1,
-            description="Human-readable label (required)"
-        )
+        # OPTIONNEL - Identification
+        self._add_property(shape, SCHEMA.image, "image", node_kind=SH.IRI)
+        self._add_property(shape, FOAF.depiction, "depiction", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.description, "description")
+        self._add_property(shape, SCHEMA.alternateName, "alternateName")
+        self._add_property(shape, SCHEMA.jobTitle, "title")
         
-        # --- Propriétés RECOMMANDÉES (Warning si absentes) ---
+        # OPTIONNEL - Dates
+        self._add_property(shape, SCHEMA.birthDate, "birthDate")
+        self._add_property(shape, SCHEMA.birthPlace, "birthPlace", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.deathDate, "deathDate")
+        self._add_property(shape, SCHEMA.deathPlace, "deathPlace", node_kind=SH.IRI)
         
-        self._add_property_shape(
-            shape_uri, SCHEMA.gender, "gender",
-            datatype=XSD.string, max_count=1,
-            severity=SH.Warning,
-            description="Gender (Male/Female)"
-        )
+        # OPTIONNEL - Caractéristiques
+        self._add_property(shape, SCHEMA.gender, "gender")
+        self._add_property(shape, TOLKIEN_PROP.people, "people", node_kind=SH.IRI)
+        self._add_property(shape, TOLKIEN_PROP.race, "race", node_kind=SH.IRI)
         
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.people, "people",
-            node_kind=SH.IRI, max_count=1,
-            severity=SH.Warning,
-            description="Race or people (Elves, Hobbits, Men, etc.)"
-        )
+        # OPTIONNEL - Relations familiales
+        self._add_property(shape, SCHEMA.parent, "parent", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.spouse, "spouse", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.children, "children", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.sibling, "sibling", node_kind=SH.IRI)
+        self._add_property(shape, TOLKIEN_PROP.house, "house", node_kind=SH.IRI)
         
-        # --- Propriétés OPTIONNELLES ---
+        # OPTIONNEL - Affiliations
+        self._add_property(shape, SCHEMA.memberOf, "memberOf", node_kind=SH.IRI)
+        self._add_property(shape, TOLKIEN_PROP.affiliation, "affiliation", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.homeLocation, "homeLocation", node_kind=SH.IRI)
         
-        # Identification
-        self._add_property_shape(
-            shape_uri, SCHEMA.image, "image",
-            node_kind=SH.IRI,
-            description="Image depicting the character"
-        )
+        # OPTIONNEL - Autres
+        self._add_property(shape, TOLKIEN_PROP.weapon, "weapon", node_kind=SH.IRI)
+        self._add_property(shape, TOLKIEN_PROP.steed, "steed", node_kind=SH.IRI)
+        self._add_property(shape, TOLKIEN_PROP.notableFor, "notableFor")
+        self._add_property(shape, SCHEMA.knowsLanguage, "language")
         
-        self._add_property_shape(
-            shape_uri, SCHEMA.description, "description",
-            datatype=XSD.string, max_count=1,
-            description="Description or caption"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.alternateName, "alternateName",
-            datatype=XSD.string,
-            description="Other names (Sindarin, Quenya, etc.)"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.jobTitle, "titles",
-            datatype=XSD.string,
-            description="Titles held by the character"
-        )
-        
-        # Dates
-        self._add_property_shape(
-            shape_uri, SCHEMA.birthDate, "birthDate",
-            max_count=1,
-            description="Birth date (may be structured with age/year)"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.birthPlace, "birthPlace",
-            node_kind=SH.IRI, max_count=1,
-            description="Place of birth"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.deathDate, "deathDate",
-            max_count=1,
-            description="Death date"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.deathPlace, "deathPlace",
-            node_kind=SH.IRI, max_count=1,
-            description="Place of death"
-        )
-        
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.age, "age",
-            description="Age of the character"
-        )
-        
-        # Relations familiales
-        self._add_property_shape(
-            shape_uri, SCHEMA.parent, "parent",
-            node_kind=SH.IRI,
-            description="Parents of the character"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.sibling, "sibling",
-            node_kind=SH.IRI,
-            description="Siblings"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.spouse, "spouse",
-            node_kind=SH.IRI,
-            description="Spouse(s)"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.children, "children",
-            node_kind=SH.IRI,
-            description="Children"
-        )
-        
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.house, "house",
-            node_kind=SH.IRI, max_count=1,
-            description="Noble house (House of Hador, etc.)"
-        )
-        
-        # Affiliations et lieux
-        self._add_property_shape(
-            shape_uri, SCHEMA.memberOf, "memberOf",
-            node_kind=SH.IRI,
-            description="Organizations or groups"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.homeLocation, "homeLocation",
-            node_kind=SH.IRI,
-            description="Locations where the character lived"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.knowsLanguage, "knowsLanguage",
-            datatype=XSD.string,
-            description="Languages spoken"
-        )
-        
-        # Équipement
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.weapon, "weapon",
-            node_kind=SH.IRI,
-            description="Weapons wielded"
-        )
-        
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.steed, "steed",
-            node_kind=SH.IRI, max_count=1,
-            description="Mount/steed"
-        )
-        
-        # Liens externes
-        self._add_property_shape(
-            shape_uri, OWL.sameAs, "sameAs",
-            node_kind=SH.IRI,
-            description="Links to external resources (DBpedia, etc.)"
-        )
-        
-        return shape_uri
+        return shape
 
     # =========================================================================
-    # SHAPE: Location (Location infobox)
+    # SHAPE: Location
     # =========================================================================
     
-    def create_location_shape(self) -> URIRef:
-        """
-        Crée le shape SHACL pour les lieux.
-        Basé sur le template "Location infobox".
-        """
-        shape_uri = TOLKIEN_CLASS.LocationShape
+    def create_location_shape(self):
+        """Shape pour les lieux (Location infobox)."""
+        shape = TOLKIEN_CLASS.LocationShape
         
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Location))
-        self.graph.add((shape_uri, RDFS.label, Literal("Location Shape", lang="en")))
-        self.graph.add((shape_uri, RDFS.comment,
-                       Literal("Validates locations from Tolkien's legendarium", lang="en")))
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, TOLKIEN_CLASS.Location))
+        self.graph.add((shape, RDFS.label, Literal("Location Shape", lang="en")))
         
-        # Requis
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1, min_length=1,
-            description="Name of the location (required)"
-        )
+        # REQUIS
+        self._add_property(shape, SCHEMA.name, "name", min_count=1)
+        self._add_property(shape, RDFS.label, "label", min_count=1)
         
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label",
-            min_count=1,
-            description="Human-readable label (required)"
-        )
+        # RECOMMANDÉ
+        self._add_property(shape, FOAF.isPrimaryTopicOf, "wikiPage",
+                          node_kind=SH.IRI, severity=SH.Warning)
         
-        # Optionnel
-        self._add_property_shape(
-            shape_uri, SCHEMA.image, "image",
-            node_kind=SH.IRI,
-            description="Image of the location"
-        )
+        # OPTIONNEL
+        self._add_property(shape, SCHEMA.image, "image", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.description, "description")
+        self._add_property(shape, SCHEMA.alternateName, "alternateName")
+        self._add_property(shape, SCHEMA.containedInPlace, "containedIn", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.containsPlace, "contains", node_kind=SH.IRI)
+        self._add_property(shape, TOLKIEN_PROP.inhabitants, "inhabitants")
+        self._add_property(shape, TOLKIEN_PROP.language, "language")
         
-        self._add_property_shape(
-            shape_uri, SCHEMA.description, "description",
-            datatype=XSD.string, max_count=1,
-            description="Description"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.alternateName, "alternateName",
-            datatype=XSD.string,
-            description="Other names"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.containedInPlace, "containedInPlace",
-            node_kind=SH.IRI,
-            description="Larger location containing this one"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.containsPlace, "containsPlace",
-            node_kind=SH.IRI,
-            description="Smaller locations within this one"
-        )
-        
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.inhabitants, "inhabitants",
-            datatype=XSD.string,
-            description="Types of inhabitants"
-        )
-        
-        return shape_uri
+        return shape
 
     # =========================================================================
     # SHAPE: Kingdom
     # =========================================================================
     
-    def create_kingdom_shape(self) -> URIRef:
-        """
-        Crée le shape SHACL pour les royaumes.
-        Basé sur le template "Kingdom".
-        """
-        shape_uri = TOLKIEN_CLASS.KingdomShape
+    def create_kingdom_shape(self):
+        """Shape pour les royaumes (Kingdom infobox)."""
+        shape = TOLKIEN_CLASS.KingdomShape
         
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Kingdom))
-        self.graph.add((shape_uri, RDFS.label, Literal("Kingdom Shape", lang="en")))
-        self.graph.add((shape_uri, RDFS.comment,
-                       Literal("Validates kingdoms and realms", lang="en")))
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, TOLKIEN_CLASS.Kingdom))
+        self.graph.add((shape, RDFS.label, Literal("Kingdom Shape", lang="en")))
         
-        # Requis
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1,
-            description="Name of the kingdom (required)"
-        )
+        # REQUIS
+        self._add_property(shape, SCHEMA.name, "name", min_count=1)
+        self._add_property(shape, RDFS.label, "label", min_count=1)
         
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label",
-            min_count=1,
-            description="Human-readable label (required)"
-        )
+        # OPTIONNEL
+        self._add_property(shape, TOLKIEN_PROP.capital, "capital", node_kind=SH.IRI)
+        self._add_property(shape, TOLKIEN_PROP.governance, "governance")
+        self._add_property(shape, TOLKIEN_PROP.inhabitants, "inhabitants")
         
-        # Spécifique aux royaumes
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.capital, "capital",
-            node_kind=SH.IRI, max_count=1,
-            severity=SH.Warning,
-            description="Capital city"
-        )
-        
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.governance, "governance",
-            datatype=XSD.string,
-            description="Type of governance"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.containedInPlace, "containedInPlace",
-            node_kind=SH.IRI,
-            description="Larger region containing the kingdom"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.containsPlace, "containsPlace",
-            node_kind=SH.IRI,
-            description="Regions within the kingdom"
-        )
-        
-        return shape_uri
+        return shape
 
     # =========================================================================
     # SHAPE: Book
     # =========================================================================
     
-    def create_book_shape(self) -> URIRef:
-        """
-        Crée le shape SHACL pour les livres.
-        Basé sur le template "Book".
-        """
-        shape_uri = TOLKIEN_CLASS.BookShape
+    def create_book_shape(self):
+        """Shape pour les livres (Book infobox)."""
+        shape = TOLKIEN_CLASS.BookShape
         
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Book))
-        self.graph.add((shape_uri, RDFS.label, Literal("Book Shape", lang="en")))
-        self.graph.add((shape_uri, RDFS.comment,
-                       Literal("Validates books and publications", lang="en")))
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, TOLKIEN_CLASS.Book))
+        self.graph.add((shape, RDFS.label, Literal("Book Shape", lang="en")))
         
-        # Requis
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1,
-            description="Title of the book (required)"
-        )
+        # REQUIS
+        self._add_property(shape, SCHEMA.name, "name", min_count=1)
+        self._add_property(shape, RDFS.label, "label", min_count=1)
         
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label",
-            min_count=1,
-            description="Human-readable label (required)"
-        )
+        # OPTIONNEL
+        self._add_property(shape, SCHEMA.author, "author", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.datePublished, "datePublished")
+        self._add_property(shape, SCHEMA.image, "image", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.description, "description")
         
-        # Recommandé
-        self._add_property_shape(
-            shape_uri, SCHEMA.author, "author",
-            node_kind=SH.IRI,
-            severity=SH.Warning,
-            description="Author of the book"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.datePublished, "datePublished",
-            max_count=1,
-            severity=SH.Warning,
-            description="Publication date"
-        )
-        
-        # Optionnel
-        self._add_property_shape(
-            shape_uri, SCHEMA.image, "image",
-            node_kind=SH.IRI,
-            description="Cover image"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.numberOfPages, "numberOfPages",
-            datatype=XSD.integer, max_count=1,
-            description="Number of pages"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.publisher, "publisher",
-            datatype=XSD.string,
-            description="Publisher"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.isbn, "isbn",
-            datatype=XSD.string,
-            description="ISBN"
-        )
-        
-        return shape_uri
+        return shape
 
     # =========================================================================
     # SHAPE: Battle
     # =========================================================================
     
-    def create_battle_shape(self) -> URIRef:
-        """
-        Crée le shape SHACL pour les batailles.
-        Basé sur le template "Battle".
-        """
-        shape_uri = TOLKIEN_CLASS.BattleShape
+    def create_battle_shape(self):
+        """Shape pour les batailles (Battle infobox)."""
+        shape = TOLKIEN_CLASS.BattleShape
         
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Battle))
-        self.graph.add((shape_uri, RDFS.label, Literal("Battle Shape", lang="en")))
-        self.graph.add((shape_uri, RDFS.comment,
-                       Literal("Validates battles and military conflicts", lang="en")))
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, TOLKIEN_CLASS.Battle))
+        self.graph.add((shape, RDFS.label, Literal("Battle Shape", lang="en")))
         
-        # Requis
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1,
-            description="Name of the battle (required)"
-        )
+        # REQUIS
+        self._add_property(shape, SCHEMA.name, "name", min_count=1)
+        self._add_property(shape, RDFS.label, "label", min_count=1)
         
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label",
-            min_count=1,
-            description="Human-readable label (required)"
-        )
+        # OPTIONNEL
+        self._add_property(shape, SCHEMA.location, "location", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.description, "description")
+        self._add_property(shape, SCHEMA.image, "image", node_kind=SH.IRI)
         
-        # Recommandé
-        self._add_property_shape(
-            shape_uri, SCHEMA.location, "location",
-            node_kind=SH.IRI,
-            severity=SH.Warning,
-            description="Location of the battle"
-        )
-        
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.outcome, "outcome",
-            datatype=XSD.string, max_count=1,
-            description="Outcome of the battle"
-        )
-        
-        # Optionnel
-        self._add_property_shape(
-            shape_uri, SCHEMA.startDate, "date",
-            max_count=1,
-            description="Date of the battle"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.participant, "participant",
-            node_kind=SH.IRI,
-            description="Participants in the battle"
-        )
-        
-        return shape_uri
-
-    # =========================================================================
-    # SHAPE: War
-    # =========================================================================
-    
-    def create_war_shape(self) -> URIRef:
-        """Crée le shape SHACL pour les guerres."""
-        shape_uri = TOLKIEN_CLASS.WarShape
-        
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.War))
-        self.graph.add((shape_uri, RDFS.label, Literal("War Shape", lang="en")))
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1,
-            description="Name of the war (required)"
-        )
-        
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label", min_count=1
-        )
-        
-        self._add_property_shape(
-            shape_uri, TOLKIEN_PROP.outcome, "outcome",
-            datatype=XSD.string, max_count=1
-        )
-        
-        return shape_uri
-
-    # =========================================================================
-    # SHAPE: Film
-    # =========================================================================
-    
-    def create_film_shape(self) -> URIRef:
-        """Crée le shape SHACL pour les films."""
-        shape_uri = TOLKIEN_CLASS.FilmShape
-        
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Film))
-        self.graph.add((shape_uri, RDFS.label, Literal("Film Shape", lang="en")))
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1,
-            description="Title of the film (required)"
-        )
-        
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label", min_count=1
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.director, "director",
-            node_kind=SH.IRI, severity=SH.Warning,
-            description="Director of the film"
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.datePublished, "releaseDate",
-            max_count=1, severity=SH.Warning
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.image, "image", node_kind=SH.IRI
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.actor, "actor", node_kind=SH.IRI
-        )
-        
-        return shape_uri
-
-    # =========================================================================
-    # SHAPE: VideoGame
-    # =========================================================================
-    
-    def create_videogame_shape(self) -> URIRef:
-        """Crée le shape SHACL pour les jeux vidéo."""
-        shape_uri = TOLKIEN_CLASS.VideoGameShape
-        
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.VideoGame))
-        self.graph.add((shape_uri, RDFS.label, Literal("Video Game Shape", lang="en")))
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1
-        )
-        
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label", min_count=1
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.image, "image", node_kind=SH.IRI
-        )
-        
-        return shape_uri
-
-    # =========================================================================
-    # SHAPE: Song
-    # =========================================================================
-    
-    def create_song_shape(self) -> URIRef:
-        """Crée le shape SHACL pour les chansons/poèmes."""
-        shape_uri = TOLKIEN_CLASS.SongShape
-        
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Song))
-        self.graph.add((shape_uri, RDFS.label, Literal("Song Shape", lang="en")))
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1
-        )
-        
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label", min_count=1
-        )
-        
-        return shape_uri
-
-    # =========================================================================
-    # SHAPE: Actor
-    # =========================================================================
-    
-    def create_actor_shape(self) -> URIRef:
-        """Crée le shape SHACL pour les acteurs."""
-        shape_uri = TOLKIEN_CLASS.ActorShape
-        
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Actor))
-        self.graph.add((shape_uri, RDFS.label, Literal("Actor Shape", lang="en")))
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1
-        )
-        
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label", min_count=1
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.image, "image", node_kind=SH.IRI
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.birthDate, "birthDate", max_count=1
-        )
-        
-        return shape_uri
-
-    # =========================================================================
-    # SHAPE: Author
-    # =========================================================================
-    
-    def create_author_shape(self) -> URIRef:
-        """Crée le shape SHACL pour les auteurs."""
-        shape_uri = TOLKIEN_CLASS.AuthorShape
-        
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Author))
-        self.graph.add((shape_uri, RDFS.label, Literal("Author Shape", lang="en")))
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1
-        )
-        
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label", min_count=1
-        )
-        
-        self._add_property_shape(
-            shape_uri, SCHEMA.image, "image", node_kind=SH.IRI
-        )
-        
-        return shape_uri
+        return shape
 
     # =========================================================================
     # SHAPE: Object
     # =========================================================================
     
-    def create_object_shape(self) -> URIRef:
-        """Crée le shape SHACL pour les objets."""
-        shape_uri = TOLKIEN_CLASS.ObjectShape
+    def create_object_shape(self):
+        """Shape pour les objets (Object infobox)."""
+        shape = TOLKIEN_CLASS.ObjectShape
         
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Object))
-        self.graph.add((shape_uri, RDFS.label, Literal("Object Shape", lang="en")))
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, TOLKIEN_CLASS.Object))
+        self.graph.add((shape, RDFS.label, Literal("Object Shape", lang="en")))
         
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1
-        )
+        # REQUIS
+        self._add_property(shape, SCHEMA.name, "name", min_count=1)
+        self._add_property(shape, RDFS.label, "label", min_count=1)
         
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label", min_count=1
-        )
+        # OPTIONNEL
+        self._add_property(shape, SCHEMA.image, "image", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.description, "description")
         
-        self._add_property_shape(
-            shape_uri, SCHEMA.image, "image", node_kind=SH.IRI
-        )
-        
-        return shape_uri
+        return shape
 
     # =========================================================================
-    # SHAPE: Race/People
+    # SHAPE: Film
     # =========================================================================
     
-    def create_race_shape(self) -> URIRef:
-        """Crée le shape SHACL pour les races/peuples."""
-        shape_uri = TOLKIEN_CLASS.RaceShape
+    def create_film_shape(self):
+        """Shape pour les films (Film infobox)."""
+        shape = TOLKIEN_CLASS.FilmShape
         
-        self.graph.add((shape_uri, RDF.type, SH.NodeShape))
-        self.graph.add((shape_uri, SH.targetClass, TOLKIEN_CLASS.Race))
-        self.graph.add((shape_uri, RDFS.label, Literal("Race Shape", lang="en")))
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, TOLKIEN_CLASS.Film))
+        self.graph.add((shape, RDFS.label, Literal("Film Shape", lang="en")))
         
-        self._add_property_shape(
-            shape_uri, SCHEMA.name, "name",
-            datatype=XSD.string, min_count=1, max_count=1
-        )
+        # REQUIS
+        self._add_property(shape, SCHEMA.name, "name", min_count=1)
+        self._add_property(shape, RDFS.label, "label", min_count=1)
         
-        self._add_property_shape(
-            shape_uri, RDFS.label, "label", min_count=1
-        )
+        # OPTIONNEL
+        self._add_property(shape, SCHEMA.datePublished, "releaseDate")
+        self._add_property(shape, SCHEMA.image, "image", node_kind=SH.IRI)
         
-        return shape_uri
+        return shape
 
     # =========================================================================
-    # GÉNÉRATION COMPLÈTE
+    # SHAPE: MECCG Card
     # =========================================================================
     
-    def create_all_shapes(self) -> Graph:
-        """Crée tous les shapes SHACL pour le Knowledge Graph."""
-        print("Génération des shapes SHACL...")
+    def create_card_shape(self):
+        """Shape pour les cartes MECCG."""
+        shape = MECCG_CLASS.CardShape
         
-        shapes = [
-            ("Character", self.create_character_shape),
-            ("Location", self.create_location_shape),
-            ("Kingdom", self.create_kingdom_shape),
-            ("Book", self.create_book_shape),
-            ("Battle", self.create_battle_shape),
-            ("War", self.create_war_shape),
-            ("Film", self.create_film_shape),
-            ("VideoGame", self.create_videogame_shape),
-            ("Song", self.create_song_shape),
-            ("Actor", self.create_actor_shape),
-            ("Author", self.create_author_shape),
-            ("Object", self.create_object_shape),
-            ("Race", self.create_race_shape),
-        ]
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, MECCG_CLASS.Card))
+        self.graph.add((shape, RDFS.label, Literal("MECCG Card Shape", lang="en")))
         
-        for name, create_func in shapes:
-            create_func()
-            print(f"  ✓ {name}Shape")
+        # REQUIS
+        self._add_property(shape, RDFS.label, "label", min_count=1)
         
-        print(f"\nTotal: {len(self.graph)} triplets SHACL")
+        # OPTIONNEL
+        self._add_property(shape, SCHEMA.name, "name")
+        self._add_property(shape, MECCG_PROP.cardSet, "cardSet")
+        self._add_property(shape, MECCG_PROP.alignment, "alignment")
+        
+        return shape
+
+    # =========================================================================
+    # MÉTHODE PRINCIPALE
+    # =========================================================================
+    
+    def create_all_shapes(self):
+        """Crée tous les shapes SHACL."""
+        self.create_character_shape()
+        self.create_location_shape()
+        self.create_kingdom_shape()
+        self.create_book_shape()
+        self.create_battle_shape()
+        self.create_object_shape()
+        self.create_race_shape()      # AJOUT
+        self.create_weapon_shape()    # AJOUT
+        self.create_film_shape()
+        self.create_card_shape()
+        
+        print(f"✓ {len(self.graph)} triplets SHACL générés")
         return self.graph
+    # =========================================================================
+    # SHAPE: Race
+    # =========================================================================
     
+    def create_race_shape(self):
+        """Shape pour les races/peuples (Race infobox)."""
+        shape = TOLKIEN_CLASS.RaceShape
+        
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, TOLKIEN_CLASS.Race))
+        self.graph.add((shape, RDFS.label, Literal("Race Shape", lang="en")))
+        
+        # REQUIS
+        self._add_property(shape, SCHEMA.name, "name", min_count=1)
+        self._add_property(shape, RDFS.label, "label", min_count=1)
+        
+        # OPTIONNEL
+        self._add_property(shape, SCHEMA.image, "image", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.description, "description")
+        self._add_property(shape, TOLKIEN_PROP.language, "language")
+        
+        return shape
+
+    # =========================================================================
+    # SHAPE: Weapon
+    # =========================================================================
+    
+    def create_weapon_shape(self):
+        """Shape pour les armes (Weapon infobox)."""
+        shape = TOLKIEN_CLASS.WeaponShape
+        
+        self.graph.add((shape, RDF.type, SH.NodeShape))
+        self.graph.add((shape, SH.targetClass, TOLKIEN_CLASS.Weapon))
+        self.graph.add((shape, RDFS.label, Literal("Weapon Shape", lang="en")))
+        
+        # REQUIS
+        self._add_property(shape, SCHEMA.name, "name", min_count=1)
+        self._add_property(shape, RDFS.label, "label", min_count=1)
+        
+        # OPTIONNEL
+        self._add_property(shape, SCHEMA.image, "image", node_kind=SH.IRI)
+        self._add_property(shape, SCHEMA.description, "description")
+        self._add_property(shape, TOLKIEN_PROP.owner, "owner", node_kind=SH.IRI)
+        
+        return shape
+
     def serialize(self, format: str = "turtle") -> str:
-        """Sérialise les shapes en Turtle."""
+        """Sérialise le graphe SHACL."""
         return self.graph.serialize(format=format)
     
     def save(self, filename: str, format: str = "turtle"):
         """Sauvegarde les shapes dans un fichier."""
         self.graph.serialize(destination=filename, format=format)
-        print(f"Shapes sauvegardés dans {filename}")
+        print(f"✓ Shapes sauvegardés: {filename}")
 
 
 # =============================================================================
@@ -793,16 +397,13 @@ class SHACLGenerator:
 # =============================================================================
 
 class SHACLValidator:
-    """
-    Valide un graphe RDF contre les shapes SHACL.
-    Nécessite pyshacl: pip install pyshacl
-    """
+    """Valide un graphe RDF contre les shapes SHACL."""
     
     def __init__(self, shapes_graph: Graph = None, shapes_file: str = None):
         """
         Args:
             shapes_graph: Graphe contenant les shapes SHACL
-            shapes_file: Ou fichier Turtle des shapes
+            shapes_file: Ou chemin vers le fichier Turtle des shapes
         """
         if shapes_graph:
             self.shapes_graph = shapes_graph
@@ -814,152 +415,124 @@ class SHACLValidator:
     
     def validate(self, data_graph: Graph) -> Tuple[bool, Graph, str]:
         """
-        Valide un graphe de données contre les shapes.
+        Valide un graphe de données.
         
         Returns:
             Tuple (conforms, results_graph, results_text)
         """
         try:
             from pyshacl import validate
-            
-            conforms, results_graph, results_text = validate(
+            return validate(
                 data_graph,
                 shacl_graph=self.shapes_graph,
                 inference='none',
-                abort_on_first=False,
-                meta_shacl=False,
-                debug=False
+                abort_on_first=False
             )
-            
-            return conforms, results_graph, results_text
-            
         except ImportError:
-            print("⚠️  pyshacl non installé. Installez avec: pip install pyshacl")
+            print("⚠️  pyshacl non installé. Installez: pip install pyshacl")
             return None, None, "pyshacl not installed"
     
     def validate_and_report(self, data_graph: Graph) -> Dict[str, Any]:
-        """Valide et génère un rapport détaillé."""
+        """Valide et génère un rapport structuré."""
         conforms, results_graph, results_text = self.validate(data_graph)
         
         if conforms is None:
-            return {
-                'valid': None,
-                'error': 'pyshacl not installed',
-                'violations': [],
-                'warnings': [],
-                'summary': {}
-            }
+            return {'valid': None, 'error': 'pyshacl not installed'}
         
         report = {
             'valid': conforms,
-            'violations': [],
-            'warnings': [],
-            'summary': {
-                'total_violations': 0,
-                'total_warnings': 0,
-                'by_property': {},
-                'by_shape': {}
-            }
+            'violations': 0,
+            'warnings': 0,
+            'by_shape': {},
+            'by_property': {},
+            'details': []
         }
         
         if results_graph:
             for result in results_graph.subjects(RDF.type, SH.ValidationResult):
-                severity = str(results_graph.value(result, SH.resultSeverity))
+                severity = str(results_graph.value(result, SH.resultSeverity) or "")
+                focus = str(results_graph.value(result, SH.focusNode) or "")
+                path = str(results_graph.value(result, SH.resultPath) or "")
+                source = str(results_graph.value(result, SH.sourceShape) or "")
                 
-                violation = {
-                    'focus_node': str(results_graph.value(result, SH.focusNode)),
-                    'path': str(results_graph.value(result, SH.resultPath)),
-                    'message': str(results_graph.value(result, SH.resultMessage)),
-                    'severity': severity.split('#')[-1] if '#' in severity else severity,
-                    'source_shape': str(results_graph.value(result, SH.sourceShape)),
-                    'value': str(results_graph.value(result, SH.value))
+                is_warning = 'Warning' in severity
+                
+                detail = {
+                    'node': focus.split('/')[-1],
+                    'path': path.split('/')[-1].split('#')[-1],
+                    'shape': source.split('/')[-1],
+                    'severity': 'Warning' if is_warning else 'Violation'
                 }
+                report['details'].append(detail)
                 
-                if 'Warning' in severity:
-                    report['warnings'].append(violation)
-                    report['summary']['total_warnings'] += 1
+                # Compteurs
+                if is_warning:
+                    report['warnings'] += 1
                 else:
-                    report['violations'].append(violation)
-                    report['summary']['total_violations'] += 1
+                    report['violations'] += 1
                 
-                # Résumé par propriété
-                path = violation['path']
-                if path not in report['summary']['by_property']:
-                    report['summary']['by_property'][path] = {'violations': 0, 'warnings': 0}
-                if 'Warning' in severity:
-                    report['summary']['by_property'][path]['warnings'] += 1
+                # Par propriété
+                prop_name = detail['path']
+                if prop_name not in report['by_property']:
+                    report['by_property'][prop_name] = {'violations': 0, 'warnings': 0}
+                if is_warning:
+                    report['by_property'][prop_name]['warnings'] += 1
                 else:
-                    report['summary']['by_property'][path]['violations'] += 1
+                    report['by_property'][prop_name]['violations'] += 1
         
         return report
     
-    def print_report(self, report: Dict[str, Any], max_details: int = 10):
-        """Affiche un rapport de validation formaté."""
-        print("\n" + "=" * 70)
+    def print_report(self, report: Dict[str, Any], max_items: int = 10):
+        """Affiche le rapport de validation."""
+        print("\n" + "=" * 60)
         print(" RAPPORT DE VALIDATION SHACL")
-        print("=" * 70)
+        print("=" * 60)
         
-        if report['valid'] is None:
-            print(f"\n⚠️  Erreur: {report.get('error', 'Unknown error')}")
-            print("   Installez pyshacl: pip install pyshacl")
+        if report.get('valid') is None:
+            print(f"\n⚠️  Erreur: {report.get('error')}")
+            print("   Installez: pip install pyshacl")
             return
         
-        summary = report['summary']
-        
-        if report['valid'] and summary['total_warnings'] == 0:
-            print("\n✅ Le graphe est VALIDE - Toutes les contraintes sont respectées")
-            return
-        
-        # Résumé global
         print(f"\n📊 Résumé:")
-        print(f"   Violations (erreurs): {summary['total_violations']}")
-        print(f"   Warnings (avertissements): {summary['total_warnings']}")
+        print(f"   Violations: {report['violations']}")
+        print(f"   Warnings: {report['warnings']}")
         
-        if report['valid']:
-            print("\n✅ Le graphe est VALIDE (avec warnings)")
-        else:
-            print("\n❌ Le graphe est INVALIDE")
+        if report['valid'] and report['warnings'] == 0:
+            print("\n✅ Graphe VALIDE - Aucune erreur")
+            return
         
-        # Résumé par propriété
-        if summary['by_property']:
+        status = "✅ VALIDE (avec warnings)" if report['valid'] else "❌ INVALIDE"
+        print(f"\n{status}")
+        
+        # Par propriété
+        if report['by_property']:
             print(f"\n📋 Par propriété:")
-            for path, counts in sorted(summary['by_property'].items(), 
+            for prop, counts in sorted(report['by_property'].items(), 
                                        key=lambda x: -(x[1]['violations'] + x[1]['warnings'])):
-                prop_name = path.split('/')[-1].split('#')[-1]
-                v = counts['violations']
-                w = counts['warnings']
-                status = []
-                if v > 0:
-                    status.append(f"{v} erreur(s)")
-                if w > 0:
-                    status.append(f"{w} warning(s)")
-                print(f"   {prop_name}: {', '.join(status)}")
+                v, w = counts['violations'], counts['warnings']
+                parts = []
+                if v > 0: parts.append(f"{v} violations")
+                if w > 0: parts.append(f"{w} warnings")
+                print(f"   {prop}: {', '.join(parts)}")
         
-        # Détail des violations
-        if report['violations']:
-            print(f"\n🔴 Violations (max {max_details}):")
-            for i, v in enumerate(report['violations'][:max_details], 1):
-                focus = v['focus_node'].split('/')[-1]
-                path = v['path'].split('/')[-1].split('#')[-1]
-                print(f"\n   {i}. {focus}")
-                print(f"      Propriété: {path}")
-                if v['message'] and v['message'] != 'None':
-                    print(f"      Message: {v['message']}")
+        # Détails
+        if report['details']:
+            violations = [d for d in report['details'] if d['severity'] == 'Violation']
+            warnings = [d for d in report['details'] if d['severity'] == 'Warning']
             
-            if len(report['violations']) > max_details:
-                print(f"\n   ... et {len(report['violations']) - max_details} autres violations")
-        
-        # Détail des warnings
-        if report['warnings']:
-            print(f"\n🟡 Warnings (max {max_details}):")
-            for i, w in enumerate(report['warnings'][:max_details], 1):
-                focus = w['focus_node'].split('/')[-1]
-                path = w['path'].split('/')[-1].split('#')[-1]
-                print(f"\n   {i}. {focus}")
-                print(f"      Propriété manquante: {path}")
+            if violations:
+                print(f"\n🔴 Violations (max {max_items}):")
+                for i, d in enumerate(violations[:max_items], 1):
+                    print(f"   {i}. {d['node']} - {d['path']}")
+                if len(violations) > max_items:
+                    print(f"   ... et {len(violations) - max_items} autres")
             
-            if len(report['warnings']) > max_details:
-                print(f"\n   ... et {len(report['warnings']) - max_details} autres warnings")
+            if warnings and len(warnings) <= max_items:
+                print(f"\n🟡 Warnings (max {max_items}):")
+                for i, d in enumerate(warnings[:max_items], 1):
+                    print(f"   {i}. {d['node']} - {d['path']}")
+                if len(warnings) > max_items:
+                    print(f"   ... et {len(warnings) - max_items} autres")
 
 
 # =============================================================================
@@ -967,11 +540,11 @@ class SHACLValidator:
 # =============================================================================
 
 def create_shapes_file(filename: str = "tolkien_shapes.ttl") -> SHACLGenerator:
-    """Crée et sauvegarde le fichier des shapes SHACL."""
-    generator = SHACLGenerator()
-    generator.create_all_shapes()
-    generator.save(filename)
-    return generator
+    """Crée et sauvegarde les shapes SHACL."""
+    gen = SHACLGenerator()
+    gen.create_all_shapes()
+    gen.save(filename)
+    return gen
 
 
 def validate_kg(kg_file: str, shapes_file: str = "tolkien_shapes.ttl") -> Dict[str, Any]:
@@ -979,23 +552,38 @@ def validate_kg(kg_file: str, shapes_file: str = "tolkien_shapes.ttl") -> Dict[s
     Valide un Knowledge Graph contre les shapes SHACL.
     
     Args:
-        kg_file: Fichier du Knowledge Graph (Turtle)
+        kg_file: Fichier du KG (Turtle)
         shapes_file: Fichier des shapes SHACL
         
     Returns:
         Rapport de validation
     """
-    print(f"Chargement du KG: {kg_file}")
-    data_graph = Graph()
-    data_graph.parse(kg_file, format="turtle")
-    print(f"  {len(data_graph)} triplets chargés")
+    print(f"📂 Chargement du KG: {kg_file}")
+    data = Graph()
+    data.parse(kg_file, format="turtle")
+    print(f"   {len(data)} triplets")
     
-    print(f"Chargement des shapes: {shapes_file}")
+    print(f"📂 Chargement des shapes: {shapes_file}")
     validator = SHACLValidator(shapes_file=shapes_file)
-    print(f"  {len(validator.shapes_graph)} triplets SHACL chargés")
     
-    print("\nValidation en cours...")
-    report = validator.validate_and_report(data_graph)
+    print("🔍 Validation en cours...")
+    report = validator.validate_and_report(data)
     validator.print_report(report)
     
     return report
+
+
+# =============================================================================
+# TEST
+# =============================================================================
+
+if __name__ == "__main__":
+    # Générer les shapes
+    gen = SHACLGenerator()
+    gen.create_all_shapes()
+    gen.save("tolkien_shapes.ttl")
+    
+    print("\n📄 Aperçu du fichier généré:")
+    print("-" * 40)
+    print(gen.serialize()[:2000])
+    print("...")

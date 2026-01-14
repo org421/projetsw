@@ -134,10 +134,26 @@ class RDFGenerator:
         # Image
         if 'image' in character_data:
             image_name = character_data['image']
-            image_url = f"https://tolkiengateway.net/wiki/File:{quote(image_name)}"
+            
+            # 1. Préparer le nom de l'entité (partie gauche de l'URL)
+            # Ex: Arathorn II -> Arathorn_II
+            entity_slug = quote(name.replace(' ', '_'), safe="")
+            
+            # 2. Préparer le nom de l'image (partie droite de l'URL)
+            # Ex: Guardians of Middle-earth - Arathorn Icon.jpg -> Guardians_of_Middle-earth_-_Arathorn_Icon.jpg
+            # On s'assure d'enlever "File:" s'il est déjà là pour éviter le doublon
+            clean_img_name = image_name.replace(' ', '_')
+            if clean_img_name.startswith('File:'):
+                clean_img_name = clean_img_name[5:] # Enlève 'File:'
+            
+            image_slug = quote(clean_img_name, safe="")
+            
+            # 3. Construire l'URL spéciale "Media Viewer"
+            image_url = f"https://tolkiengateway.net/wiki/{entity_slug}#/media/File:{image_slug}"
+            
             self.graph.add((uri, SCHEMA.image, URIRef(image_url)))
             self.graph.add((uri, FOAF.depiction, URIRef(image_url)))
-        
+
         # Description/Caption
         if 'caption' in character_data:
             self._add_literal(uri, SCHEMA.description, character_data['caption'])
@@ -351,9 +367,21 @@ class RDFGenerator:
         # Image
         if 'image' in location_data:
             image_name = location_data['image']
-            image_url = f"https://tolkiengateway.net/wiki/File:{quote(image_name)}"
+            
+            # 1. Nom entité
+            entity_slug = quote(name.replace(' ', '_'), safe="")
+            
+            # 2. Nom image
+            clean_img_name = image_name.replace(' ', '_')
+            if clean_img_name.startswith('File:'):
+                clean_img_name = clean_img_name[5:]
+            image_slug = quote(clean_img_name, safe="")
+            
+            # 3. URL Media Viewer
+            image_url = f"https://tolkiengateway.net/wiki/{entity_slug}#/media/File:{image_slug}"
+            
             self.graph.add((uri, SCHEMA.image, URIRef(image_url)))
-        
+
         # Description/Caption
         if 'caption' in location_data:
             self._add_literal(uri, SCHEMA.description, location_data['caption'])
@@ -472,10 +500,22 @@ class RDFGenerator:
         # Image
         if 'image' in entity_data:
             image_name = entity_data['image']
-            image_url = f"https://tolkiengateway.net/wiki/File:{quote(image_name)}"
+            
+            # 1. Nom entité
+            entity_slug = quote(name.replace(' ', '_'), safe="")
+            
+            # 2. Nom image
+            clean_img_name = image_name.replace(' ', '_')
+            if clean_img_name.startswith('File:'):
+                clean_img_name = clean_img_name[5:]
+            image_slug = quote(clean_img_name, safe="")
+            
+            # 3. URL Media Viewer
+            image_url = f"https://tolkiengateway.net/wiki/{entity_slug}#/media/File:{image_slug}"
+            
             self.graph.add((uri, SCHEMA.image, URIRef(image_url)))
             self.graph.add((uri, FOAF.depiction, URIRef(image_url)))
-        
+            
         # Description
         if 'caption' in entity_data:
             self._add_literal(uri, SCHEMA.description, entity_data['caption'])

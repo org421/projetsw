@@ -35,10 +35,7 @@ from tolkien_kg.external import (
     MECCGCardParser, MECCGRDFGenerator, MECCGMatcher,
     LOTRCharacterCSVParser, LOTRCSVMatcher,
 )
-from tolkien_kg.alignments import (
-    DBPEDIA_MAPPINGS, WIKIDATA_MAPPINGS,
-    ExternalAlignmentGenerator
-)
+from tolkien_kg.alignments import *
 from tolkien_kg.shacl import SHACLGenerator, SHACLValidator
 from tolkien_kg.links import LinkExtractor, add_links_to_rdf
 from tolkien_kg.multilingual import FandomEnricher
@@ -48,7 +45,7 @@ from tolkien_kg.multilingual import FandomEnricher
 # CONFIGURATION
 # =============================================================================
 
-LIMIT = 100  # 20 entités par type d'infobox
+LIMIT = 300  # 20 entités par type d'infobox
 
 CSV_FILE = "lotr_characters.csv"
 JSON_FILE = "cards.json"
@@ -121,13 +118,14 @@ def get_entities_by_template(client: MediaWikiClient, limit: int) -> dict:
     print_header("ÉTAPE 2: RÉCUPÉRATION DES ENTITÉS PAR TYPE D'INFOBOX")
     
     # Templates à traiter (les plus importants)
+    # Templates à traiter (les plus importants)
     templates = [
         ("Infobox character", limit),
         ("Location infobox", limit),
-        ("Kingdom", limit // 2),
-        ("Object infobox", limit // 2),
-        ("Book", limit // 2),
-        ("Battle", limit // 4),
+        ("Kingdom", limit ),
+        ("Object infobox", limit),
+        ("Battle", limit),
+        ("Race infobox", limit),
     ]
     
     entities_by_type = {}
@@ -356,58 +354,16 @@ def add_multilingual_labels(graph: Graph, wiki_entities: set, limit: int = None)
 # ÉTAPE 7: ALIGNEMENTS EXTERNES (owl:sameAs)
 # =============================================================================
 
-def add_external_alignments(graph: Graph, wiki_entities: set):
-    """Ajoute les alignements owl:sameAs vers DBpedia, Wikidata, YAGO."""
-    print_header("ÉTAPE 7: ALIGNEMENTS EXTERNES (owl:sameAs)")
+def add_external_alignments(graph: Graph, entities: set, client: MediaWikiClient):
+    """Ajoute les alignements externes AUTOMATIQUEMENT via Wikipedia externallinks."""
+    print_header("ÉTAPE 7: ALIGNEMENTS EXTERNES (Automatique)")
     
-    # Bind namespaces
-    graph.bind("dbpedia", DBPEDIA)
-    graph.bind("wikidata", WIKIDATA)
-    graph.bind("yago", YAGO)
+    from tolkien_kg.alignments import add_alignments_to_kg
     
-    stats = {
-        "dbpedia": 0,
-        "wikidata": 0,
-        "yago": 0,
-        "entities_aligned": 0
-    }
+    # Tout est automatique !
+    count = add_alignments_to_kg(graph, client, list(entities), verbose=True)
     
-    print(f"  🔗 Ajout des alignements pour {len(wiki_entities)} entités...")
-    
-    for entity_name in wiki_entities:
-        uri = URIRef(f"https://tolkiengateway.net/wiki/{quote(entity_name.replace(' ', '_'), safe='')}")
-        aligned = False
-        
-        # DBpedia
-        if entity_name in DBPEDIA_MAPPINGS:
-            dbpedia_name = DBPEDIA_MAPPINGS[entity_name]
-            graph.add((uri, OWL.sameAs, DBPEDIA[dbpedia_name]))
-            stats["dbpedia"] += 1
-            aligned = True
-            
-            # YAGO utilise les mêmes identifiants
-            graph.add((uri, OWL.sameAs, YAGO[dbpedia_name]))
-            stats["yago"] += 1
-        
-        # Wikidata
-        if entity_name in WIKIDATA_MAPPINGS:
-            qid = WIKIDATA_MAPPINGS[entity_name]
-            graph.add((uri, OWL.sameAs, WIKIDATA[qid]))
-            stats["wikidata"] += 1
-            aligned = True
-        
-        if aligned:
-            stats["entities_aligned"] += 1
-    
-    print(f"\n  📊 Alignements créés:")
-    print(f"     - DBpedia: {stats['dbpedia']}")
-    print(f"     - Wikidata: {stats['wikidata']}")
-    print(f"     - YAGO: {stats['yago']}")
-    print(f"     - Entités alignées: {stats['entities_aligned']}")
-    
-    total = stats["dbpedia"] + stats["wikidata"] + stats["yago"]
-    return total
-
+    return count
 
 # =============================================================================
 # ÉTAPE 8: LIENS INTERNES ENTRE PAGES WIKI
@@ -677,11 +633,9 @@ def main():
     meccg_rdf, meccg_parser = integrate_meccg(JSON_FILE, all_entities, rdf_gen)
     
     # ÉTAPE 6: Labels multilingues (limité pour le test)
-    labels_added = add_multilingual_labels(rdf_gen.graph, all_entities, limit=30)
+    labels_added = add_multilingual_labels(rdf_gen.graph, all_entities, limit=None)
     
-    # ÉTAPE 7: Alignements externes
-    alignments_added = add_external_alignments(rdf_gen.graph, all_entities)
-    
+    alignments_added = add_external_alignments(rdf_gen.graph, all_entities, client)
     # ÉTAPE 8: Liens internes
     links_added = add_internal_links(client, rdf_gen, pages_processed, limit_per_page=10)
     
