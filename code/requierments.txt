@@ -1,0 +1,11 @@
+# Bibliothèques Semantic Web
+rdflib>=6.0.0
+SPARQLWrapper>=2.0.0
+pyshacl>=0.20.0
+
+# Serveur Web (Linked Data Interface)
+Flask>=2.0.0
+
+# Accès API & Web Scraping (MediaWiki)
+requests>=2.25.0
+mwclient>=0.10.0
