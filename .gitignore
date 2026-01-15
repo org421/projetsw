@@ -1,0 +1,6 @@
+venv
+*.nt
+__pycache__
+*.pyc
+alignement_cache.json
+fandom_lang_cache.json

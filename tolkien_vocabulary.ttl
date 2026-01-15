@@ -1,0 +1,69 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema1: <http://schema.org/> .
+@prefix tolkien_class: <https://tolkiengateway.net/wiki/Class:> .
+@prefix tolkien_prop: <https://tolkiengateway.net/wiki/Property:> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+tolkien_prop:affiliation a owl:ObjectProperty ;
+    rdfs:label "affiliation"@en ;
+    rdfs:subPropertyOf schema1:memberOf .
+
+tolkien_prop:age a owl:DatatypeProperty ;
+    rdfs:label "age code"@en ;
+    rdfs:comment "Age code (FA, SA, TA, SR, YT)"@en .
+
+tolkien_prop:ageName a owl:DatatypeProperty ;
+    rdfs:label "age name"@en .
+
+tolkien_prop:capital a owl:ObjectProperty ;
+    rdfs:label "capital"@en ;
+    rdfs:domain tolkien_class:Kingdom ;
+    rdfs:range tolkien_class:Location .
+
+tolkien_prop:house a owl:ObjectProperty ;
+    rdfs:label "house"@en ;
+    rdfs:subPropertyOf schema1:memberOf .
+
+tolkien_prop:notableFor a owl:DatatypeProperty ;
+    rdfs:label "notable for"@en ;
+    rdfs:domain tolkien_class:Character ;
+    rdfs:range xsd:string .
+
+tolkien_prop:people a owl:ObjectProperty ;
+    rdfs:label "people"@en ;
+    rdfs:comment "The race or people to which a character belongs"@en ;
+    rdfs:domain tolkien_class:Character ;
+    rdfs:range tolkien_class:Race .
+
+tolkien_prop:steed a owl:ObjectProperty ;
+    rdfs:label "steed"@en ;
+    rdfs:domain tolkien_class:Character .
+
+tolkien_prop:weapon a owl:ObjectProperty ;
+    rdfs:label "weapon"@en ;
+    rdfs:domain tolkien_class:Character .
+
+tolkien_prop:year a owl:DatatypeProperty ;
+    rdfs:label "year"@en ;
+    rdfs:range xsd:integer .
+
+tolkien_class:Kingdom a owl:Class ;
+    rdfs:label "Kingdom"@en ;
+    rdfs:subClassOf schema1:Country,
+        tolkien_class:Location .
+
+tolkien_class:Race a owl:Class ;
+    rdfs:label "Race"@en ;
+    rdfs:comment "A race or people in Tolkien's legendarium (Elves, Dwarves, etc.)"@en .
+
+tolkien_class:Location a owl:Class ;
+    rdfs:label "Location"@en ;
+    rdfs:comment "A place in Tolkien's legendarium"@en ;
+    rdfs:subClassOf schema1:Place .
+
+tolkien_class:Character a owl:Class ;
+    rdfs:label "Character"@en ;
+    rdfs:comment "A fictional character from Tolkien's legendarium"@en ;
+    rdfs:subClassOf schema1:Person .
+

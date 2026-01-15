@@ -1,0 +1,88 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix meccg_class: <https://tolkiengateway.net/wiki/MECCG/Class:> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema1: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix tolkien_class: <https://tolkiengateway.net/wiki/Class:> .
+@prefix tolkien_prop: <https://tolkiengateway.net/wiki/Property:> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+tolkien_class:BattleShape a sh:NodeShape ;
+    rdfs:label "Battle Shape"@en ;
+    sh:property [ sh:minCount 1 ;
+            sh:name "name" ;
+            sh:path schema1:name ],
+        [ sh:minCount 1 ;
+            sh:name "label" ;
+            sh:path rdfs:label ],
+        [ sh:hasValue schema1:Event ;
+            sh:message "[INFO] Vérification inférence: Cette entité est bien reconnue comme un schema:Event."@fr ;
+            sh:name "type inference check" ;
+            sh:path rdf:type ;
+            sh:severity sh:Info ] ;
+    sh:targetClass tolkien_class:Battle .
+
+tolkien_class:BookShape a sh:NodeShape ;
+    sh:property [ sh:minCount 1 ;
+            sh:name "name" ;
+            sh:path schema1:name ] ;
+    sh:targetClass tolkien_class:Book .
+
+tolkien_class:CharacterShape a sh:NodeShape ;
+    rdfs:label "Character Shape"@en ;
+    sh:property [ sh:name "description" ;
+            sh:path schema1:description ],
+        [ sh:name "wikiPage" ;
+            sh:nodeKind sh:IRI ;
+            sh:path foaf:isPrimaryTopicOf ;
+            sh:severity sh:Warning ],
+        [ sh:minCount 1 ;
+            sh:name "label" ;
+            sh:path rdfs:label ],
+        [ sh:minCount 1 ;
+            sh:name "name" ;
+            sh:path schema1:name ],
+        [ sh:name "race" ;
+            sh:nodeKind sh:IRI ;
+            sh:path tolkien_prop:race ],
+        [ sh:message "Le lien sameAs doit être une URI valide vers une source externe."@fr ;
+            sh:name "sameAs" ;
+            sh:nodeKind sh:IRI ;
+            sh:path owl:sameAs ] ;
+    sh:targetClass tolkien_class:Character .
+
+tolkien_class:KingdomShape a sh:NodeShape ;
+    sh:property [ sh:minCount 1 ;
+            sh:name "name" ;
+            sh:path schema1:name ] ;
+    sh:targetClass tolkien_class:Kingdom .
+
+tolkien_class:LocationShape a sh:NodeShape ;
+    sh:property [ sh:minCount 1 ;
+            sh:name "label" ;
+            sh:path rdfs:label ],
+        [ sh:minCount 1 ;
+            sh:name "name" ;
+            sh:path schema1:name ] ;
+    sh:targetClass tolkien_class:Location .
+
+tolkien_class:ObjectShape a sh:NodeShape ;
+    sh:property [ sh:minCount 1 ;
+            sh:name "name" ;
+            sh:path schema1:name ] ;
+    sh:targetClass tolkien_class:Object .
+
+tolkien_class:RaceShape a sh:NodeShape ;
+    sh:property [ sh:minCount 1 ;
+            sh:name "name" ;
+            sh:path schema1:name ] ;
+    sh:targetClass tolkien_class:Race .
+
+meccg_class:CardShape a sh:NodeShape ;
+    sh:property [ sh:minCount 1 ;
+            sh:name "label" ;
+            sh:path rdfs:label ] ;
+    sh:targetClass meccg_class:Card .
+
