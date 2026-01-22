@@ -1,35 +1,35 @@
 # Tolkien Knowledge Graph
 
-Projet Semantic Web - Construction d'un Knowledge Graph à partir du wiki **Tolkien Gateway**.
+Semantic Web Project - Building a Knowledge Graph from the **Tolkien Gateway** wiki.
 
 ---
 
-## Description du Projet
+## Project Description
 
-Ce projet construit un **Knowledge Graph (KG)** à partir des données du wiki [Tolkien Gateway](https://tolkiengateway.net/), en suivant l'approche de DBpedia et YAGO. Le KG capture les entités et leurs relations, avec des alignements vers des sources externes.
+This project builds a **Knowledge Graph (KG)** from data on the [Tolkien Gateway](https://tolkiengateway.net/) wiki, following the DBpedia and YAGO approach. The KG captures entities and their relationships, with alignments to external sources.
 
 ---
 
-## Structure des Fichiers
+## File Structure
 
 ```
 code/
-  main.py             - lance la construction du KG
-  interface.py        - lance le serveur web
-  fuseki_client.py    - gère la connexion Fuseki
+  main.py             - launches the KG construction
+  interface.py        - launches the web server
+  fuseki_client.py    - manages the Fuseki connection
   tolkien_kg/
-    api/              - client MediaWiki
-    parsers/          - extraction infoboxes
-    rdf/              - génération triplets RDF
-    external/         - données MECCG + CSV
-    alignments/       - liens DBpedia/Wikidata
-    multilingual/     - labels multilingues
-    links/            - liens internes wiki
-    shacl/            - validation SHACL
+    api/              - MediaWiki client
+    parsers/          - infobox extraction
+    rdf/              - RDF triple generation
+    external/         - MECCG data + CSV
+    alignments/       - DBpedia/Wikidata links
+    multilingual/     - multilingual labels
+    links/            - internal wiki links
+    shacl/            - SHACL validation
 
-données sources:      cards.json, lotr_characters.csv
-fichiers générés:     tolkien_kg.ttl, tolkien_kg_complete.ttl, meccg_cards.ttl
-ontologie:            tolkien_vocabulary.ttl, tolkien_shapes.ttl
+source data:          cards.json, lotr_characters.csv
+generated files:      tolkien_kg.ttl, tolkien_kg_complete.ttl, meccg_cards.ttl
+ontology:             tolkien_vocabulary.ttl, tolkien_shapes.ttl
 cache:                alignment_cache.json, fandom_lang_cache.json
 ```
 
@@ -37,110 +37,110 @@ cache:                alignment_cache.json, fandom_lang_cache.json
 
 ## Installation
 
-### 1. Prérequis
+### 1. Prerequisites
 
 - **Python 3.8+**
 - **Apache Jena Fuseki**
 
-### 2. Installer les dépendances Python
+### 2. Install Python dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
 
-### 3. Installer et lancer Fuseki
+### 3. Install and launch Fuseki
 
 ```bash
-# Démarrer Fuseki (depuis le dossier Fuseki)
+# Start Fuseki (from the Fuseki folder)
 ./fuseki-server --update --mem /tolkien
 
 ```
 
-Fuseki sera accessible sur `http://localhost:3030`
+Fuseki will be accessible at `http://localhost:3030`
 
 ---
 
-## Lancer le Pipeline Principal
+## Launch the Main Pipeline
 
-Le script `main.py` exécute toutes les étapes de construction du KG :
+The `main.py` script executes all the KG construction steps:
 
 ```bash
 cd code
 python main.py
 ```
 
-### Modifier la limite d'entités par type d'infobox
+### Modify the entity limit per infobox type
 
-Par défaut, le pipeline traite **300 entités par type d'infobox**. Pour augmenter ou réduire ce nombre, modifiez la variable `LIMIT` dans `main.py` (ligne 30) :
+By default, the pipeline processes **300 entities per infobox type**. To increase or decrease this number, modify the `LIMIT` variable in `main.py` (line 30):
 
 ```python
-# Ligne 30 dans main.py
-LIMIT = 300  # Changer cette valeur (ex: 500, 1000, ou None pour tout récupérer)
+# Line 30 in main.py
+LIMIT = 300  # Change this value (e.g.: 500, 1000, or None to retrieve all)
 ```
 
-### Étapes du Pipeline
+### Pipeline Steps
 
-1. **Test connexion API** - Vérifie l'accès à Tolkien Gateway
-2. **Récupération entités** - Liste les pages par type d'infobox
-3. **Parsing & génération RDF** - Extraction des infoboxes → triplets RDF
-4. **Intégration CSV** - Enrichissement avec `lotr_characters.csv`
-5. **Intégration MECCG** - Liaison avec les cartes `cards.json`
-6. **Labels multilingues** - Ajout via Fandom wiki (FR, DE, ES, IT, etc.)
-7. **Alignements externes** - Liens `owl:sameAs` vers DBpedia/Wikidata
-8. **Liens internes** - Relations entre pages du wiki
-9. **Vocabulaire** - Génération de l'ontologie RDFS/OWL
-10. **Shapes SHACL** - Création des contraintes de validation
-11. **Validation** - Vérification du KG avec pyshacl
-12. **Export & chargement Fuseki** - Sauvegarde `.ttl` et upload
+1. **API connection test** - Verifies access to Tolkien Gateway
+2. **Entity retrieval** - Lists pages by infobox type
+3. **Parsing & RDF generation** - Infobox extraction → RDF triples
+4. **CSV integration** - Enrichment with `lotr_characters.csv`
+5. **MECCG integration** - Linking with `cards.json` cards
+6. **Multilingual labels** - Addition via Fandom wiki (FR, DE, ES, IT, etc.)
+7. **External alignments** - `owl:sameAs` links to DBpedia/Wikidata
+8. **Internal links** - Relationships between wiki pages
+9. **Vocabulary** - RDFS/OWL ontology generation
+10. **SHACL shapes** - Validation constraint creation
+11. **Validation** - KG verification with pyshacl
+12. **Export & Fuseki loading** - `.ttl` saving and upload
 
 ---
 
-## Lancer l'Interface Web
+## Launch the Web Interface
 
-L'interface web permet de naviguer dans le Knowledge Graph via une interface Linked Data.
+The web interface allows browsing the Knowledge Graph via a Linked Data interface.
 
-### Prérequis
-- Fuseki doit être lancé avec le dataset `tolkien` chargé
-- Le KG doit avoir été généré et uploadé (via `main.py`)
+### Prerequisites
+- Fuseki must be running with the `tolkien` dataset loaded
+- The KG must have been generated and uploaded (via `main.py`)
 
-### Lancer le serveur Flask
+### Launch the Flask server
 
 ```bash
 cd code
 python interface.py
 ```
 
-L'interface sera accessible sur : **http://localhost:5000**
+The interface will be accessible at: **http://localhost:5000**
 
-### Fonctionnalités de l'interface
+### Interface features
 
 | Route | Description |
 |-------|-------------|
-| `/` | Page d'accueil avec statistiques du KG |
-| `/resource/<nom>` | Description d'une entité (ex: `/resource/Elrond`) |
-| `/browse/<type>` | Liste des entités par type (Character, Location, etc.) |
-| `/search?q=<terme>` | Recherche d'entités |
+| `/` | Homepage with KG statistics |
+| `/resource/<name>` | Entity description (e.g.: `/resource/Elrond`) |
+| `/browse/<type>` | List of entities by type (Character, Location, etc.) |
+| `/search?q=<term>` | Entity search |
 
-### Négociation de contenu
+### Content negotiation
 
-L'interface supporte la **négociation de contenu** :
-- `Accept: text/html` → Page HTML
-- `Accept: text/turtle` → Données RDF Turtle
-
----
-
-## Accès SPARQL Direct
-
-Une fois Fuseki lancé avec les données, vous pouvez interroger le KG via SPARQL :
-
-**Endpoint :** `http://localhost:3030/tolkien/query`
+The interface supports **content negotiation**:
+- `Accept: text/html` → HTML page
+- `Accept: text/turtle` → RDF Turtle data
 
 ---
 
-## Scripts Utilitaires
+## Direct SPARQL Access
 
-### Vérifier le statut de Fuseki
+Once Fuseki is running with the data, you can query the KG via SPARQL:
+
+**Endpoint:** `http://localhost:3030/tolkien/query`
+
+---
+
+## Utility Scripts
+
+### Check Fuseki status
 
 ```bash
 cd code
@@ -149,33 +149,33 @@ python fuseki_client.py
 
 ---
 
-## Technologies Utilisées
+## Technologies Used
 
-| Technologie | Usage |
-|-------------|-------|
-| **rdflib** | Manipulation RDF Python |
-| **SPARQLWrapper** | Requêtes SPARQL |
-| **mwparserfromhell** | Parsing wikitext MediaWiki |
-| **mwclient** | Client API MediaWiki |
-| **Flask** | Interface web |
-| **pyshacl** | Validation SHACL |
-| **Apache Jena Fuseki** | Triplestore SPARQL |
-
----
-
-## Sources de Données
-
-1. **Tolkien Gateway** - Wiki principal (API MediaWiki)
-2. **MECCG Cards** (`cards.json`) - Cartes du jeu Middle Earth CCG
-3. **LOTR Characters** (`lotr_characters.csv`) - Dataset personnages
-4. **Fandom Wiki** - Labels multilingues
-5. **DBpedia / Wikidata** - Alignements externes
+| Technology | Usage |
+|------------|-------|
+| **rdflib** | Python RDF manipulation |
+| **SPARQLWrapper** | SPARQL queries |
+| **mwparserfromhell** | MediaWiki wikitext parsing |
+| **mwclient** | MediaWiki API client |
+| **Flask** | Web interface |
+| **pyshacl** | SHACL validation |
+| **Apache Jena Fuseki** | SPARQL triplestore |
 
 ---
 
-##  Auteurs
+## Data Sources
 
-Projet réalisé dans le cadre du cours **Semantic Web** - EMSE par Aymane Zennouhi & Ozan Gunes.
+1. **Tolkien Gateway** - Main wiki (MediaWiki API)
+2. **MECCG Cards** (`cards.json`) - Middle Earth CCG game cards
+3. **LOTR Characters** (`lotr_characters.csv`) - Characters dataset
+4. **Fandom Wiki** - Multilingual labels
+5. **DBpedia / Wikidata** - External alignments
+
+---
+
+## Authors
+
+Project completed as part of the **Semantic Web** course - EMSE by Aymane Zennouhi & Ozan Gunes.
 
 ---
 
